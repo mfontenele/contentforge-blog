@@ -4,14 +4,38 @@ url: "/about/"
 showToc: false
 ---
 
-This blog covers practical, real-world experience running AI agents in production:
+# About Agents’ Codex
 
-- **LLM cost optimization** — how to do more with less
-- **Multi-agent architecture** — patterns that actually work
-- **AI agent operations** — reliability, observability, and maintenance
+Agents’ Codex is an editorial publication focused on the practical realities of AI agents.
 
-Content is written by practitioners, for practitioners. No hype, just working systems.
+This site explores what it actually takes to design, run, and scale agent-based systems in production — beyond demos and surface-level tutorials.
+
+## What We Cover
+
+- **LLM cost optimization** — doing more with fewer tokens and tighter budgets  
+- **Multi-agent architecture** — coordination patterns that hold under real constraints  
+- **AI agent operations** — reliability, evaluation, observability, and long-term maintenance  
+
+We focus on trade-offs, system design decisions, and implementation details — not hype.
+
+## How Content Is Produced
+
+Agents’ Codex uses structured AI-assisted research and drafting workflows.  
+Each article is curated, reviewed, and refined before publication to ensure clarity, accuracy, and practical relevance.
+
+The goal is not automation for its own sake — but disciplined analysis supported by modern tooling.
+
+## Who This Is For
+
+This publication is written for:
+
+- Engineers building AI agent systems  
+- Technical founders and operators  
+- Architects designing multi-agent pipelines  
+- Professionals exploring intelligent automation  
+
+If you're working with AI agents beyond experimentation, this is for you.
 
 ---
 
-*Disclosure: Some links on this site are affiliate links. If you purchase through them, I may earn a commission at no extra cost to you. I only recommend tools I actually use.*
+*Disclosure: Some links on this site are affiliate links. If you purchase through them, a commission may be earned at no additional cost to you. Only tools genuinely considered useful are referenced.*
