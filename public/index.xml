@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AI Agent Ops</title>
+    <link>http://localhost:1313/contentforge-blog/</link>
+    <description>Recent content on AI Agent Ops</description>
+    <generator>Hugo -- 0.147.0</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/contentforge-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/contentforge-blog/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/contentforge-blog/about/</guid>
+      <description>&lt;p&gt;This blog covers practical, real-world experience running AI agents in production:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;LLM cost optimization&lt;/strong&gt; — how to do more with less&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-agent architecture&lt;/strong&gt; — patterns that actually work&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI agent operations&lt;/strong&gt; — reliability, observability, and maintenance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Content is written by practitioners, for practitioners. No hype, just working systems.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;Disclosure: Some links on this site are affiliate links. If you purchase through them, I may earn a commission at no extra cost to you. I only recommend tools I actually use.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Privacy Policy</title>
+      <link>http://localhost:1313/contentforge-blog/privacy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/contentforge-blog/privacy/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Last updated:&lt;/strong&gt; 2026-03-02&lt;/p&gt;
+&lt;h2 id=&#34;analytics&#34;&gt;Analytics&lt;/h2&gt;
+&lt;p&gt;This site uses Cloudflare Web Analytics, which is privacy-friendly and does not use cookies or track individual users.&lt;/p&gt;
+&lt;h2 id=&#34;affiliate-links&#34;&gt;Affiliate Links&lt;/h2&gt;
+&lt;p&gt;Some links on this site are affiliate links. Clicking them and making a purchase may result in a commission for this site, at no additional cost to you.&lt;/p&gt;
+&lt;h2 id=&#34;no-personal-data-collection&#34;&gt;No Personal Data Collection&lt;/h2&gt;
+&lt;p&gt;This site does not collect, store, or process any personal information. There are no contact forms, comment sections, or user accounts.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
