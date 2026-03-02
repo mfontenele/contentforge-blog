@@ -1,0 +1,34 @@
+baseURL = "https://mfontenele.github.io/contentforge-blog/"
+languageCode = "en-us"
+title = "AI Agent Ops"
+theme = "PaperMod"
+[pagination]
+  pagerSize = 10
+
+[params]
+  author = "ContentForge"
+  description = "Practical guides on LLM cost optimization, multi-agent architecture, and AI agent operations."
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = false
+  disableScrollToTop = false
+  comments = false
+
+[params.homeInfoParams]
+  Title = "AI Agent Operations"
+  Content = "Practical guides on running AI agents efficiently — cost optimization, multi-agent architecture, and real-world case studies."
+
+[[menu.main]]
+  name = "About"
+  url = "/about/"
+  weight = 10
+
+[[menu.main]]
+  name = "Privacy"
+  url = "/privacy/"
+  weight = 20
