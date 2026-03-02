@@ -1,13 +1,14 @@
 baseURL = "https://agentscodex.com/"
 languageCode = "en-us"
-title = "AI Agent Ops"
+title = "Agents' Codex"
 theme = "PaperMod"
+
 [pagination]
   pagerSize = 10
 
 [params]
-  author = "ContentForge"
-  description = "Practical guides on LLM cost optimization, multi-agent architecture, and AI agent operations."
+  author = "Agents' Codex"
+  description = "Practical, no-hype insights on AI agents — cost optimization, multi-agent architecture, and real-world operations."
   defaultTheme = "auto"
   ShowReadingTime = true
   ShowShareButtons = false
@@ -20,8 +21,8 @@ theme = "PaperMod"
   comments = false
 
 [params.homeInfoParams]
-  Title = "AI Agent Operations"
-  Content = "Practical guides on running AI agents efficiently — cost optimization, multi-agent architecture, and real-world case studies."
+  Title = "Agents’ Codex"
+  Content = "Practical, no-hype writing on AI agents — cost control, multi-agent architecture, and real-world operations."
 
 [[menu.main]]
   name = "About"
