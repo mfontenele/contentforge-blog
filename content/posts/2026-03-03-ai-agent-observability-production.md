@@ -157,19 +157,19 @@ As agent systems evolve from prototypes to critical infrastructure, observabilit
    https://arize.com/ai-agents
 
 2. **Gartner** - "Gartner Says Over 40% of Agentic AI Projects Will Be Canceled by 2027" (June 25, 2025)  
-   https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-says-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-2027
+   https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027
 
 3. **Gartner** - "40% of Enterprise Applications to Feature AI Agents by 2026" (August 2025)  
-   https://www.gartner.com/en/newsroom/press-releases
+   https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025
 
 4. **OpenTelemetry** - "GenAI Semantic Conventions" (2025)  
    https://opentelemetry.io/docs/specs/semconv/attributes-registry/gen-ai/
 
 5. **ClickHouse** - "ClickHouse Acquires Langfuse" Press Release (2026)  
-   https://clickhouse.com/blog/clickhouse-acquires-langfuse
+   https://clickhouse.com/blog/clickhouse-acquires-langfuse-open-source-llm-observability
 
 6. **Arize** - Series C Funding Announcement (February 2025)  
-   https://arize.com/blog/arize-raises-70m-series-c
+   https://arize.com/blog/arize-ai-raises-70m-series-c-to-build-the-gold-standard-for-ai-evaluation-observability/
 
 7. **Braintrust** - Notion Case Study (2025)  
    https://www.braintrust.dev/customers/notion
