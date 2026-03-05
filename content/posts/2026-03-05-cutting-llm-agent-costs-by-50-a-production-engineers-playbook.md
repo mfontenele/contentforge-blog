@@ -71,7 +71,7 @@ The speed improvement is equally dramatic: cached responses return in under 100m
 
 GPTCache uses Approximate Nearest Neighbor (ANN) algorithms to match incoming queries against cached embeddings. If similarity exceeds your threshold, you return the cached response. If not, you process through the LLM and cache the result. The cache learns from your traffic patterns automatically.
 
-Redis serves as the backing store, providing the speed and reliability needed for production workloads. Cache hit rates of 61.6–68.8% in controlled experiments (arXiv:2411.05276), though rates vary by domain and query clustering.
+Redis serves as the backing store, providing the speed and reliability needed for production workloads. Cache hit rates of 61.6–68.8% in controlled experiments [9], though rates vary by domain and query clustering.
 
 Implementation requires defining your similarity threshold and embedding model. Too permissive, and you risk incorrect responses. Too strict, and you miss caching opportunities. Start with a conservative threshold and adjust based on observed accuracy.
 
@@ -152,3 +152,5 @@ The cost crisis in production AI agents is real, but it's solvable. With the str
 [7] GPTCache Project. "GPTCache Documentation." https://gptcache.readthedocs.io/, 2024.
 
 [8] Academic Research. "TeaRAG: Token-Efficient Agentic RAG Framework." arXiv:2511.05385, 2025. https://arxiv.org/abs/2511.05385
+
+[9] Sajal Regmi. "GPT Semantic Cache: Reducing LLM Costs and Latency via Semantic Embedding Caching." arXiv:2411.05276, 2024.  https://arxiv.org/abs/2411.05276
