@@ -16,7 +16,7 @@ The USB-C analogy for MCP is brilliant marketing. One universal port that connec
 
 But here's what the marketing doesn't emphasize: USB-C cables don't require you to run a local server, negotiate stateful sessions, or debug JSON-RPC error codes at 2 AM. MCP does.
 
-For many real-world use cases, a YAML file with markdown instructions beats a protocol-based client-server architecture. The emerging SKILL.md pattern proves it. While MCP adoption accelerates with OpenAI and Google Cloud integrations in 2025, teams are discovering that declarative agent configuration offers a faster path to value—especially when your "integration" is primarily about encoding procedural knowledge rather than connecting to external systems.
+For many real-world use cases, a YAML file with markdown instructions beats a protocol-based client-server architecture. The emerging SKILL.md pattern proves it. While MCP adoption accelerates with OpenAI and Google DeepMind integrations in 2025, teams are discovering that declarative agent configuration offers a faster path to value—especially when your "integration" is primarily about encoding procedural knowledge rather than connecting to external systems.
 
 This article examines both approaches honestly. MCP solves real problems for real scenarios. But so does SKILL.md, and understanding when each fits will save you from architectural overkill that slows down teams rather than empowering them.
 
@@ -105,13 +105,13 @@ What the math hides is the operational cost of that abstraction.
 
 **JSON-RPC overhead** manifests in multiple ways. Every tool call serializes to JSON, transmits over the wire, deserializes on the server, executes, then reverses the journey. For local stdio transport this overhead is minimal. For HTTP transports—necessary when servers run remotely—it accumulates. Error handling becomes verbose: JSON-RPC errors layer on top of transport errors layer on top of application errors. Debugging requires understanding which layer failed and why.
 
-**Authentication complexity** blocked enterprise adoption through mid-2025. The original MCP specification lacked standardized auth beyond Bearer tokens with scoped permissions. Teams building production deployments faced homegrown OAuth implementations or—worse—insecure static API keys distributed across client configurations. The November 2025 specification finally added OAuth 2.1 support and async task infrastructure, but these additions confirm the protocol's complexity trajectory: more capability requires more specification surface area.
+**Authentication complexity** blocked enterprise adoption through mid-2025. The June 2025 specification formalized MCP servers as OAuth Resource Servers with RFC 8707 Resource Indicators for protection against token mis-redemption. The November 2025 additions included async Tasks, SEP-1024 for consent dialogs on local server installation (preventing silent command execution), and SEP-835 for default OAuth scopes—expanding beyond the baseline OAuth support established earlier in the year.
 
 **Capability negotiation** adds startup latency. Every MCP connection begins with a handshake where client and server exchange supported features. For long-running sessions this cost amortizes away. For short-lived connections—common in serverless environments or batch processing—this negotiation tax hits every single invocation. Teams optimizing for latency find themselves maintaining persistent connection pools, adding yet another operational concern.
 
 **Server sprawl** emerges as adoption grows. Each new capability requires a server process. A typical production deployment might have separate MCP servers for databases, APIs, file systems, and custom business logic. Each needs monitoring, logging, updates, and security patches. The N+M math simplifies integration logic but multiplies operational footprint.
 
-Replit's MCP Connector Platform illustrates this tension perfectly. Launched in October 2025 with 24 pre-built MCP integrations, the platform expanded to 30+ integrations within weeks—demonstrating MCP's promise of rapid capability expansion. When Replit opened custom MCP server connections in December 2025, the complexity became visible: server management, authentication configuration, and troubleshooting tools became necessary parts of the experience. The connector platform succeeded because Replit absorbed that complexity. Teams without Replit's engineering resources face it directly.
+Replit Connectors launched in September-October 2025 with 20+ pre-built integrations (Stripe, Figma, Salesforce, etc.), powered by MCP internally but not exposed as 'MCP integrations' to users. Replit later added custom MCP server support in December 2025, allowing users to connect their own remote MCP servers. The connector platform succeeded because Replit absorbed that complexity. Teams without Replit's engineering resources face it directly.
 
 None of this makes MCP bad. It makes MCP a deliberate architectural choice with understood trade-offs. The complexity exists for reasons: stateful sessions enable sophisticated capability negotiation; JSON-RPC provides transport flexibility; authentication standardization protects enterprise deployments. But those benefits come with costs that marketing materials rarely emphasize.
 
@@ -119,7 +119,7 @@ None of this makes MCP bad. It makes MCP a deliberate architectural choice with 
 
 If MCP represents the protocol-based extreme, SKILL.md sits at the declarative end of the spectrum. The pattern trades away runtime flexibility for development simplicity, and for many use cases, that's exactly the right trade.
 
-**Progressive disclosure** keeps context windows lean. A SKILL.md file loads only metadata initially—approximately 100 tokens describing the skill's name, description, and parameters. The full instructions, which can run to 5,000 tokens or more, load only when the agent actually needs them. This matters because context window constraints remain the primary bottleneck in agent systems. Loading 100 skills via MCP means maintaining 100 active connections and their associated state. Loading 100 SKILL.md files means keeping ~10,000 tokens of metadata in memory—trivial for modern context windows.
+**Progressive disclosure** keeps context windows lean. A SKILL.md file loads only metadata initially—approximately 100 tokens describing the skill's name, description, and parameters. The full instructions, which can run to thousands of tokens depending on complexity, load only when the agent actually needs them. This matters because context window constraints remain the primary bottleneck in agent systems. Loading 100 skills via MCP means maintaining 100 active connections and their associated state. Loading 100 SKILL.md files means keeping ~10,000 tokens of metadata in memory—trivial for modern context windows.
 
 **Git-native versioning** transforms how teams collaborate. Skills live in the repository alongside code. Pull requests review skill changes just like any other file. Rollbacks happen through `git revert`. Branching lets teams experiment with different approaches without affecting production. The entire skill lifecycle aligns with existing development workflows—no separate deployment pipelines, no version drift between code and capabilities.
 
@@ -135,11 +135,11 @@ Claude Code's implementation demonstrates this pattern at scale. The system supp
 
 Both approaches matured significantly throughout 2025, but their trajectories reveal different philosophies about production readiness.
 
-**MCP's enterprise journey** highlights the challenges of protocol standardization. Through mid-2025, enterprise adoption faced significant headwinds. The specification lacked standardized authentication, leaving teams to implement custom OAuth flows or accept the security limitations of static Bearer tokens. Async operations weren't formally supported, forcing workarounds for long-running tasks. Error handling remained under-specified, leading to inconsistent implementations across servers.
+**MCP's enterprise journey** highlights the challenges of protocol standardization. Through mid-2025, enterprise adoption faced significant headwinds. The June 2025 specification formalized MCP servers as OAuth Resource Servers with RFC 8707 Resource Indicators for protection against token mis-redemption. The November 2025 additions included async Tasks, SEP-1024 for consent dialogs on local server installation (preventing silent command execution), and SEP-835 for default OAuth scopes—expanding beyond the baseline OAuth support established earlier in the year.
 
 The November 2025 specification addressed these gaps. OAuth 2.1 support arrived with proper token scoping. Async task infrastructure formalized patterns for long-running operations. An extensions framework allowed custom capabilities without breaking core protocol compliance. These additions marked MCP's transition from promising experiment to enterprise-ready standard—but they also expanded the specification's surface area. Production MCP deployments now require understanding OAuth flows, async task state management, and extension negotiation.
 
-**Major platform adoption** validated the protocol's trajectory. OpenAI officially adopted MCP in March 2025, integrating it into their agent platform. Google Cloud launched managed MCP servers in December 2025, offering hosted infrastructure that absorbs much of the operational complexity. These aren't experimental commitments—they're strategic bets by major players that MCP will dominate external tool integration.
+**Major platform adoption** validated the protocol's trajectory. OpenAI officially adopted MCP in March 2025, integrating it into their agent platform. Google DeepMind announced MCP support for Gemini in April 2025, confirmed by Demis Hassabis. These aren't experimental commitments—they're strategic bets by major players that MCP will dominate external tool integration.
 
 **SKILL.md's production story** is quieter but no less significant. The pattern's maturity comes from simplicity rather than specification evolution. Claude Code's support demonstrates production viability at scale—thousands of developers use SKILL.md daily without incident. The pattern doesn't need OAuth updates because it relies on filesystem permissions. It doesn't need async task infrastructure because the agent controls execution timing. Production readiness emerges from minimal surface area rather than comprehensive specification.
 
@@ -175,7 +175,7 @@ The framework for choosing is simpler than it appears. Ask: "Does this capabilit
 
 ## Conclusion
 
-MCP's USB-C analogy captured imaginations for good reason. The N+M integration promise solves a genuine pain point, and the protocol's rapid adoption by OpenAI, Google Cloud, and platforms like Replit validates its approach. For teams building agents that connect to databases, APIs, and enterprise systems, MCP has become the standard path forward.
+MCP's USB-C analogy captured imaginations for good reason. The N+M integration promise solves a genuine pain point, and the protocol's rapid adoption by OpenAI, Google DeepMind, and platforms like Replit validates its approach. For teams building agents that connect to databases, APIs, and enterprise systems, MCP has become the standard path forward.
 
 But the analogy breaks down in important ways. USB-C cables don't require you to run a server process. They don't need authentication configuration or session management. They don't introduce latency through protocol negotiation. MCP does all of these things, and those costs matter—especially for teams building agent capabilities that don't require external connectivity.
 
@@ -191,7 +191,5 @@ The future likely holds convergence. MCP may adopt declarative configuration lay
 |---|-----------|-------|------|------|
 | 1 | Replit | Replit Platform Updates 2025 | 2025-12 | Vendor Documentation |
 | 2 | MCP Specification | November 2025 Spec Release Notes | 2025-11-25 | Technical Specification |
-| 4 | Perplexity Research | MCP Architecture Complexity Analysis | 2025 | Research Synthesis |
 | 5 | Claude Code Documentation | SKILL.md Pattern Documentation | 2025 | Vendor Documentation |
-| 6 | Perplexity Research | Declarative vs Protocol-Based Configuration Trade-offs | 2025 | Research Synthesis |
-| 8 | Industry Analysis | MCP Enterprise Security Analysis | 2025 | Research Synthesis |
+| 9 | MCP Blog | First Anniversary Post | 2025-11-25 | Blog Post |
