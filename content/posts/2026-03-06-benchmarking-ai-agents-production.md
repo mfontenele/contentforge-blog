@@ -10,7 +10,7 @@ You ship an AI agent. Your offline benchmark scores look solid — the model ans
 
 That gap between benchmark score and production behavior is the central problem in agent evaluation today. Traditional accuracy metrics were designed for a world where an LLM receives one input and returns one output. Agents plan, select tools, execute multi-step trajectories, and adapt mid-run. Measuring them like static models means you're flying blind.
 
-This guide covers the three-layer evaluation framework engineers are converging on, the four production metrics that map to real failure modes, and how Langfuse, Comet Opik, and LangSmith integrate these metrics into CI/CD pipelines.
+This guide covers the three-layer evaluation framework engineers are converging on, the four agent evaluation metrics that map to real failure modes, and how Langfuse, Comet Opik, and LangSmith integrate these metrics into CI/CD pipelines.
 
 ## Why Accuracy Benchmarks Fail for Agentic Systems
 
@@ -30,7 +30,7 @@ The practitioner community has converged on a three-layer model that mirrors how
 
 **Layer 3 — End-to-end execution success** measures whether the agent completed the goal [5]. This encompasses task adherence, step efficiency, and intent resolution. A common failure mode: agents that technically complete the specified task but miss the user's underlying intent — especially in multi-turn conversations.
 
-Hamel Hussain's practitioner framework maps to these same layers: Level 1 unit tests that verify component behavior cheaply on every commit, Level 2 model/human evaluation using LLM-as-a-judge on production traces, Level 3 A/B testing for major releases [7].
+Hamel Husain's practitioner post on evals describes a similar progression: starting with unit test assertions on every commit, layering LLM-as-a-judge evaluation on production traces, and eventually A/B testing for major releases [7].
 
 ## The Four Agent Evaluation Metrics Engineers Actually Use
 
@@ -72,7 +72,7 @@ Rechat's "Lucy" real estate assistant is a documented example of what evaluation
 
 ## Tool Landscape Comparison: Langfuse, Opik, LangSmith
 
-**Langfuse** (23,000+ GitHub stars) is open-source and self-hostable, which matters for data residency requirements [1]. Its strongest differentiator is the experiment runner and the tight feedback loop between offline experiments and online production scoring. LLM-as-a-judge with chain-of-thought output is well-documented with detailed rubric design guidance.
+**Langfuse** (approximately 23,000 GitHub stars) is open-source and self-hostable, which matters for data residency requirements [1]. *(Note: Langfuse was acquired by ClickHouse in January 2026. Self-hosting and open-source access remain available as of this writing.)* Its strongest differentiator is the experiment runner and the tight feedback loop between offline experiments and online production scoring. LLM-as-a-judge with chain-of-thought output is well-documented with detailed rubric design guidance.
 
 **Comet Opik** stands out on CI/CD ergonomics: the Pytest `@llm_unit` integration offers a direct path from evaluation to deployment gate [3]. Its Online Evaluation Rules are easy to configure, and it ships the broadest built-in metric template library [2]. Gap: tool-call-level trajectory evaluation is not native and requires custom judge prompts.
 
@@ -106,5 +106,5 @@ Expect the gap between online monitoring and offline debugging to close over the
 - [4] Comet / Opik. *Evaluation Metrics Overview — Opik*. https://www.comet.com/docs/opik/evaluation/metrics/overview (2026-03-06)
 - [5] LangChain / LangSmith. *Evaluation Concepts — LangSmith Docs*. https://docs.smith.langchain.com/evaluation (2026-03-06)
 - [6] Anthropic. *Challenges in Evaluating AI Systems*. https://www.anthropic.com/research/evaluating-ai-systems (2023)
-- [7] Hamel Hussain. *Your AI Product Needs Evals*. https://hamel.dev/blog/posts/evals/ (2024-03)
+- [7] Hamel Husain. *Your AI Product Needs Evals*. https://hamel.dev/blog/posts/evals/ (2024-03)
 - [8] Comet. *Automate Prompt & Agent Tuning with Opik's Agent Optimizer*. https://www.comet.com/site/blog/automated-prompt-engineering/ (2025)
