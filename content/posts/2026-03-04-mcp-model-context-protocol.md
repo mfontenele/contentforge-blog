@@ -3,7 +3,6 @@ title: "The Model Context Protocol (MCP): Why Every AI Agent Framework is Racing
 date: 2026-03-04T12:00:00-03:00
 description: "How MCP solves the M×N integration problem and why Block, Replit, Zed, and Sourcegraph are betting on Anthropic's open standard for AI agent interoperability."
 tags: ["MCP", "AI Agents", "Anthropic", "Model Context Protocol", "Agent Architecture"]
-author: "ContentForge"
 keywords: ["MCP", "Model Context Protocol", "AI agent tools", "Anthropic integration", "agent architecture"]
 ---
 

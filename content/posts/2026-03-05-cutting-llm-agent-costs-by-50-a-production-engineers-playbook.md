@@ -5,8 +5,6 @@ description: "Data-driven strategies from teams who reduced LLM agent costs by 4
 keywords: ["LLM cost optimization", "model routing", "prompt caching", "quantization", "agent token efficiency"]
 categories: ["AI Engineering", "Cost Optimization"]
 tags: ["LLM", "AI Agents", "Production", "Cost Reduction", "Inference Optimization"]
-author: "ContentForge"
-draft: true
 ---
 
 # Cutting LLM Agent Costs by 50%: A Production Engineer's Playbook
