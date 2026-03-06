@@ -5,11 +5,6 @@ categories: ["AI Engineering", "Agent Architecture"]
 tags: ["SKILL.md", "agent skills", "MCP alternative", "agent configuration", "OpenClaw", "declarative AI"]
 keywords: ["SKILL.md", "agent skills", "MCP alternative", "agent configuration", "OpenClaw", "declarative AI"]
 description: "MCP's USB-C analogy sounds perfect—but the reality involves JSON-RPC servers, stateful sessions, and infrastructure overhead. Here's why a simple markdown file often beats a protocol-based approach."
-cover:
-  image: "/images/skills-vs-mcp-cover.jpg"
-  alt: "Declarative vs Protocol-Based Agent Configuration"
-  caption: "Declarative configuration trades protocol overhead for simplicity"
-  relative: false
 ---
 
 The USB-C analogy for MCP is brilliant marketing. One universal port that connects everything—databases, IDEs, browsers, SaaS tools—to any AI agent that speaks the protocol. Anthropic's Model Context Protocol promises to eliminate the N×M integration nightmare, replacing it with elegant N+M connectivity where N agents plug into M servers through a single standard.
