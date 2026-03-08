@@ -1,0 +1,31 @@
+{{- $text := .Text | strings.TrimLeft "\n" -}}
+{{- $type := "" -}}
+{{- $content := $text -}}
+
+{{- if hasPrefix $text "[!NOTE]" -}}
+  {{- $type = "note" -}}
+  {{- $content = strings.TrimPrefix "[!NOTE]" $text | strings.TrimLeft "\n" -}}
+{{- else if hasPrefix $text "[!TIP]" -}}
+  {{- $type = "tip" -}}
+  {{- $content = strings.TrimPrefix "[!TIP]" $text | strings.TrimLeft "\n" -}}
+{{- else if hasPrefix $text "[!WARNING]" -}}
+  {{- $type = "warning" -}}
+  {{- $content = strings.TrimPrefix "[!WARNING]" $text | strings.TrimLeft "\n" -}}
+{{- else if hasPrefix $text "[!IMPORTANT]" -}}
+  {{- $type = "important" -}}
+  {{- $content = strings.TrimPrefix "[!IMPORTANT]" $text | strings.TrimLeft "\n" -}}
+{{- else if hasPrefix $text "[!CAUTION]" -}}
+  {{- $type = "caution" -}}
+  {{- $content = strings.TrimPrefix "[!CAUTION]" $text | strings.TrimLeft "\n" -}}
+{{- end -}}
+
+{{- if $type -}}
+<div class="alert alert-{{ $type }}">
+  <p class="alert-heading">{{ upper $type }}</p>
+  {{ $content | markdownify }}
+</div>
+{{- else -}}
+<blockquote>
+{{ .Text | markdownify }}
+</blockquote>
+{{- end -}}

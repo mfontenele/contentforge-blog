@@ -1,0 +1,48 @@
+/* === Tipografia e legibilidade === */
+.post-content { font-size: 1.05rem; line-height: 1.8; }
+.post-content p { margin-bottom: 1.2em; }
+
+/* === Blockquotes melhorados === */
+.post-content blockquote {
+  border-left: 4px solid var(--primary);
+  background: var(--code-bg);
+  padding: 1em 1.5em;
+  margin: 1.5em 0;
+  border-radius: 0 4px 4px 0;
+}
+.post-content blockquote p { margin-bottom: 0.5em; }
+
+/* === Tabelas profissionais === */
+.post-content table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 0.95rem; }
+.post-content table th { background: var(--code-bg); font-weight: 600; text-align: left; padding: 0.75em 1em; border-bottom: 2px solid var(--border); }
+.post-content table td { padding: 0.75em 1em; border-bottom: 1px solid var(--border); }
+.post-content table tr:hover { background: var(--code-bg); }
+
+/* === Code blocks === */
+.post-content pre { border-radius: 6px; padding: 1.2em; margin: 1.5em 0; }
+
+/* === Key Takeaway shortcode === */
+.key-takeaway {
+  background: linear-gradient(135deg, var(--code-bg) 0%, transparent 100%);
+  border-left: 4px solid var(--primary);
+  padding: 1.2em 1.5em;
+  margin: 2em 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 1.05em;
+}
+.key-takeaway .key-takeaway-label {
+  font-weight: 700; font-size: 0.85em; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.5em; display: block;
+}
+
+/* === Callout boxes === */
+.alert { padding: 1em 1.5em; margin: 1.5em 0; border-radius: 4px; border-left: 4px solid; }
+.alert-note     { border-color: #2196F3; background: rgba(33,150,243,0.08); }
+.alert-tip      { border-color: #4CAF50; background: rgba(76,175,80,0.08); }
+.alert-warning  { border-color: #FF9800; background: rgba(255,152,0,0.08); }
+.alert-important{ border-color: #9C27B0; background: rgba(156,39,176,0.08); }
+.alert-caution  { border-color: #F44336; background: rgba(244,67,54,0.08); }
+.alert-heading  { font-weight: 700; margin-bottom: 0.3em; }
+
+/* === Images === */
+.post-content img { border-radius: 6px; margin: 1em 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
