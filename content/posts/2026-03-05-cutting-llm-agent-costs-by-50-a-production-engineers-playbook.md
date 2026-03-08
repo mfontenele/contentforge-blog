@@ -1,10 +1,31 @@
 ---
-title: "Cutting LLM Agent Costs by 50%: A Production Engineer's Playbook"
-date: 2026-03-05T06:00:00-03:00
-description: "Data-driven strategies from teams who reduced LLM agent costs by 40%+ through model routing, semantic caching, batch processing, and RAG optimization."
-keywords: ["LLM cost optimization", "model routing", "prompt caching", "quantization", "agent token efficiency"]
-categories: ["AI Engineering", "Cost Optimization"]
-tags: ["LLM", "AI Agents", "Production", "Cost Reduction", "Inference Optimization"]
+title: 'Cutting LLM Agent Costs by 50%: A Production Engineer''s Playbook'
+date: '2026-03-05T06:00:00-03:00'
+description: Data-driven strategies from teams who reduced LLM agent costs by 40%+ through model routing, semantic caching, batch processing, and RAG optimization.
+keywords:
+- LLM cost optimization
+- model routing
+- prompt caching
+- quantization
+- agent token efficiency
+categories:
+- AI Agent Operations
+tags:
+- LLM
+- AI Agents
+- Production
+- Cost Reduction
+- Inference Optimization
+draft: false
+summary: Data-driven strategies from teams who reduced LLM agent costs by 40%+ through model routing, semantic caching, batch processing, and RAG optimization.
+cover:
+  image: /images/covers/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/cover.jpg
+  alt: 'Cover image for: Cutting LLM Agent Costs by 50%: A Production Engineer''s Playbook'
+  caption: Photo by [Giorgio Tomassetti](https://unsplash.com/@gtomassetti) on [Unsplash](https://unsplash.com/photos/two-women-analyze-a-line-graph-on-a-screen-71pmZ9rN-hA)
+  relative: false
+  hidden: false
+ShowToc: true
+TocOpen: true
 ---
 
 # Cutting LLM Agent Costs by 50%: A Production Engineer's Playbook

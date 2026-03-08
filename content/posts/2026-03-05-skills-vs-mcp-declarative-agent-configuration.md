@@ -1,10 +1,34 @@
 ---
-title: "SKILLs vs MCP: Why Declarative Agent Configuration is Winning Over Protocol-Based Integration"
-date: 2026-03-05T06:00:00-03:00
-categories: ["AI Engineering", "Agent Architecture"]
-tags: ["SKILL.md", "agent skills", "MCP alternative", "agent configuration", "OpenClaw", "declarative AI"]
-keywords: ["SKILL.md", "agent skills", "MCP alternative", "agent configuration", "OpenClaw", "declarative AI"]
-description: "MCP's USB-C analogy sounds perfect—but the reality involves JSON-RPC servers, stateful sessions, and infrastructure overhead. Here's why a simple markdown file often beats a protocol-based approach."
+title: 'SKILLs vs MCP: Why Declarative Agent Configuration is Winning Over Protocol-Based Integration'
+date: '2026-03-05T06:00:00-03:00'
+categories:
+- AI Agent Operations
+tags:
+- SKILL.md
+- agent skills
+- MCP alternative
+- agent configuration
+- OpenClaw
+- declarative AI
+keywords:
+- SKILL.md
+- agent skills
+- MCP alternative
+- agent configuration
+- OpenClaw
+- declarative AI
+description: MCP's USB-C analogy sounds perfect—but the reality involves JSON-RPC servers, stateful sessions, and infrastructure overhead. Here's why a simple markdown file often beats a protocol-based
+  approach.
+draft: false
+summary: MCP's USB-C analogy sounds perfect—but the reality involves JSON-RPC servers, stateful sessions, and infrastructure overhead. Here's why a simple markdown file often beats a protocol-based approach.
+cover:
+  image: /images/covers/2026-03-05-skills-vs-mcp-declarative-agent-configuration/cover.jpg
+  alt: 'Cover image for: SKILLs vs MCP: Why Declarative Agent Configuration is Winning Over Protocol-Based Integration'
+  caption: Photo by [Hitesh Choudhary](https://unsplash.com/@hiteshchoudhary) on [Unsplash](https://unsplash.com/photos/code-debug-vy7GOqb1M9s)
+  relative: false
+  hidden: false
+ShowToc: true
+TocOpen: true
 ---
 
 The USB-C analogy for MCP is brilliant marketing. One universal port that connects everything—databases, IDEs, browsers, SaaS tools—to any AI agent that speaks the protocol. Anthropic's Model Context Protocol promises to eliminate the N×M integration nightmare, replacing it with elegant N+M connectivity where N agents plug into M servers through a single standard.
