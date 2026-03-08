@@ -1,10 +1,29 @@
 ---
-title: "Beyond Logs: Building Production-Grade Observability for AI Agent Systems"
-date: 2026-03-03T06:00:00-03:00
-tags: ["ai-agent-observability", "llm-monitoring", "agent-tracing", "production-debugging", "opentelemetry"]
-categories: ["AI Infrastructure"]
-description: "AI agent observability is essential for production. Learn why traditional monitoring fails for LLM agents and how to implement tracing that catches silent failures."
-summary: "A deep dive into the unique failure modes of production AI agents and the observability infrastructure needed to detect silent failures, monitor costs, and maintain reliability at scale."
+title: 'Beyond Logs: Building Production-Grade Observability for AI Agent Systems'
+date: '2026-03-03T06:00:00-03:00'
+tags:
+- ai-agent-observability
+- llm-monitoring
+- agent-tracing
+- production-debugging
+- opentelemetry
+categories:
+- AI Infrastructure
+description: AI agent observability is essential for production. Learn why traditional
+  monitoring fails for LLM agents and how to implement tracing that catches silent
+  failures.
+summary: A deep dive into the unique failure modes of production AI agents and the
+  observability infrastructure needed to detect silent failures, monitor costs, and
+  maintain reliability at scale.
+draft: false
+ShowToc: true
+TocOpen: true
+cover:
+  image: "/images/covers/2026-03-03-beyond-logs-building-production-grade-observability-for-ai-agent-systems/cover.jpg"
+  alt: "Monitoring dashboard with digital device display"
+  caption: "Photo by [Frederik Merten](https://unsplash.com/@frederikmerten) on [Unsplash](https://unsplash.com/photos/black-digital-device-at-2-00-cnSWF5NJvng)"
+  relative: false
+  hidden: false
 ---
 
 It was a Tuesday morning when the finance team noticed the spike. The company's customer support agent—an LLM-powered system handling tier-1 inquiries—had burned through $12,000 in OpenAI credits over the weekend. In the logs, everything looked fine: HTTP 200 responses across the board, average latency under 2 seconds, zero error rates. The agent had responded to every query it received. Except it hadn't actually resolved anything. The system had entered an infinite loop, repeatedly invoking a search tool with slightly reformulated queries, generating thousands of tokens per conversation while returning empty apologies to users. Traditional monitoring saw healthy green dashboards. The business saw angry customers and a budget crisis.

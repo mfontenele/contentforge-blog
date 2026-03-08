@@ -1,9 +1,40 @@
 ---
-title: "Benchmarking AI Agents in Production: The Metrics That Actually Matter Beyond Accuracy"
-date: 2026-03-06T06:00:00-03:00
-description: "Accuracy benchmarks built for static LLMs fail completely when applied to AI agents. Here's the three-layer evaluation framework, four production KPIs, and CI/CD integration patterns that actually work."
-tags: ["ai agents", "llm evaluation", "agent benchmarking", "production ai", "mlops"]
-keywords: ["agent evaluation metrics", "LLM benchmarking", "agent testing framework", "production evaluation", "agent KPIs", "LLM-as-a-judge", "Langfuse", "LangSmith", "Opik"]
+title: 'Benchmarking AI Agents in Production: The Metrics That Actually Matter Beyond
+  Accuracy'
+date: '2026-03-06T06:00:00-03:00'
+description: Accuracy benchmarks built for static LLMs fail completely when applied
+  to AI agents. Here's the three-layer evaluation framework, four production KPIs,
+  and CI/CD integration patterns that actually work.
+tags:
+- ai agents
+- llm evaluation
+- agent benchmarking
+- production ai
+- mlops
+keywords:
+- agent evaluation metrics
+- LLM benchmarking
+- agent testing framework
+- production evaluation
+- agent KPIs
+- LLM-as-a-judge
+- Langfuse
+- LangSmith
+- Opik
+draft: false
+categories:
+- AI Agent Operations
+summary: Accuracy benchmarks built for static LLMs fail completely when applied to
+  AI agents. Here's the three-layer evaluation framework, four production KPIs, and
+  CI/CD integration patterns that actually work.
+ShowToc: true
+TocOpen: true
+cover:
+  image: "/images/covers/2026-03-06-benchmarking-ai-agents-in-production-metrics-that-actually-matter-beyond-accuracy/cover.jpg"
+  alt: "Performance analytics graphs on a laptop screen"
+  caption: "Photo by [Luke Chesser](https://unsplash.com/@lukechesser) on [Unsplash](https://unsplash.com/photos/graphs-of-performance-analytics-on-a-laptop-screen-JKUTrJ4vK00)"
+  relative: false
+  hidden: false
 ---
 
 You ship an AI agent. Your offline benchmark scores look solid — the model answers evaluation questions at 87% accuracy. Then in production: it calls the wrong tool, passes malformed arguments, loops through five unnecessary steps to answer a question that should take two, and ultimately fails to resolve the user's intent even though its final text output sounds plausible.

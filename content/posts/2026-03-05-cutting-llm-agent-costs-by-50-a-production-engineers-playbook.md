@@ -1,10 +1,34 @@
 ---
-title: "Cutting LLM Agent Costs by 50%: A Production Engineer's Playbook"
-date: 2026-03-05T06:00:00-03:00
-description: "Data-driven strategies from teams who reduced LLM agent costs by 40%+ through model routing, semantic caching, batch processing, and RAG optimization."
-keywords: ["LLM cost optimization", "model routing", "prompt caching", "quantization", "agent token efficiency"]
-categories: ["AI Engineering", "Cost Optimization"]
-tags: ["LLM", "AI Agents", "Production", "Cost Reduction", "Inference Optimization"]
+title: 'Cutting LLM Agent Costs by 50%: A Production Engineer''s Playbook'
+date: '2026-03-04T06:00:00-03:00'
+description: Data-driven strategies from teams who reduced LLM agent costs by 40%+
+  through model routing, semantic caching, batch processing, and RAG optimization.
+keywords:
+- LLM cost optimization
+- model routing
+- prompt caching
+- quantization
+- agent token efficiency
+categories:
+- AI Engineering
+- Cost Optimization
+tags:
+- LLM
+- AI Agents
+- Production
+- Cost Reduction
+- Inference Optimization
+draft: false
+summary: Data-driven strategies from teams who reduced LLM agent costs by 40%+ through
+  model routing, semantic caching, batch processing, and RAG optimization.
+ShowToc: true
+TocOpen: true
+cover:
+  image: "/images/covers/2026-03-04-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/cover.jpg"
+  alt: "Coins falling into a piggy bank representing cost savings"
+  caption: "Photo by [Sasun Bughdaryan](https://unsplash.com/@sasun1990) on [Unsplash](https://unsplash.com/photos/coins-falling-into-a-white-piggy-bank-eE4uRsnNCsI)"
+  relative: false
+  hidden: false
 ---
 
 # Cutting LLM Agent Costs by 50%: A Production Engineer's Playbook

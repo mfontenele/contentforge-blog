@@ -1,9 +1,34 @@
 ---
-title: "The Model Context Protocol (MCP): Why Every AI Agent Framework is Racing to Adopt Anthropic's Open Standard"
-date: 2026-03-04T12:00:00-03:00
-description: "How MCP solves the M×N integration problem and why Block, Replit, Zed, and Sourcegraph are betting on Anthropic's open standard for AI agent interoperability."
-tags: ["MCP", "AI Agents", "Anthropic", "Model Context Protocol", "Agent Architecture"]
-keywords: ["MCP", "Model Context Protocol", "AI agent tools", "Anthropic integration", "agent architecture"]
+title: 'The Model Context Protocol (MCP): Why Every AI Agent Framework is Racing to
+  Adopt Anthropic''s Open Standard'
+date: '2026-03-04T06:00:00-03:00'
+description: How MCP solves the M×N integration problem and why Block, Replit, Zed,
+  and Sourcegraph are betting on Anthropic's open standard for AI agent interoperability.
+tags:
+- MCP
+- AI Agents
+- Anthropic
+- Model Context Protocol
+- Agent Architecture
+keywords:
+- MCP
+- Model Context Protocol
+- AI agent tools
+- Anthropic integration
+- agent architecture
+draft: false
+categories:
+- AI Agent Operations
+summary: How MCP solves the M×N integration problem and why Block, Replit, Zed, and
+  Sourcegraph are betting on Anthropic's open standard for AI agent interoperability.
+ShowToc: true
+TocOpen: true
+cover:
+  image: "/images/covers/2026-03-04-the-model-context-protocol-mcp-why-every-ai-agent-framework-is-racing-to-adopt-anthropics-open-standard/cover.jpg"
+  alt: "Fibre optic cables representing network protocol connections"
+  caption: "Photo by [Albert Stoynov](https://unsplash.com/@albertstoynov) on [Unsplash](https://unsplash.com/photos/yellow-and-green-cables-are-neatly-connected-yhJVLxcquEY)"
+  relative: false
+  hidden: false
 ---
 
 ## What is MCP? Understanding Anthropic's Open Standard
