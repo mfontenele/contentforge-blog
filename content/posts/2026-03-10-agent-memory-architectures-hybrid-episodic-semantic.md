@@ -21,7 +21,7 @@ keywords:
 cover:
   image: /images/covers/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/cover.jpg
   alt: "Diagram illustrating hybrid episodic and semantic memory architecture for AI agents"
-  caption: ""
+  caption: "Photo by [Andrea De Santis](https://unsplash.com/@santesson89) on [Unsplash](https://unsplash.com/photos/zwd435-ewb4)"
   relative: false
   hidden: false
 ShowToc: true
@@ -197,6 +197,6 @@ If you are building an agent that will run for more than a handful of sessions, 
 
 ## Image Credits
 
-| Asset | Credit |
-|-------|--------|
-| Cover photo | AI-generated illustration created for ContentForge |
+| # | Description | Photographer | Source |
+|---|---|---|---|
+| Cover | Diagram illustrating hybrid episodic and semantic memory architecture for AI agents | [Andrea De Santis](https://unsplash.com/@santesson89) | [Unsplash](https://unsplash.com/photos/zwd435-ewb4) |
