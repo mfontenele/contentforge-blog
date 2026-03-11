@@ -1,0 +1,5 @@
+<a href="{{ .Destination | safeURL }}"
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+  {{- if strings.Contains .Destination "utm_source=agentscodex" }} rel="sponsored noopener"{{ end -}}
+  {{- if strings.HasPrefix .Destination "http" }} target="_blank"{{ end -}}
+>{{ .Text }}</a>
