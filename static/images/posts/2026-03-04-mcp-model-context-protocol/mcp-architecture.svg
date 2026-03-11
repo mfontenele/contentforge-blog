@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" style="background:#0f172a">
+  <defs>
+    <linearGradient id="hostGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="serverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="primitiveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+  </pattern>
+  <rect width="800" height="500" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#f8fafc" text-anchor="middle">MCP Client-Server Architecture</text>
+
+  <!-- Host Box -->
+  <rect x="320" y="60" width="160" height="70" rx="8" fill="url(#hostGrad)" stroke="#60a5fa" stroke-width="2"/>
+  <text x="400" y="95" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="white" text-anchor="middle">Host</text>
+  <text x="400" y="115" font-family="system-ui, sans-serif" font-size="12" fill="#bfdbfe" text-anchor="middle">AI Application / IDE</text>
+
+  <!-- Arrow Down from Host -->
+  <path d="M400 130 L400 160" stroke="#60a5fa" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+  <!-- Client Box -->
+  <rect x="280" y="170" width="240" height="70" rx="8" fill="url(#clientGrad)" stroke="#34d399" stroke-width="2"/>
+  <text x="400" y="205" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="white" text-anchor="middle">MCP Client</text>
+  <text x="400" y="225" font-family="system-ui, sans-serif" font-size="12" fill="#a7f3d0" text-anchor="middle">Protocol Implementation</text>
+
+  <!-- Bidirectional Arrow to Server -->
+  <path d="M400 240 L400 290" stroke="#34d399" stroke-width="3" marker-end="url(#arrowhead)" marker-start="url(#arrowhead2)"/>
+  <text x="450" y="270" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">JSON-RPC 2.0</text>
+
+  <!-- Server Box -->
+  <rect x="280" y="300" width="240" height="70" rx="8" fill="url(#serverGrad)" stroke="#fbbf24" stroke-width="2"/>
+  <text x="400" y="335" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="white" text-anchor="middle">MCP Server</text>
+  <text x="400" y="355" font-family="system-ui, sans-serif" font-size="12" fill="#fde68a" text-anchor="middle">Data Source / Tool Provider</text>
+
+  <!-- Arrow Down to Primitives -->
+  <path d="M400 370 L400 400" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+  <!-- Primitives Row -->
+  <rect x="40" y="410" width="150" height="60" rx="8" fill="url(#primitiveGrad)" stroke="#a78bfa" stroke-width="2"/>
+  <text x="115" y="440" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="white" text-anchor="middle">Resources</text>
+  <text x="115" y="458" font-family="system-ui, sans-serif" font-size="10" fill="#ddd6fe" text-anchor="middle">Read-only data</text>
+
+  <rect x="230" y="410" width="150" height="60" rx="8" fill="url(#primitiveGrad)" stroke="#a78bfa" stroke-width="2"/>
+  <text x="305" y="440" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="white" text-anchor="middle">Tools</text>
+  <text x="305" y="458" font-family="system-ui, sans-serif" font-size="10" fill="#ddd6fe" text-anchor="middle">Executable functions</text>
+
+  <rect x="420" y="410" width="150" height="60" rx="8" fill="url(#primitiveGrad)" stroke="#a78bfa" stroke-width="2"/>
+  <text x="495" y="440" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="white" text-anchor="middle">Prompts</text>
+  <text x="495" y="458" font-family="system-ui, sans-serif" font-size="10" fill="#ddd6fe" text-anchor="middle">Task templates</text>
+
+  <rect x="610" y="410" width="150" height="60" rx="8" fill="#ec4899" stroke="#f472b6" stroke-width="2"/>
+  <text x="685" y="440" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="white" text-anchor="middle">Sampling</text>
+  <text x="685" y="458" font-family="system-ui, sans-serif" font-size="10" fill="#fbcfe8" text-anchor="middle">LLM completion</text>
+
+  <!-- Connection lines to primitives -->
+  <path d="M400 400 L400 405 L115 405 L115 410" stroke="#a78bfa" stroke-width="1.5" fill="none"/>
+  <path d="M400 405 L305 405 L305 410" stroke="#a78bfa" stroke-width="1.5" fill="none"/>
+  <path d="M400 405 L495 405 L495 410" stroke="#a78bfa" stroke-width="1.5" fill="none"/>
+  <path d="M400 405 L685 405 L685 410" stroke="#f472b6" stroke-width="1.5" fill="none"/>
+
+  <!-- Legend -->
+  <text x="20" y="490" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">MCP = Model Context Protocol</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>
