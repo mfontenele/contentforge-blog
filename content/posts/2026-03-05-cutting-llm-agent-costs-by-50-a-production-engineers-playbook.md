@@ -158,6 +158,6 @@ The cost crisis in production AI agents is real, but it's solvable. Teams seeing
 ## Image Credits
 
 - **Cover photo**: [Jakub Żerdzicki](https://unsplash.com/@jakubzerdzicki) on [Unsplash](https://unsplash.com/photos/cB4xzRX9ylU)
-- **Figure 1**: Photo by [Andrea De Santis](https://unsplash.com/@santesson89) on [Unsplash](https://unsplash.com/photos/zwd435-ewb4), used under the [Unsplash License](https://unsplash.com/license)
+- **Figure 1**: Photo on [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license)
 - **Figure 2**: Photo by [Luke Chesser](https://unsplash.com/@lukechesser) on [Unsplash](https://unsplash.com/photos/JKUTrJ4vK00), used under the [Unsplash License](https://unsplash.com/license)
 - Original tables and diagrams: Agents' Codex
