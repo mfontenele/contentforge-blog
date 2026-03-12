@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 20px; font-weight: bold; fill: #1a1a2e; }
+      .axis-label { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; fill: #4a4a6a; }
+      .bubble-label { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; fill: #fff; text-anchor: middle; }
+      .legend-text { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; fill: #4a4a6a; }
+      .grid-line { stroke: #e0e0e8; stroke-width: 1; }
+      .axis-line { stroke: #2a2a4e; stroke-width: 2; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#fafbfc"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">LLM Cost Optimization Decision Matrix</text>
+  
+  <!-- Grid -->
+  <g transform="translate(100, 80)">
+    <!-- Grid lines -->
+    <line x1="0" y1="0" x2="600" y2="0" class="grid-line"/>
+    <line x1="0" y1="120" x2="600" y2="120" class="grid-line"/>
+    <line x1="0" y1="240" x2="600" y2="240" class="grid-line"/>
+    <line x1="0" y1="360" x2="600" y2="360" class="grid-line"/>
+    <line x1="0" y1="0" x2="0" y2="400" class="grid-line"/>
+    <line x1="150" y1="0" x2="150" y2="400" class="grid-line"/>
+    <line x1="300" y1="0" x2="300" y2="400" class="grid-line"/>
+    <line x1="450" y1="0" x2="450" y2="400" class="grid-line"/>
+    <line x1="600" y1="0" x2="600" y2="400" class="grid-line"/>
+    
+    <!-- Axes -->
+    <line x1="0" y1="400" x2="600" y2="400" class="axis-line"/>
+    <line x1="0" y1="0" x2="0" y2="400" class="axis-line"/>
+    
+    <!-- Y-axis labels (Savings) -->
+    <text x="-15" y="405" class="axis-label" text-anchor="end">Low</text>
+    <text x="-15" y="255" class="axis-label" text-anchor="end">Medium</text>
+    <text x="-15" y="5" class="axis-label" text-anchor="end">High</text>
+    <text x="-50" y="200" class="axis-label" text-anchor="middle" transform="rotate(-90, -50, 200)">Expected Savings</text>
+    
+    <!-- X-axis labels (Effort) -->
+    <text x="0" y="425" class="axis-label" text-anchor="middle">Low</text>
+    <text x="300" y="425" class="axis-label" text-anchor="middle">Medium</text>
+    <text x="600" y="425" class="axis-label" text-anchor="middle">High</text>
+    <text x="300" y="460" class="axis-label" text-anchor="middle">Implementation Effort</text>
+    
+    <!-- Bubbles -->
+    <!-- Prompt Caching: Low effort, High savings (90%), improves latency -->
+    <circle cx="75" cy="40" r="45" fill="#2563eb" opacity="0.85"/>
+    <text x="75" y="35" class="bubble-label">Prompt Caching</text>
+    <text x="75" y="48" class="bubble-label" font-size="9">~90% savings</text>
+    
+    <!-- Batch Processing: Low effort, Medium savings (50%), neutral latency -->
+    <circle cx="75" cy="200" r="35" fill="#059669" opacity="0.85"/>
+    <text x="75" y="195" class="bubble-label">Batch API</text>
+    <text x="75" y="206" class="bubble-label" font-size="9">50% savings</text>
+    
+    <!-- Smart Model Routing: Medium effort, Medium-Low savings (50%), neutral -->
+    <circle cx="300" cy="160" r="38" fill="#7c3aed" opacity="0.85"/>
+    <text x="300" y="155" class="bubble-label">Model Routing</text>
+    <text x="300" y="166" class="bubble-label" font-size="9">40-60%</text>
+    
+    <!-- GPTQ: Medium effort, Medium savings (75%), improves latency -->
+    <circle cx="300" cy="100" r="42" fill="#dc2626" opacity="0.85"/>
+    <text x="300" y="95" class="bubble-label">GPTQ Quantization</text>
+    <text x="300" y="106" class="bubble-label" font-size="9">75% mem+speed</text>
+    
+    <!-- Semantic Caching: Medium effort, High savings (10x = 90%), improves latency -->
+    <circle cx="300" cy="40" r="44" fill="#ea580c" opacity="0.85"/>
+    <text x="300" y="35" class="bubble-label">Semantic Cache</text>
+    <text x="300" y="46" class="bubble-label" font-size="9">~10x cost reduction</text>
+    
+    <!-- TeaRAG: High effort, Medium-High savings (61%), neutral -->
+    <circle cx="525" cy="156" r="36" fill="#0891b2" opacity="0.85"/>
+    <text x="525" y="151" class="bubble-label">TeaRAG</text>
+    <text x="525" y="162" class="bubble-label" font-size="9">61% tokens</text>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(100, 520)">
+    <text x="0" y="0" class="legend-text" font-weight="bold">Bubble size = Latency impact</text>
+    <circle cx="200" cy="-4" r="12" fill="#2563eb" opacity="0.6"/>
+    <text x="220" y="0" class="legend-text">Large = Improves latency</text>
+    <circle cx="380" cy="-4" r="8" fill="#7c3aed" opacity="0.6"/>
+    <text x="400" y="0" class="legend-text">Small = Neutral</text>
+  </g>
+  
+  <!-- Quick start tip -->
+  <rect x="400" y="80" width="280" height="90" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="540" y="105" class="legend-text" text-anchor="middle" font-weight="bold" fill="#92400e">Quick Wins (Start Here)</text>
+  <text x="540" y="125" class="legend-text" text-anchor="middle">• Prompt Caching (if on Anthropic)</text>
+  <text x="540" y="142" class="legend-text" text-anchor="middle">• Batch Processing for background jobs</text>
+  <text x="540" y="159" class="legend-text" text-anchor="middle">• Semantic Caching for repetitive queries</text>
+</svg>
