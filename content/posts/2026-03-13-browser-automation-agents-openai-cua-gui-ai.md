@@ -23,7 +23,7 @@ categories:
 cover:
   image: "/images/covers/2026-03-13-browser-automation-agents-openai-cua-gui-ai/cover.jpg"
   alt: "A browser interface with an AI agent navigating web pages autonomously"
-  caption: ""
+  caption: "Photo by [Luke Chesser](https://unsplash.com/@lukechesser) on [Unsplash](https://unsplash.com/photos/JKUTrJ4vK00)"
   relative: false
   hidden: false
 ShowToc: true
