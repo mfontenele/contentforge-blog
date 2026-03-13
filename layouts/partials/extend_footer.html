@@ -1,0 +1,8 @@
+<script>
+if (document.querySelector('.mermaid')) {
+  const s = document.createElement('script');
+  s.type = 'module';
+  s.textContent = "import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; mermaid.initialize({ startOnLoad: true, theme: 'neutral' });";
+  document.body.appendChild(s);
+}
+</script>
