@@ -137,8 +137,10 @@ Browser automation has crossed a threshold. Computer-Using Agents like OpenAI's 
 
 ## Sources
 
-- OpenAI. "Introducing Operator." January 2025. https://openai.com/index/introducing-operator/
-- OpenAI. "Computer Using Agent Research." https://openai.com/index/computer-using-agent/
-- WorkOS. "Anthropic's Computer Use versus OpenAI's Computer-Using Agent (CUA)." Early 2025. https://workos.com/blog/anthropics-computer-use-versus-openais-computer-using-agent-cua
-- Delight.fit. "OpenAI's Operator: A Threat to Traditional RPA?" Early 2025. https://delight.fit/blogs/insight/openais-operator-a-threat-to-traditional-rpa
-- Prajwal Nayak. "ChatGPT Operator Limitations." Dev.to, Early 2025. https://dev.to/prajwalnayak/chatgpt-operator-limitations-81g
+| # | Publisher | Title | URL | Date | Type |
+|---|-----------|-------|-----|------|------|
+| 1 | OpenAI | Introducing Operator | https://openai.com/index/introducing-operator/ | 2025-01 | Press release |
+| 2 | OpenAI | Computer Using Agent Research | https://openai.com/index/computer-using-agent/ | 2025-01 | Vendor docs |
+| 3 | WorkOS | Anthropic's Computer Use versus OpenAI's CUA | https://workos.com/blog/anthropics-computer-use-versus-openais-computer-using-agent-cua | 2025 | Blog post |
+| 4 | Delight.fit | OpenAI's Operator: A Threat to Traditional RPA? | https://delight.fit/blogs/insight/openais-operator-a-threat-to-traditional-rpa | 2025 | Blog post |
+| 5 | Prajwal Nayak / Dev.to | ChatGPT Operator Limitations | https://dev.to/prajwalnayak/chatgpt-operator-limitations-81g | 2025 | Blog post |
