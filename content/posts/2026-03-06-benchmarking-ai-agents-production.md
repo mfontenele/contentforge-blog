@@ -26,7 +26,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-You ship an [AI agent](/posts/2026-03-03-ai-agent-observability-production/). Your offline benchmark scores look solid — the model answers evaluation questions at 87% accuracy. Then in production: it calls the wrong tool, passes malformed arguments, loops through five unnecessary steps to answer a question that should take two, and ultimately fails to resolve the user's intent even though its final text output sounds plausible.
+You ship an [AI agent](/posts/2026-03-04-mcp-model-context-protocol/). Your offline benchmark scores look solid — the model answers evaluation questions at 87% accuracy. Then in production: it calls the wrong tool, passes malformed arguments, loops through five unnecessary steps to answer a question that should take two, and ultimately fails to resolve the user's intent even though its final text output sounds plausible.
 
 That gap between benchmark score and production behavior is the central problem in agent evaluation today. Traditional accuracy metrics were designed for a world where an LLM receives one input and returns one output. Agents plan, select tools, execute multi-step trajectories, and adapt mid-run. Measuring them like static models means you're flying blind.
 
@@ -96,7 +96,7 @@ Rechat's "Lucy" real estate assistant is a documented example of what evaluation
 
 **Comet Opik** stands out on CI/CD ergonomics: the Pytest `@llm_unit` integration offers a direct path from evaluation to deployment gate [3]. Its Online Evaluation Rules are easy to configure, and it ships the broadest built-in metric template library [2]. Gap: tool-call-level trajectory evaluation is not native and requires custom judge prompts.
 
-**LangSmith** has the deepest integration with LangChain/LangGraph agent patterns and the most complete offline evaluation lifecycle taxonomy [5]. The trade-off is ecosystem coupling — it works best when building on LangChain primitives. Teams running custom [agent frameworks](/posts/2026-03-04-mcp-model-context-protocol/) may find Langfuse or Opik more portable.
+**LangSmith** has the deepest integration with LangChain/LangGraph agent patterns and the most complete offline evaluation lifecycle taxonomy [5]. The trade-off is ecosystem coupling — it works best when building on LangChain primitives. Teams running custom agent frameworks may find Langfuse or Opik more portable.
 
 None of the three natively scores agent reasoning quality (Layer 1) without custom configuration. Evaluating intermediate chain-of-thought quality remains an open gap requiring domain-specific rubrics.
 

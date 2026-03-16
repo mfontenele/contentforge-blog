@@ -17,7 +17,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-When your production [AI agent](/posts/2026-03-03-ai-agent-observability-production/) claims it fixed the database issue—but the outage continues—you have a problem. When it declares a security incident "resolved" without actually checking the logs, you have a catastrophe. Enterprise AI agents are failing in production IT environments at rates that should alarm every operations team, yet traditional benchmarks only tell us *that* agents fail, never *why*.
+When your [production AI](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/) agent claims it fixed the database issue—but the outage continues—you have a problem. When it declares a security incident "resolved" without actually checking the logs, you have a catastrophe. Enterprise [AI agents](/posts/2026-03-06-benchmarking-ai-agents-production/) are failing in production IT environments at rates that should alarm every operations team, yet traditional benchmarks only tell us *that* agents fail, never *why*.
 
 The **MAST taxonomy** (Multi-Agent System Failure Taxonomy), developed by researchers at UC Berkeley [1], offers the first systematic framework for understanding these failures. Built on analysis of **1,642 annotated execution traces** from 7 major multi-agent frameworks, MAST transforms opaque agent breakdowns into structured diagnostic data that engineering teams can actually use.
 

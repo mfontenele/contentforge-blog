@@ -17,7 +17,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-Production [AI agents](/posts/2026-03-03-ai-agent-observability-production/) are expensive. What starts as a manageable proof-of-concept quickly escalates into a budget crisis when usage scales from hundreds to millions of requests per month. Teams running naive implementations often discover that inference costs dwarf infrastructure, engineering, and even model training expenses combined.
+[Production AI](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/) agents are expensive. What starts as a manageable proof-of-concept quickly escalates into a budget crisis when usage scales from hundreds to millions of requests per month. Teams running naive implementations often discover that inference costs dwarf infrastructure, engineering, and even model training expenses combined.
 
 The good news? Cost reduction isn't about compromises. Teams implementing systematic optimization strategies report reductions of 40% to 90% without sacrificing accuracy or user experience. This article distills proven techniques from production deployments, academic research, and vendor innovations into a practical playbook you can implement today.
 
