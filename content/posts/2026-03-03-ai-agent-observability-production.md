@@ -20,7 +20,7 @@ It was a Tuesday morning when the finance team noticed the spike. The company's 
 
 *This is a composite scenario based on common production failures.*
 
-AI agent observability addresses exactly this gap. Agents don't fail like conventional services—they fail *quietly*. Without specialized infrastructure, these silent failures accumulate until they surface as cost explosions or customer churn.
+[AI agent](/posts/2026-03-04-mcp-model-context-protocol/) observability addresses exactly this gap. Agents don't fail like conventional services—they fail *quietly*. Without specialized infrastructure, these silent failures accumulate until they surface as cost explosions or customer churn.
 
 ## Why Traditional Monitoring Fails for AI Agents
 

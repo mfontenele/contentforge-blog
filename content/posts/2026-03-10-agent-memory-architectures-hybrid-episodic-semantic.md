@@ -28,7 +28,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-Every production AI agent eventually hits the same wall: the context window ends, but the conversation does not. A customer support agent that forgets last week's ticket. A research assistant that re-reads documents it already processed. A coding agent that cannot recall architecture decisions from three sessions ago — teams running agents across thousands of daily sessions feel this cost immediately. The fix is not a bigger context window — it is a memory architecture.
+Every production [AI agent](/posts/2026-03-04-mcp-model-context-protocol/) eventually hits the same wall: the context window ends, but the conversation does not. A customer support agent that forgets last week's ticket. A research assistant that re-reads documents it already processed. A coding agent that cannot recall architecture decisions from three sessions ago — teams running agents across thousands of daily sessions feel this cost immediately. The fix is not a bigger context window — it is a memory architecture.
 
 This post covers the hybrid episodic-semantic memory patterns that power production agents in 2026, with real implementations from LangChain, Google ADK, AutoGen, Mem0, and Letta.
 
@@ -44,7 +44,7 @@ The solution draws from cognitive science. Human long-term memory splits into ep
 
 In cognitive science, episodic memory encodes complete experiences as observation-action-outcome tuples, timestamped and tied to context. Semantic memory distills patterns from those episodes — the "what is generally true" extracted from "what happened that one time."
 
-The GENESIS framework formalizes this for AI agents with a **bidirectional interaction model**: episodic data shapes semantic abstraction, and semantic schemas guide episodic encoding and reconstruction [6]. When recall is incomplete, semantic patterns fill the gaps — producing schema-driven reconstruction similar to human memory. Agents with hybrid architectures generalize better because incomplete episodic traces are completed using accumulated semantic knowledge rather than failing silently.
+The GENESIS framework formalizes this [for AI agents](/posts/2026-03-03-ai-agent-observability-production/) with a **bidirectional interaction model**: episodic data shapes semantic abstraction, and semantic schemas guide episodic encoding and reconstruction [6]. When recall is incomplete, semantic patterns fill the gaps — producing schema-driven reconstruction similar to human memory. Agents with hybrid architectures generalize better because incomplete episodic traces are completed using accumulated semantic knowledge rather than failing silently.
 
 In practice:
 
@@ -59,7 +59,7 @@ The consolidation step is where frameworks diverge. A basic system appends every
 
 LangChain offers the most complete menu of memory primitives. The key types: `ConversationBufferMemory` (full history, no filtering), `ConversationBufferWindowMemory(k=N)` (last N exchanges), `ConversationSummaryMemory` (LLM-summarized, compact but lossy), `VectorStoreRetrieverMemory` (semantic similarity retrieval), and `CombinedMemory` (parallel backends merged before context injection) [2].
 
-The `CombinedMemory` pattern is the production-grade option. A typical configuration pairs `ConversationBufferWindowMemory(k=3)` for immediate conversational flow with `VectorStoreRetrieverMemory` backed by FAISS or Chroma for long-term semantic recall:
+The `CombinedMemory` pattern is the production-grade option. A typical [configuration](/posts/2026-03-05-skills-vs-mcp-declarative-agent-configuration/) pairs `ConversationBufferWindowMemory(k=3)` for immediate conversational flow with `VectorStoreRetrieverMemory` backed by FAISS or Chroma for long-term semantic recall:
 
 ```python
 memory = CombinedMemory(memories=[
@@ -127,7 +127,7 @@ The ERMAR framework extends this with **pointwise reranking**: after initial ret
 
 ## Multi-Agent Memory Sharing: Architectures for Distributed Systems
 
-Three architectural patterns dominate production multi-agent systems:
+Three architectural patterns dominate production [multi-agent systems](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/):
 
 **Centralized shared store**: All agents read and write to a single memory service. Simple, strongly consistent, but creates contention and risks cross-agent interference. Best for homogeneous agent pools.
 

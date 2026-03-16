@@ -27,7 +27,7 @@ The protocol specification uses date-based versioning, with the initial release 
 
 ## The Problem: Why AI Systems Need Better Context
 
-AI systems have long suffered from a fundamental limitation: they're trapped behind information silos and legacy systems. Despite remarkable advances in reasoning capabilities, large language models remain constrained by their isolation from the data that would make them truly useful in production environments. Every new integration — connecting an AI agent to a database, a document store, a version control system, or a third-party API — requires custom development work.
+AI systems have long suffered from a fundamental limitation: they're trapped behind information silos and legacy systems. Despite remarkable advances in reasoning capabilities, large language models remain constrained by their isolation from the data that would make them truly useful in production environments. Every new integration — connecting an [AI agent](/posts/2026-03-03-ai-agent-observability-production/) to a database, a document store, a version control system, or a third-party API — requires custom development work.
 
 This creates what industry observers call the "M×N integration problem." If you have M different AI clients and N different data sources or tools, you traditionally need M×N separate integrations [1]. Each connection requires custom code, individual security reviews, and ongoing maintenance. The result is a fragmented landscape where integration complexity grows exponentially.
 
@@ -46,7 +46,7 @@ MCP defines three key primitives that servers can expose [2]:
 
 **Resources** are named data items that clients can read, containing either text or binary content. These might represent files, database records, API responses, or any other data an AI agent needs to access.
 
-**Tools** are functions exposed by servers that clients can invoke. Unlike resources, tools must be explicitly enabled by clients — a security measure ensuring AI agents don't execute arbitrary functions without operator approval.
+**Tools** are functions exposed by servers that clients can invoke. Unlike resources, tools must be explicitly enabled by clients — a security measure ensuring AI agents don't execute arbitrary functions without [operator](/posts/2026-03-13-browser-automation-agents-openai-cua-gui-ai/) approval.
 
 **Prompts** are pre-defined templates stored on servers for specific tasks. These allow organizations to standardize common AI interactions, ensuring consistency across different client applications.
 
@@ -56,7 +56,7 @@ When a client connects to a server, they perform capability negotiation through 
 
 ## The M×N to M+N Efficiency Revolution
 
-The efficiency gains from MCP's standardized approach are transformative. Consider a typical enterprise AI deployment: an organization running Claude for document analysis, a Python agent for data processing, GitHub Copilot for coding, and a support agent for customer service — each needing access to the same databases, document repositories, and third-party APIs.
+The efficiency gains from MCP's standardized approach are transformative. Consider a typical [enterprise AI](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/) deployment: an organization running Claude for document analysis, a Python agent for data processing, GitHub Copilot for coding, and a support agent for customer service — each needing access to the same databases, document repositories, and third-party APIs.
 
 In the traditional model, each connection is a custom development project — a different implementation for every AI client, separate updates whenever a schema changes, and individual security audits for every pair. Maintenance overhead compounds rapidly.
 
