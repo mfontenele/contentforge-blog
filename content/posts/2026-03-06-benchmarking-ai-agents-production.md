@@ -98,7 +98,7 @@ Rechat's "Lucy" real estate assistant is a documented example of what evaluation
 
 **LangSmith** has the deepest integration with LangChain/LangGraph agent patterns and the most complete offline evaluation lifecycle taxonomy [5]. The trade-off is ecosystem coupling — it works best when building on LangChain primitives. Teams running custom [agent frameworks](/posts/2026-03-04-mcp-model-context-protocol/) may find Langfuse or Opik more portable.
 
-None of the three natively scores agent reasoning quality (Layer 1) without custom [configuration](/posts/2026-03-05-skills-vs-mcp-declarative-agent-configuration/). Evaluating intermediate chain-of-thought quality remains an open gap requiring domain-specific rubrics.
+None of the three natively scores agent reasoning quality (Layer 1) without custom configuration. Evaluating intermediate chain-of-thought quality remains an open gap requiring domain-specific rubrics.
 
 ## Building Your Agent Eval Stack: A Practical Starting Point
 

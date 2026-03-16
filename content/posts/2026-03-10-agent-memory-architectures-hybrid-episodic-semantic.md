@@ -59,7 +59,7 @@ The consolidation step is where frameworks diverge. A basic system appends every
 
 LangChain offers the most complete menu of memory primitives. The key types: `ConversationBufferMemory` (full history, no filtering), `ConversationBufferWindowMemory(k=N)` (last N exchanges), `ConversationSummaryMemory` (LLM-summarized, compact but lossy), `VectorStoreRetrieverMemory` (semantic similarity retrieval), and `CombinedMemory` (parallel backends merged before context injection) [2].
 
-The `CombinedMemory` pattern is the production-grade option. A typical [configuration](/posts/2026-03-05-skills-vs-mcp-declarative-agent-configuration/) pairs `ConversationBufferWindowMemory(k=3)` for immediate conversational flow with `VectorStoreRetrieverMemory` backed by FAISS or Chroma for long-term semantic recall:
+The `CombinedMemory` pattern is the production-grade option. A typical configuration pairs `ConversationBufferWindowMemory(k=3)` for immediate conversational flow with `VectorStoreRetrieverMemory` backed by FAISS or Chroma for long-term semantic recall:
 
 ```python
 memory = CombinedMemory(memories=[
