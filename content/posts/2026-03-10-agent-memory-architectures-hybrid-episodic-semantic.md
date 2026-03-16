@@ -44,7 +44,7 @@ The solution draws from cognitive science. Human long-term memory splits into ep
 
 In cognitive science, episodic memory encodes complete experiences as observation-action-outcome tuples, timestamped and tied to context. Semantic memory distills patterns from those episodes — the "what is generally true" extracted from "what happened that one time."
 
-The GENESIS framework formalizes this for AI agents with a **bidirectional interaction model**: episodic data shapes semantic abstraction, and semantic schemas guide episodic encoding and reconstruction [6]. When recall is incomplete, semantic patterns fill the gaps — producing schema-driven reconstruction similar to human memory. Agents with hybrid architectures generalize better because incomplete episodic traces are completed using accumulated semantic knowledge rather than failing silently.
+The GENESIS framework formalizes this for [AI agents](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/) with a **bidirectional interaction model**: episodic data shapes semantic abstraction, and semantic schemas guide episodic encoding and reconstruction [6]. When recall is incomplete, semantic patterns fill the gaps — producing schema-driven reconstruction similar to human memory. Agents with hybrid architectures generalize better because incomplete episodic traces are completed using accumulated semantic knowledge rather than failing silently.
 
 In practice:
 

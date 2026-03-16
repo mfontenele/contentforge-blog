@@ -17,7 +17,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-The USB-C analogy for MCP is brilliant marketing [10]. One universal port that connects everything—databases, IDEs, browsers, SaaS tools—to any AI agent that speaks the protocol. Anthropic's [Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/), launched November 25, 2024 [1], promises to eliminate the integration sprawl problem: instead of every agent needing a custom connector to every tool, agents and tools each implement a single standard. The community quickly dubbed this the shift from N×M custom integrations to a simpler model where both sides converge on one protocol.
+The USB-C analogy for MCP is brilliant marketing [10]. One universal port that connects everything—databases, IDEs, browsers, SaaS tools—to any [AI agent](/posts/2026-03-03-ai-agent-observability-production/) that speaks the protocol. Anthropic's [Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/), launched November 25, 2024 [1], promises to eliminate the integration sprawl problem: instead of every agent needing a custom connector to every tool, agents and tools each implement a single standard. The community quickly dubbed this the shift from N×M custom integrations to a simpler model where both sides converge on one protocol.
 
 But here's what the marketing doesn't emphasize: USB-C cables don't require you to run a local server, negotiate stateful sessions, or debug JSON-RPC error codes at 2 AM. MCP does.
 

@@ -26,7 +26,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-You ship an AI agent. Your offline benchmark scores look solid — the model answers evaluation questions at 87% accuracy. Then in production: it calls the wrong tool, passes malformed arguments, loops through five unnecessary steps to answer a question that should take two, and ultimately fails to resolve the user's intent even though its final text output sounds plausible.
+You ship an [AI agent](/posts/2026-03-04-mcp-model-context-protocol/). Your offline benchmark scores look solid — the model answers evaluation questions at 87% accuracy. Then in production: it calls the wrong tool, passes malformed arguments, loops through five unnecessary steps to answer a question that should take two, and ultimately fails to resolve the user's intent even though its final text output sounds plausible.
 
 That gap between benchmark score and production behavior is the central problem in agent evaluation today. Traditional accuracy metrics were designed for a world where an LLM receives one input and returns one output. Agents plan, select tools, execute multi-step trajectories, and adapt mid-run. Measuring them like static models means you're flying blind.
 

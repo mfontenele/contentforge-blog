@@ -24,7 +24,7 @@ AI agent observability addresses exactly this gap. Agents don't fail like conven
 
 ## Why Traditional Monitoring Fails for AI Agents
 
-Traditional application performance monitoring tracks uptime, latency, error rates, and throughput—excellent for request-response services where errors produce exceptions. For AI agents, these metrics are nearly useless.
+Traditional application performance monitoring tracks uptime, latency, error rates, and throughput—excellent for request-response services where errors produce exceptions. For [AI agents](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/), these metrics are nearly useless.
 
 The core issue lies in the **decision-making nature** of agent systems. An agent isn't a function that returns a computed result—it's a reasoning loop that selects tools, interprets outputs, and decides next steps. When an agent hallucinates a tool call—invoking a non-existent API endpoint or generating malformed parameters—it often receives an error response that it interprets and handles. The system continues operating while producing wrong outcomes.
 
@@ -124,7 +124,7 @@ The key insight is placing heartbeats at meaningful completion points—not just
 Teams with existing agents should prioritize observability implementation:
 
 **Phase 1: Distributed Tracing (Week 1-2)**
-- Instrument your agent framework with OpenTelemetry using GenAI semantic conventions
+- Instrument your [agent framework](/posts/2026-03-04-mcp-model-context-protocol/) with OpenTelemetry using GenAI semantic conventions
 - Route spans to an observability backend (Langfuse cloud, self-hosted, or existing Honeycomb/Datadog)
 - Ensure every tool call, model generation, and sub-agent invocation creates a span
 
