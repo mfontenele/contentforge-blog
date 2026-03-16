@@ -46,7 +46,7 @@ MCP defines three key primitives that servers can expose [2]:
 
 **Resources** are named data items that clients can read, containing either text or binary content. These might represent files, database records, API responses, or any other data an AI agent needs to access.
 
-**Tools** are functions exposed by servers that clients can invoke. Unlike resources, tools must be explicitly enabled by clients — a security measure ensuring AI agents don't execute arbitrary functions without [operator](/posts/2026-03-13-browser-automation-agents-openai-cua-gui-ai/) approval.
+**Tools** are functions exposed by servers that clients can invoke. Unlike resources, tools must be explicitly enabled by clients — a security measure ensuring AI agents don't execute arbitrary functions without operator approval.
 
 **Prompts** are pre-defined templates stored on servers for specific tasks. These allow organizations to standardize common AI interactions, ensuring consistency across different client applications.
 

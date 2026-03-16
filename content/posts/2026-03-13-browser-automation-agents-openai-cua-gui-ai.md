@@ -38,7 +38,7 @@ This is a significant shift. Understanding why it matters—and where it still f
 
 ## The Evolution of Agents: From APIs to GUI Interaction
 
-Every generation of automation has expanded the surface area an agent can reach. Shell scripts gave way to web scrapers parsing HTML, which gave way to API-first agent frameworks like LangChain and AutoGPT calling REST endpoints and processing JSON responses. Each step improved reliability and speed—but each step also depended on developers having built the right access layer.
+Every generation of automation has expanded the surface area an agent can reach. Shell scripts gave way to web scrapers parsing HTML, which gave way to API-first [agent frameworks](/posts/2026-03-04-mcp-model-context-protocol/) like LangChain and AutoGPT calling REST endpoints and processing JSON responses. Each step improved reliability and speed—but each step also depended on developers having built the right access layer.
 
 APIs are an explicit contract. If the service doesn't offer an endpoint for an action, the agent can't take it. That covers a surprising portion of the web. Most consumer-facing websites—booking platforms, e-commerce storefronts, government portals, niche business sites—have no public API. The only way to automate interactions with them is to use the front-end designed for humans: the browser.
 
@@ -121,7 +121,7 @@ Operator is an AI copilot for browser tasks, eliminating tedious manual clicking
 
 Anthropic's Computer Use capability, released in 2024, takes a similar vision-driven approach but targets a different buyer. Where OpenAI has bet on a consumer subscription model—Operator is bundled into the $200/month ChatGPT Pro tier—Anthropic's Computer Use is exposed as an enterprise developer API on a pay-per-use basis. Developers integrating Claude's computer use capability pay per API call; ChatGPT Pro subscribers get Operator included in their flat monthly subscription regardless of usage volume.
 
-The practical implications differ by use case. Anthropic's approach is better suited to teams building custom automation pipelines that need programmatic control and predictable per-task billing. OpenAI's approach is better suited to knowledge workers who want to hand off browser tasks without writing code. Both models validate the same underlying bet: visual, GUI-native automation is the next frontier [for AI agents](/posts/2026-03-03-ai-agent-observability-production/)s](/posts/2026-03-04-mcp-model-context-protocol/). The delivery mechanisms simply reflect different assumptions about who will use it and how.
+The practical implications differ by use case. Anthropic's approach is better suited to teams building custom automation pipelines that need programmatic control and predictable per-task billing. OpenAI's approach is better suited to knowledge workers who want to hand off browser tasks without writing code. Both models validate the same underlying bet: visual, GUI-native automation is the next frontier for AI agentss](/posts/2026-03-04-mcp-model-context-protocol/). The delivery mechanisms simply reflect different assumptions about who will use it and how.
 
 ## The Future of Web Automation: Hybrid API-GUI Workflows
 
