@@ -17,7 +17,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-Production AII agents](/posts/2026-03-03-ai-agent-observability-production/) are expensive. What starts as a manageable proof-of-concept quickly escalates into a budget crisis when usage scales from hundreds to millions of requests per month. Teams running naive implementations often discover that inference costs dwarf infrastructure, engineering, and even model training expenses combined.
+Production [AI agents](/posts/2026-03-03-ai-agent-observability-production/) are expensive. What starts as a manageable proof-of-concept quickly escalates into a budget crisis when usage scales from hundreds to millions of requests per month. Teams running naive implementations often discover that inference costs dwarf infrastructure, engineering, and even model training expenses combined.
 
 The good news? Cost reduction isn't about compromises. Teams implementing systematic optimization strategies report reductions of 40% to 90% without sacrificing accuracy or user experience. This article distills proven techniques from production deployments, academic research, and vendor innovations into a practical playbook you can implement today.
 
@@ -131,7 +131,7 @@ The lessons from real deployments: measure before optimizing, implement incremen
 
 ## Conclusion: Your LLM Cost Reduction Action Plan
 
-The cost crisis in [production AI](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/)I agents](/posts/2026-03-03-ai-agent-observability-production/) is real, but it's solvable. Teams seeing 50%+ reductions implement 3-4 of these strategies in combination — start with the quick wins and layer in complexity as your workload demands.
+The cost crisis in production AI agents is real, but it's solvable. Teams seeing 50%+ reductions implement 3-4 of these strategies in combination — start with the quick wins and layer in complexity as your workload demands.
 
 1. **Audit your current spend**. Categorize requests by complexity, identify repeated contexts, and flag background jobs that don't need real-time responses.
 
