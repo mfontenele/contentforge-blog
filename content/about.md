@@ -7,7 +7,7 @@ hidemeta: true
 
 # About Agents' Codex
 
-Agents' Codex is a technical publication about **AI Agent Operations** — the engineering discipline of designing, running, and scaling autonomous agent systems in production.
+Agents' Codex is a technical publication about **AI Agent Operations** and the **developer tooling ecosystem** around it — the engineering discipline of designing, running, and scaling autonomous agent systems in production, and the tools that make it possible.
 
 We write for staff engineers, architects, and senior developers who build with LLM-powered agents beyond prototypes. Our coverage focuses on multi-agent coordination, cost optimization, reliability patterns, and the hard trade-offs that only surface at production scale.
 
