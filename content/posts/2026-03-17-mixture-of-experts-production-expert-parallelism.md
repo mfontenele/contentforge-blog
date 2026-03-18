@@ -9,8 +9,8 @@ description: "How MoE models like GPT-OSS reshape production LLM inference with 
 summary: "Sparse MoE architectures have won the LLM scaling race — here is how to actually run them at production scale."
 cover:
   image: "/images/covers/2026-03-17-mixture-of-experts-production-expert-parallelism/cover.jpg"
-  alt: ""
-  caption: ""
+  alt: "Abstract neural network visualization representing distributed expert routing in Mixture of Experts architecture"
+  caption: "Cover: Neural network abstraction — Photo by Unsplash"
   relative: false
   hidden: false
 ShowToc: true
@@ -19,7 +19,7 @@ faq:
 - q: "What is the difference between Expert Parallelism and Tensor Parallelism for MoE models?"
   a: "Tensor Parallelism shards individual weight matrices across GPUs and requires all-reduce communication after each matrix multiply. Expert Parallelism assigns entire expert modules to specific GPUs and routes tokens to the device holding the required expert — eliminating all-reduce overhead and fitting far more experts in available VRAM."
 - q: "How does async weight loading work in Transformers v5?"
-  a: "The WeightConverter abstraction maps per-expert checkpoint tensors to packed runtime tensors via a thread pool, converting tensors asynchronously as they arrive from disk. This avoids the memory spike from holding both unpacked and packed tensors simultaneously, reducing Qwen 110B load time from 66s to 10s."
+  a: "The WeightConverter abstraction maps per-expert checkpoint tensors to packed runtime tensors via a thread pool, converting tensors asynchronously as they arrive from disk. This avoids the memory spike from holding both unpacked and packed tensors simultaneously, reducing Qwen 110B load time from 66s to ~20.7s (async alone); combining with tensor parallelism achieves 10.1s."
 - q: "When should I use grouped_mm vs batched_mm as the expert backend?"
   a: "Use grouped_mm for large batches or memory-constrained setups where grouped GEMM provides the best kernel utilization. Use batched_mm for consumer hardware or low-concurrency scenarios. Use eager only for debugging."
 ---
@@ -29,13 +29,13 @@ faq:
 - GPT-OSS-20B activates only 3.6B of 21B parameters per token, hitting ~115 tok/s on Apple M3 Ultra hardware.
 - Expert Parallelism distributes experts across GPUs, solving the VRAM wall that standard tensor parallelism cannot handle for large sparse models.
 
-Running a 120-billion-parameter model on a single GPU sounds like marketing copy. For dense models, it is. For Mixture of Experts architectures, it is engineering reality — GPT-OSS-120B fits on one H100 via MXFP4 quantization because it activates only 5.1 billion parameters per token [3]. The MoE wave that began with DeepSeek R1 in January 2025 has flooded the open-weights ecosystem: GPT-OSS, Kimi K2.5, Qwen 3.5, MiniMax M2, and GLM-5 all use sparse routing [1]. Every inference framework built for dense transformers struggles when experts scatter tokens across GPUs. Deploying MoE at production scale requires a different parallelism strategy, a new weight-loading pipeline, and backend-aware kernel selection. Transformers v5 delivers all three. The result is an inference stack purpose-built for sparse architectures — a genuine step change in what you can run on the hardware you already own.
+Running a 120-billion-parameter model on a single GPU sounds like marketing copy. For dense models, it is. For Mixture of Experts architectures, it is engineering reality — GPT-OSS-120B fits on one H100 via MXFP4 [quantization](/posts/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/) because it activates only 5.1 billion parameters per token [3]. The MoE wave that began with DeepSeek R1 in January 2025 has flooded the open-weights ecosystem: GPT-OSS, Kimi K2.5, Qwen 3.5, MiniMax M2, and GLM-5 all use sparse routing [1]. Every inference framework built for dense transformers struggles when experts scatter tokens across GPUs. Deploying MoE at production scale requires a different parallelism strategy, a new weight-loading pipeline, and backend-aware kernel selection. Transformers v5 delivers all three. The result is an inference stack purpose-built for sparse architectures — a genuine step change in what you can run on the hardware you already own.
 
 ## Total vs. active parameters: the math behind MoE efficiency
 
 Dense LLMs have a single compute-to-parameter relationship: every token activates every weight. MoE models break this coupling. A routing layer selects a small subset of expert feed-forward networks for each token, leaving the rest idle. The result is a model whose capacity scales with total parameters but whose inference cost scales with active parameters — a fundamentally more efficient design for large-scale deployment [1]. This is what finally makes very large models economically viable for teams without hyperscaler-scale infrastructure.
 
-GPT-OSS-20B makes the math concrete: 21B total parameters, only 3.6B active per token — a ~6x sparsity ratio [3]. That ratio allows the model to run at approximately 115 tokens per second on Apple M3 Ultra hardware. A dense 20B-class model on the same hardware would be memory-bandwidth-throttled to a fraction of that throughput. The 120B variant (117B total, 5.1B active per token) fits within a single 80GB H100 via MXFP4 quantization, which applies per-block scaling to 4-bit weights to recover quality that standard INT4 loses at MoE expert boundaries [1][3].
+GPT-OSS-20B makes the math concrete: 21B total parameters, only 3.6B active per token — a ~6x sparsity ratio [3]. That ratio allows the model to run at approximately 115 tokens per second on Apple M3 Ultra hardware. A dense 20B-class model on the same hardware would be memory-bandwidth-throttled to a fraction of that throughput. The 120B variant (117B total, 5.1B active per token) fits within a single 80GB H100 via MXFP4 post-training quantization of its MoE weight tensors, enabling single-GPU deployment at full model scale [1][3].
 
 | Model | Total Parameters | Active per Token | Sparsity Ratio | Single-GPU Fit |
 | --- | --- | --- | --- | --- |
@@ -54,7 +54,30 @@ Tensor Parallelism (TP) splits a single weight matrix across GPUs column- or row
 
 Expert Parallelism (EP) distributes entire experts across the cluster. Each GPU holds `num_experts / num_devices` experts. The router dispatches each token to the GPU holding the required expert, eliminating the all-reduce that TP requires and the pipeline bubble that PP introduces. EP scales predictably: adding more GPUs reduces expert load per device linearly. For large MoE models, EP is the only strategy that keeps VRAM requirements tractable without aggressive quantization [1]. TP and PP do not have this property — communication overhead and bubble latency both grow with device count.
 
-<!-- ILLUSTRATOR: suggested diagram — Side-by-side comparison: Tensor Parallelism sharding one weight matrix across 4 GPUs vs Expert Parallelism assigning expert groups (0-3, 4-7, etc.) to each GPU with token routing arrows pointing from router to the appropriate GPU. -->
+{{< mermaid >}}
+graph TB
+    subgraph "Tensor Parallelism (TP)"
+        T1[Token] -->|broadcast| G0[GPU0<br/>W cols 0-25%]
+        T1 -->|broadcast| G1[GPU1<br/>W cols 25-50%]
+        T1 -->|broadcast| G2[GPU2<br/>W cols 50-75%]
+        T1 -->|broadcast| G3[GPU3<br/>W cols 75-100%]
+        G0 --> AR[All-Reduce Sync]
+        G1 --> AR
+        G2 --> AR
+        G3 --> AR
+    end
+    
+    subgraph "Expert Parallelism (EP)"
+        T2[Token] --> R[Router]
+        R -->|route| E0[GPU0<br/>Experts E0-E1]
+        R -->|route| E1[GPU1<br/>Experts E2-E3]
+        R -->|route| E2[GPU2<br/>Experts E4-E5]
+        R -->|route| E3[GPU3<br/>Experts E6-E7]
+    end
+    
+    style AR fill:#ffcccc
+    style R fill:#ccffcc
+{{< /mermaid >}}
 
 ```text
 Tensor Parallelism (TP)          Expert Parallelism (EP)
@@ -97,7 +120,7 @@ Use Expert Parallelism instead of tensor parallelism whenever deploying MoE mode
 
 MoE checkpoints store individual per-expert weight tensors — natural for training, expensive at inference. Efficient grouped GEMM kernels require a single packed tensor containing all expert weights. Bridging this mismatch naively means scanning the checkpoint twice, allocating full-model memory during conversion, and blocking the GPU until the process completes [1].
 
-Transformers v5 introduces the `WeightConverter` abstraction to solve this. A converter defines source key patterns and target packing operations such as `MergeModulelist` or `Concatenate`. The loader schedules conversion via a thread pool, enabling lazy materialization that converts expert tensors into packed format as they arrive from disk. The result: Qwen 110B load time drops from 66 seconds to 10 seconds with async mode enabled [1][2].
+Transformers v5 introduces the `WeightConverter` abstraction to solve this. A converter defines source key patterns and target packing operations such as `MergeModulelist` or `Concatenate`. The loader schedules conversion via a thread pool, enabling lazy materialization that converts expert tensors into packed format as they arrive from disk. The result: Qwen 110B load time drops from ~20.7 seconds (async alone, `device_map="auto"`) to 10.1 seconds when async loading is combined with tensor parallelism [1][2].
 
 > [!TIP]
 > Set `use_async_weight_loading=True` when loading large MoE checkpoints. The improvement is most dramatic on models with 64+ experts where the packing overhead dominates cold-start latency.
@@ -106,7 +129,7 @@ Async loading also reduces peak memory during initialization. Eager loading allo
 
 The cold-start improvement matters for auto-scaling. When a new serving replica spins up to handle a traffic spike, a 66-second load time means over a minute of cold requests hitting remaining replicas. Cutting that to 10 seconds lets you scale out more aggressively without degrading tail latency during the ramp-up period [1].
 
-**KV cache and memory budgeting.** A critical MoE memory planning trap: KV cache growth is not gated by the router. Every token in the context window generates key-value pairs for every attention head in every layer, regardless of which experts were activated. KV state therefore scales with total context length, not active parameter count, and can dominate GPU memory under realistic concurrency. In auto-scaling deployments, each replica must reserve KV cache headroom proportional to max context length times concurrent sequences — entirely independent of the model's sparsity ratio. Profile this before setting memory budgets: a model that fits at batch size 1 can OOM at batch size 8 without explicit KV cache allocation [1].
+**KV cache and memory budgeting.** A critical MoE memory planning trap: KV cache growth is not gated by the router. Every token in the context window generates key-value pairs for every attention head in every layer, regardless of which experts were activated. KV state therefore scales with total context length, not active parameter count, and can dominate GPU memory under realistic concurrency. In auto-scaling deployments, each replica must reserve KV cache headroom proportional to max context length times concurrent sequences — entirely independent of the model's sparsity ratio. Profile this before setting memory budgets: a model that fits at batch size 1 can OOM at batch size 8 without explicit KV cache allocation.
 
 ## Expert backends: choosing eager, batched_mm, or grouped_mm
 
@@ -118,13 +141,13 @@ Transformers v5 ships a pluggable Expert Backend system that exposes three execu
 | batched_mm | Batched GEMM via torch.bmm | Small-batch GPU workloads, consumer hardware | Suboptimal for large batch sizes |
 | grouped_mm | Grouped GEMM via torch._grouped_mm | Large batches or memory-constrained setups | Requires compatible grouped GEMM kernel support on the target hardware |
 
-For production serving with vLLM, TensorRT-LLM, or SGLang on server-class hardware, `grouped_mm` is the recommended backend [1]. Grouped GEMM dispatches multiple expert operations in a single kernel call, reducing kernel launch overhead. For consumer hardware such as M3 Ultra running GPT-OSS-20B at ~115 tok/s, `batched_mm` performs better — batch sizes are smaller and Metal Performance Shaders do not expose a grouped GEMM primitive [1][3]. Switching backends requires no model reload; the decorator applies at the module level, so you can benchmark all three against your production request distribution before committing.
+For production serving with vLLM, TensorRT-LLM, or SGLang on server-class hardware, `grouped_mm` is the recommended backend [1]. Grouped GEMM dispatches multiple expert operations in a single kernel call, reducing kernel launch overhead. For consumer hardware such as M3 Ultra running GPT-OSS-20B at ~115 tok/s, `batched_mm` performs better — batch sizes at the edge are smaller and per-request latency matters more than throughput [1][3]. Switching backends requires no model reload; the decorator applies at the module level, so you can benchmark all three against your production request distribution before committing.
 
 ## Training efficiency: the Hugging Face + Unsloth 12x speedup
 
 Fine-tuning MoE models feeds directly into the serving stack — teams checkpoint-tune before deploying, making training efficiency a direct input to inference latency and replica cost. The Transformers v5 and Unsloth collaboration directly addresses this gap [1]. Before Transformers v5, fine-tuning a 20B MoE model required hardware most teams did not have. The v5 + Unsloth stack changes that calculus.
 
-The collaboration delivers three headline numbers compared to Transformers v4: up to ~12x faster MoE training, over 35% VRAM reduction, and up to ~6x longer context support [1]. VRAM savings come from fused expert kernels that avoid materializing intermediate activations for idle experts. Context extension benefits from attention kernel optimizations contributed upstream from Unsloth. The Transformers repository [2] tracks ongoing kernel improvements and expert-aware gradient checkpointing that further reduce memory pressure during long-context fine-tuning runs.
+The collaboration delivers three headline numbers compared to Transformers v4: up to ~12x faster MoE training, over 35% VRAM reduction, and up to ~6x longer context support [1]. VRAM savings come from fused expert kernels that avoid materializing intermediate activations for idle experts. The collaboration also enables up to ~6x longer context support [1]. The Transformers repository [2] tracks ongoing kernel improvements and expert-aware gradient checkpointing that further reduce memory pressure during long-context fine-tuning runs.
 
 ## Practical Takeaways
 
@@ -137,6 +160,20 @@ The collaboration delivers three headline numbers compared to Transformers v4: u
 
 Mixture of Experts architectures have structurally changed what is possible in production LLM deployment. A 117-billion-parameter model on one GPU was implausible twelve months ago; today it is a configuration choice. That progress depends on Expert Parallelism distributing workloads correctly, async weight loading cutting cold-start latency, and grouped GEMM backends matching kernel execution to hardware. Transformers v5 packages all three into a coherent framework designed for sparse models. Teams still running dense-model stacks should treat MoE as an infrastructure upgrade: lower hardware cost, higher throughput, and a growing ecosystem of permissively licensed models. Benchmark GPT-OSS-20B against your production workload before committing.
 
+## Frequently Asked Questions
+
+### What is the difference between Expert Parallelism and Tensor Parallelism for MoE models?
+
+Tensor Parallelism shards individual weight matrices across GPUs and requires all-reduce communication after each matrix multiply. Expert Parallelism assigns entire expert modules to specific GPUs and routes tokens to the device holding the required expert — eliminating all-reduce overhead and fitting far more experts in available VRAM.
+
+### How does async weight loading work in Transformers v5?
+
+The WeightConverter abstraction maps per-expert checkpoint tensors to packed runtime tensors via a thread pool, converting tensors asynchronously as they arrive from disk. This avoids the memory spike from holding both unpacked and packed tensors simultaneously, reducing Qwen 110B load time from 66s to ~20.7s (async alone); combining with tensor parallelism achieves 10.1s.
+
+### When should I use grouped_mm vs batched_mm as the expert backend?
+
+Use grouped_mm for large batches or memory-constrained setups where grouped GEMM provides the best kernel utilization. Use batched_mm for consumer hardware or low-concurrency scenarios. Use eager only for debugging.
+
 ---
 
 ## Sources
@@ -144,5 +181,5 @@ Mixture of Experts architectures have structurally changed what is possible in p
 | # | Publisher | Title | URL | Date | Type |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Hugging Face | "MoE in Transformers" | https://huggingface.co/blog/moe-transformers | 2026-03 | Blog |
-| 2 | Hugging Face | "Transformers: MoE Expert Backend Implementation" | https://github.com/huggingface/transformers/blob/main/src/transformers/integrations/moe_experts.py | 2026-03 | Documentation |
+| 2 | Hugging Face | "Transformers: MoE Expert Backend Implementation (moe.py)" | https://github.com/huggingface/transformers/blob/main/src/transformers/integrations/moe.py | 2026-03 | Documentation |
 | 3 | OpenAI / Hugging Face | "GPT-OSS-20B Model Card" | https://huggingface.co/openai/gpt-oss-20b | 2026-03 | Documentation |
