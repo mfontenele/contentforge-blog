@@ -10,7 +10,7 @@ summary: "Sparse MoE architectures have won the LLM scaling race — here is how
 cover:
   image: "/images/covers/2026-03-17-mixture-of-experts-production-expert-parallelism/cover.jpg"
   alt: "Abstract neural network visualization representing distributed expert routing in Mixture of Experts architecture"
-  caption: "Cover: Neural network abstraction — Photo by Unsplash"
+  caption: "Photo by [Shubham Dhage](https://unsplash.com/@theshubhamdhage) on [Unsplash](https://unsplash.com/photos/1639322537228-f710d846310a)"
   relative: false
   hidden: false
 ShowToc: true
@@ -78,23 +78,6 @@ graph TB
     style AR fill:#ffcccc
     style R fill:#ccffcc
 {{< /mermaid >}}
-
-```text
-Tensor Parallelism (TP)          Expert Parallelism (EP)
-─────────────────────────        ─────────────────────────
-  Single weight matrix W           Experts E0–E7 distributed
-
-  GPU0 | W[cols  0–25%]            GPU0 | E0, E1
-  GPU1 | W[cols 25–50%]            GPU1 | E2, E3
-  GPU2 | W[cols 50–75%]            GPU2 | E4, E5
-  GPU3 | W[cols 75–100%]           GPU3 | E6, E7
-
-  Token → broadcast to ALL GPUs   Token → routed to ONE GPU
-  Result → all-reduce (sync)       Result → no all-reduce needed
-
-  ✗ All-reduce cost grows with N   ✓ Communication stays local
-  ✗ Experts share sharded VRAM     ✓ Each GPU owns full experts
-```
 
 In Transformers v5, EP is enabled via `DistributedConfig(enable_expert_parallel=True)`. Two primitives power the implementation: `GroupedGemmParallel` shards expert weights along the expert dimension, enabling single-kernel dispatch to multiple experts. `RouterParallel` remaps global expert indices to local device indices so routing decisions on one GPU correctly resolve to weights on another [1].
 
