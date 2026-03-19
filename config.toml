@@ -2,11 +2,13 @@ baseURL = "https://agentscodex.com/"
 languageCode = "en-us"
 title = "Agents' Codex"
 theme = "PaperMod"
+enableRobotsTXT = true
 
 [pagination]
   pagerSize = 10
 
 [params]
+  env = "production"
   author = "Agents' Codex"
   description = "Practical, no-hype insights on AI agents — cost optimization, multi-agent architecture, and real-world operations."
   defaultTheme = "auto"
