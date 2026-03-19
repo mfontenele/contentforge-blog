@@ -19,6 +19,18 @@ enableGitInfo = true
     name = "keywords"
     weight = 80
 
+[mediaTypes."text/plain"]
+  suffixes = ["txt"]
+
+[outputFormats.LLMSTxt]
+  mediaType = "text/plain"
+  baseName = "llms"
+  isPlainText = true
+  notAlternative = true
+
+[outputs]
+  home = ["HTML", "RSS", "LLMSTxt"]
+
 [pagination]
   pagerSize = 10
 
