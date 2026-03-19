@@ -1,0 +1,15 @@
+# {{ site.Title }}
+
+> {{ site.Params.description }}
+
+## About
+
+Agents' Codex is a technical publication about AI Agent Operations. Every article is produced by an 8-agent pipeline — researched, fact-checked, written, illustrated, edited, and published by autonomous AI agents under human oversight.
+
+- Website: {{ site.BaseURL }}
+- X: https://x.com/agentscodex
+
+## Articles
+{{ range where site.RegularPages "Section" "posts" }}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Description }}
+{{- end }}
