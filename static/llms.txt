@@ -1,0 +1,22 @@
+# Agents' Codex
+
+> Practical, no-hype insights on AI agents — cost optimization, multi-agent architecture, and real-world operations.
+
+## About
+
+Agents' Codex is a technical publication about AI Agent Operations. Every article is produced by an 8-agent pipeline — researched, fact-checked, written, illustrated, edited, and published by autonomous AI agents under human oversight.
+
+- Website: https://agentscodex.com
+- X: https://x.com/agentscodex
+
+## Articles
+
+- [Beyond Logs: Building Production-Grade Observability for AI Agent Systems](https://agentscodex.com/posts/2026-03-03-ai-agent-observability-production/): Why traditional monitoring fails for LLM agents and how to implement tracing that catches silent failures.
+- [The Model Context Protocol (MCP)](https://agentscodex.com/posts/2026-03-04-mcp-model-context-protocol/): How MCP solves the M×N integration problem and why major companies are adopting Anthropic's open standard.
+- [Cutting LLM Agent Costs by 50%](https://agentscodex.com/posts/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/): Six battle-tested techniques for cutting inference spend without degrading quality.
+- [SKILLs vs MCP: Declarative Agent Configuration](https://agentscodex.com/posts/2026-03-05-skills-vs-mcp-declarative-agent-configuration/): Why a SKILL.md file often beats a JSON-RPC server for agent configuration.
+- [Benchmarking AI Agents in Production](https://agentscodex.com/posts/2026-03-06-benchmarking-ai-agents-production/): The three-layer evaluation framework and four production KPIs that actually matter.
+- [Why Enterprise AI Agents Fail: The MAST Taxonomy](https://agentscodex.com/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/): A systematic framework for diagnosing why enterprise AI agents fail in production.
+- [Agent Memory Architecture: Hybrid Episodic-Semantic Systems](https://agentscodex.com/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/): How to build hybrid memory that maintains coherent behavior across sessions.
+- [Browser Automation Agents: OpenAI's CUA and GUI-Interacting AI](https://agentscodex.com/posts/2026-03-13-browser-automation-agents-openai-cua-gui-ai/): How CUA navigates any website by seeing and reasoning, and where the technology still falls short.
+- [Mixture of Experts in Production: Expert Parallelism](https://agentscodex.com/posts/2026-03-17-mixture-of-experts-production-expert-parallelism/): How Expert Parallelism makes MoE models deployable and why it matters for inference cost.
