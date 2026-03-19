@@ -3,6 +3,21 @@ languageCode = "en-us"
 title = "Agents' Codex"
 theme = "PaperMod"
 enableRobotsTXT = true
+enableGitInfo = true
+
+[frontmatter]
+  lastmod = [":git", "lastmod", "date"]
+
+[related]
+  threshold = 30
+  includeNewer = true
+  toLower = true
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "keywords"
+    weight = 80
 
 [pagination]
   pagerSize = 10

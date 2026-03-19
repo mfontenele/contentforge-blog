@@ -1,0 +1,11 @@
+{{- $related := where (.Site.RegularPages.Related .) "Section" "posts" | first 3 }}
+{{- with $related }}
+<div class="related-articles" style="margin-top: 2em; padding-top: 1.5em; border-top: 1px solid var(--border);">
+  <h3>Related Articles</h3>
+  <ul>
+    {{- range . }}
+    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</div>
+{{- end }}

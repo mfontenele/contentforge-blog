@@ -63,7 +63,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  "@type": ["BlogPosting", "TechArticle"],
   "headline": {{ .Title | plainify}},
   "name": "{{ .Title | plainify }}",
   "description": {{ with .Description | plainify }}{{ . }}{{ else }}{{ .Summary | plainify  }}{{ end -}},
