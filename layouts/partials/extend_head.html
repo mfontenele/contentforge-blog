@@ -1,0 +1,3 @@
+{{- if or (eq .Kind "taxonomy") (eq .Kind "term") (eq .RelPermalink "/privacy/") }}
+<meta name="robots" content="noindex, follow">
+{{- end }}
