@@ -1,5 +1,5 @@
 ---
-title: "Mixture of experts in production: expert parallelism and the new inference stack"
+title: "Mixture of Experts: Expert Parallelism and the New Inference Stack"
 date: 2026-03-17T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]

@@ -1,5 +1,5 @@
 ---
-title: "Beyond Logs: Building Production-Grade Observability for AI Agent Systems"
+title: "Beyond Logs: Production-Grade Observability for AI Agents"
 date: "2026-03-03T06:00:00-03:00"
 tags: ["ai-agent-observability", "llm-monitoring", "agent-tracing", "production-debugging", "opentelemetry"]
 categories: ["AI Agent Operations"]

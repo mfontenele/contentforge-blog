@@ -1,5 +1,5 @@
 ---
-title: "Browser Automation Agents in 2025: OpenAI's CUA and the Rise of GUI-Interacting AI"
+title: "Browser Automation Agents: OpenAI's CUA and GUI-Based AI"
 date: 2026-03-13T06:00:00-03:00
 draft: false
 description: "OpenAI's Operator and its Computer-Using Agent (CUA) can click, scroll, and navigate like a human. Here's how CUA works, where it beats RPA, and where it still falls short."

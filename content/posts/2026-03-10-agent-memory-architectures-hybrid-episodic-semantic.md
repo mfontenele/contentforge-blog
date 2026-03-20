@@ -1,5 +1,5 @@
 ---
-title: "Agent Memory Architecture: Hybrid Episodic-Semantic Systems for Production AI"
+title: "Agent Memory: Hybrid Episodic-Semantic Systems for Production"
 date: 2026-03-10T06:00:00-03:00
 draft: false
 description: "How production AI agents use hybrid episodic-semantic memory to scale beyond context windows — with implementations in LangChain, AutoGen, Mem0, and Letta."
