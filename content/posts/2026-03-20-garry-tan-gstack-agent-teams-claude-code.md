@@ -9,8 +9,8 @@ description: "Garry Tan's gstack reached 20,000 GitHub stars in days by turning 
 summary: "gstack packages 21 Claude Code role configurations as SKILL.md files — and that's both its strength and its limit."
 cover:
   image: "/images/covers/2026-03-20-garry-tan-gstack-agent-teams-claude-code/cover.jpg"
-  alt: "AI robot figurines arranged as team members working on computers"
-  caption: "Photo by [Possessed Photography](https://unsplash.com/@possessedphotography) on [Unsplash](https://unsplash.com/photos/TicoyfucU5s)"
+  alt: "White humanoid robot with dark visor against dark background"
+  caption: "Photo by [Possessed Photography](https://unsplash.com/@possessedphotography) on [Unsplash](https://unsplash.com/photos/JjGXjESMxOY)"
   relative: false
   hidden: false
 ShowToc: true
@@ -227,4 +227,4 @@ No. AutoGen entered maintenance mode in October 2025 and has been consolidated i
 
 ## Image Credits
 
-- **Cover photo**: [Possessed Photography](https://unsplash.com/@possessedphotography) on [Unsplash](https://unsplash.com/photos/TicoyfucU5s)
+- **Cover photo**: [Possessed Photography](https://unsplash.com/@possessedphotography) on [Unsplash](https://unsplash.com/photos/JjGXjESMxOY)
