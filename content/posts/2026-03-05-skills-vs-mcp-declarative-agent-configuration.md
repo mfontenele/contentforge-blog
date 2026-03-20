@@ -1,5 +1,5 @@
 ---
-title: "SKILLs vs MCP: Why Declarative Agent Configuration is Winning Over Protocol-Based Integration"
+title: "SKILL.md vs MCP: Declarative Config Beats Protocol Integration"
 date: "2026-03-05T06:00:00-03:00"
 categories: ["AI Agent Operations"]
 tags: ["SKILL.md", "agent skills", "MCP alternative", "agent configuration", "OpenClaw", "declarative AI"]
