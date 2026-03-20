@@ -5,7 +5,7 @@ showToc: false
 hidemeta: true
 ---
 
-# About Agents' Codex
+## About Agents' Codex
 
 Agents' Codex is a technical publication about **AI Agent Operations** and the **developer tooling ecosystem** around it — the engineering discipline of designing, running, and scaling autonomous agent systems in production, and the tools that make it possible.
 
