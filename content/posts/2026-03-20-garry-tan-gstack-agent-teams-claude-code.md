@@ -19,19 +19,21 @@ faq:
 - q: "Is gstack actually multi-agent orchestration or just prompt engineering?"
   a: "It's structured prompt engineering. gstack uses a single Claude Code instance that switches roles based on which SKILL.md file is invoked. True multi-agent orchestration requires multiple independent instances with direct message-passing and dynamic coordination — gstack requires a human to sequence every step."
 - q: "Can I use gstack's SKILL.md files with tools other than Claude Code?"
-  a: "Yes. The SKILL.md standard is portable across Claude Code, OpenAI Codex CLI, GitHub Copilot, VS Code, Cursor, and LangChain deep agents. The files are plain Markdown with YAML frontmatter — no proprietary bindings."
+  a: "Yes. The SKILL.md standard is portable across Claude Code, OpenAI Codex CLI, GitHub Copilot, VS Code, Cursor, and LM-Kit.NET. The files are plain Markdown with YAML frontmatter — no proprietary bindings."
 - q: "What is Conductor and do I need it to use gstack?"
   a: "Conductor is a Mac app that runs multiple Claude Code instances in isolated Git worktrees. You don't need it for gstack's role-switching features, but Tan's high line-count productivity figures depend on it for parallelism."
 - q: "When should I use LangGraph or CrewAI instead of gstack?"
   a: "Reach for a full orchestration framework when your workflow requires agents to delegate tasks to other agents without human intervention, persistent shared state across agent boundaries, or RAG integration during execution."
 - q: "AutoGen is listed everywhere — is it still worth learning?"
-  a: "No. AutoGen entered maintenance mode in October 2025 and has been consolidated into Microsoft's Agent Framework. Start fresh on Microsoft Agent Framework, or use the official migration guide if you have existing AutoGen workflows."
+  a: "No. AutoGen entered maintenance mode in October 2025 and has been consolidated into Microsoft's Agent Framework. Start fresh on Microsoft Agent Framework, or use the official migration guide if you have existing AutoGen workflows.
+
+---"
 ---
 
 **TL;DR**
 
 - gstack simulates a 15-person engineering org through specialized Claude Code prompts, not true multi-agent orchestration — a distinction that determines whether it fits your workflow.
-- Garry Tan reports 600,000 lines of production code in 60 days using gstack plus Conductor for parallel worktrees; the SKILL.md standard underlying gstack is portable across five major AI coding tools.
+- Garry Tan reports 600,000 lines of production code in 60 days using gstack plus Conductor for parallel worktrees; the SKILL.md standard underlying gstack is portable across six major AI coding tools.
 - Caylent's two-year AWS Bedrock study found prompt engineering delivers better ROI than orchestration frameworks — build eval frameworks and optimize prompts before reaching for CrewAI or LangGraph.
 
 Twenty thousand GitHub stars in under a week. Garry Tan's gstack landed on March 12, 2026, and immediately split the developer community between two camps: those who saw it as proof that one engineer with the right prompts can outproduce a mid-sized team, and those who called it well-branded prompt engineering dressed up as something more.
@@ -42,7 +44,7 @@ Both camps are partly right — and missing the practical point. gstack isn't a 
 
 When Garry Tan published gstack on March 12, 2026, he included a claim that stopped developers mid-scroll: **600,000 lines of production code in 60 days**, averaging 10,000–20,000 usable lines per day as a part-time activity alongside running Y Combinator [1]. The repository hit approximately 20,000 stars and over 2,200 forks within days of launch [1].
 
-The controversy that followed wasn't really about Tan's numbers. It was about classification. If gstack counts as multi-agent orchestration, it's a landmark demonstration of what a single operator can achieve with the right framework. If it's sophisticated prompt engineering, the bar looks lower — and the implications for [enterprise AI](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/) adoption shift considerably [2].
+The controversy that followed wasn't really about Tan's numbers. It was about classification. If gstack counts as multi-agent orchestration, it's a landmark demonstration of what a single operator can achieve with the right framework. If it's sophisticated prompt engineering, the bar looks lower — and the implications for enterprise AI adoption shift considerably [2].
 
 TechCrunch noted that gstack attracted both intense admiration and significant skepticism precisely because this classification question has no clean answer [2]. The architecture sits in an uncomfortable middle ground, and understanding where it sits is the prerequisite for deciding whether it belongs in your workflow.
 
@@ -54,17 +56,18 @@ Each SKILL.md file contains YAML frontmatter with a name and trigger description
 
 | Slash Command | Role | Primary Focus |
 | --- | --- | --- |
-| /plan-ceo-review | Founder/CEO | Product strategy, reframing ("Brian Chesky mode") |
+| /office-hours | YC Office Hours (THINK) | Design doc, "Brian Chesky mode" founder review |
+| /plan-ceo-review | Founder/CEO | Product strategy, scope |
 | /plan-eng-review | Engineering Manager | Architecture, data flow, edge cases |
 | /review | Staff Engineer | Bug detection, production risk assessment |
-| /browse | QA Engineer | [Browser automation](/posts/2026-03-13-browser-automation-agents-openai-cua-gui-ai/) with screenshots |
+| /browse | QA Engineer | Browser automation with screenshots |
 | /ship | Release Engineer | Tests, coverage audit, PR creation |
 | /retro | Engineering Manager | Weekly retrospective with commit analysis |
 | /codex | Cross-model reviewer | OpenAI Codex CLI integration for second opinion |
 
-The SKILL.md standard is intentionally portable. The same files work across Claude Code, OpenAI Codex CLI, GitHub Copilot, VS Code, Cursor, and LangChain deep agents [3]. This portability is one of gstack's strongest practical arguments — you're not locked into a single toolchain.
+The SKILL.md standard is intentionally portable. The same files work across Claude Code, OpenAI Codex CLI, GitHub Copilot, VS Code, Cursor, and LM-Kit.NET [3]. This portability is one of gstack's strongest practical arguments — you're not locked into a single toolchain.
 
-The process Tan describes follows a six-phase loop: THINK (design doc with `/office-hours`), PLAN (CEO, engineering, and design reviews), BUILD (implementation), REVIEW (`/review` and `/codex` for cross-model analysis), TEST (`/browse` for browser automation), and SHIP (`/ship` for tests, coverage, and PR creation) [1].
+The process Tan describes follows a seven-phase loop: THINK (design doc with `/office-hours`), PLAN (CEO, engineering, and design reviews), BUILD (implementation), REVIEW (`/review` and `/codex` for cross-model analysis), TEST (`/browse` for browser automation), SHIP (`/ship` for tests, coverage, and PR creation), and REFLECT (retrospective and learning capture) [1].
 
 ```mermaid
 flowchart LR
@@ -73,6 +76,7 @@ flowchart LR
     BUILD --> REVIEW["REVIEW\n/review, /codex"]
     REVIEW --> TEST["TEST\n/browse"]
     TEST --> SHIP["SHIP\n/ship"]
+    SHIP --> REFLECT["REFLECT\nRetrospective"]
 ```
 
 ## The multi-agent question: what gstack can and cannot do autonomously
@@ -90,7 +94,7 @@ The classification debate hinges on a concrete architectural distinction. True m
 
 CrewAI supports role-based crews with structured sequential workflows [4]. LangGraph implements state-machine graphs with persistent state and error isolation [6]. Google ADK provides hierarchical orchestration with 100+ connectors and native Vertex AI deployment [5]. These frameworks support scenarios where an orchestrator agent dynamically delegates subtasks and aggregates results without a human in the loop at every step.
 
-AutoGen, once a prominent player in this space, entered maintenance mode in October 2025 and has been consolidated into Microsoft's [Agent Framework](/posts/2026-03-04-mcp-model-context-protocol/) [9]. Teams still running AutoGen workflows should plan migrations — the project's own migration guide now points to the Microsoft Agent Framework as the supported path forward [9].
+AutoGen, once a prominent player in this space, entered maintenance mode in October 2025 and has been consolidated into Microsoft's Agent Framework [9]. Teams still running AutoGen workflows should plan migrations — the project's own migration guide now points to the Microsoft Agent Framework as the supported path forward [9].
 
 {{< key-takeaway >}}
 gstack is human-orchestrated role specialization, not autonomous multi-agent coordination. That distinction determines whether it fits your use case — not whether it's 'real' AI.
@@ -174,7 +178,7 @@ The SKILL.md standard underlying gstack offers a migration path: skills you auth
 1. Start with gstack's `/plan-eng-review` and `/review` skills before adding any others — these two roles address the highest-value gaps in solo AI-assisted development (architecture review and pre-ship risk assessment).
 2. Use Conductor for parallel Claude Code sessions only after you've established a reliable single-session workflow with gstack; parallelism amplifies both good and bad practices.
 3. Before adopting CrewAI, LangGraph, or Google ADK, document the specific capability your workflow requires that gstack cannot provide — this prevents adding orchestration overhead without a concrete payoff.
-4. Treat your SKILL.md files as first-class artifacts: version them in Git, document their trigger conditions precisely, and reuse them across projects. The SKILL.md standard is portable across at least five major AI coding tools.
+4. Treat your SKILL.md files as first-class artifacts: version them in Git, document their trigger conditions precisely, and reuse them across projects. The SKILL.md standard is portable across at least six major AI coding tools.
 5. Apply the Caylent sequence when scaling: eval framework first, prompt optimization second, orchestration framework only after single-agent approaches fail a specific test.
 
 ## Conclusion
@@ -193,7 +197,7 @@ It's structured prompt engineering. gstack uses a single Claude Code instance th
 
 ### Can I use gstack's SKILL.md files with tools other than Claude Code?
 
-Yes. The SKILL.md standard is portable across Claude Code, OpenAI Codex CLI, GitHub Copilot, VS Code, Cursor, and LangChain deep agents. The files are plain Markdown with YAML frontmatter — no proprietary bindings.
+Yes. The SKILL.md standard is portable across Claude Code, OpenAI Codex CLI, GitHub Copilot, VS Code, Cursor, and LM-Kit.NET. The files are plain Markdown with YAML frontmatter — no proprietary bindings.
 
 ### What is Conductor and do I need it to use gstack?
 
@@ -209,6 +213,8 @@ No. AutoGen entered maintenance mode in October 2025 and has been consolidated i
 
 ---
 
+---
+
 ## Sources
 
 | # | Publisher | Title | URL | Date | Type |
@@ -218,7 +224,7 @@ No. AutoGen entered maintenance mode in October 2025 and has been consolidated i
 | 3 | lm-kit.com | "Agent Skills Explained — Anthropic SKILL.md Standard" | https://lm-kit.com/blog/agent-skills-explained/ | 2025-12 | Blog |
 | 4 | CrewAI | "CrewAI Official Documentation" | https://docs.crewai.com | 2025 | Documentation |
 | 5 | Google | "Agent Development Kit (ADK) Documentation" | https://google.github.io/adk-docs/ | 2025 | Documentation |
-| 6 | LangChain | "LangGraph Documentation" | https://langchain-ai.github.io/langgraph/ | 2025 | Documentation |
+| 6 | LangChain | "LangGraph Documentation" | https://docs.langchain.com/oss/python/langgraph/ | 2025 | Documentation |
 | 7 | Caylent | "Agentic AI: Why Prompt Engineering Delivers Better ROI Than Orchestration" | https://caylent.com/blog/agentic-ai-why-prompt-engineering-delivers-better-roi-than-orchestration | 2025 | Blog |
 | 8 | Conductor | "Conductor Documentation" | https://docs.conductor.build | 2025 | Documentation |
 | 9 | Microsoft | "Migration Guide: From AutoGen to Microsoft Agent Framework" | https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/ | 2025-10 | Documentation |
