@@ -25,9 +25,7 @@ faq:
 - q: "When should I use LangGraph or CrewAI instead of gstack?"
   a: "Reach for a full orchestration framework when your workflow requires agents to delegate tasks to other agents without human intervention, persistent shared state across agent boundaries, or RAG integration during execution."
 - q: "AutoGen is listed everywhere — is it still worth learning?"
-  a: "No. AutoGen entered maintenance mode in October 2025 and has been consolidated into Microsoft's Agent Framework. Start fresh on Microsoft Agent Framework, or use the official migration guide if you have existing AutoGen workflows.
-
----"
+  a: "No. AutoGen entered maintenance mode in October 2025 and has been consolidated into Microsoft's Agent Framework. Start fresh on Microsoft Agent Framework, or use the official migration guide if you have existing AutoGen workflows."
 ---
 
 **TL;DR**
