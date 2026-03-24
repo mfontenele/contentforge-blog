@@ -9,8 +9,8 @@ description: "Fine-tuning costs $5K–$50K upfront and punishes you every time y
 summary: "The TCO math has shifted decisively toward RAG for most enterprise agents — unless your query volume exceeds 100K/day with static knowledge."
 cover:
   image: "/images/covers/2026-03-24-measuring-rag-vs-finetuning-roi-agent-knowledge/cover.jpg"
-  alt: "Laptop computer representing AI technology infrastructure for RAG and fine-tuning comparison"
-  caption: "Photo by [Microsoft Copilot](https://unsplash.com/@microsoftcopilot) on [Unsplash](https://unsplash.com/photos/Zcp8xN9DnjM)"
+  alt: "Abstract digital artwork showing a knowledge database, neural network, and balanced scales representing the RAG vs fine-tuning cost comparison"
+  caption: "AI-generated cover (Flux Pro)"
   relative: false
   hidden: false
 ShowToc: true
@@ -163,4 +163,4 @@ Prompt caching allows frequently accessed context — like a system prompt conta
 
 ## Image Credits
 
-- **Cover photo**: [Microsoft Copilot](https://unsplash.com/@microsoftcopilot) on [Unsplash](https://unsplash.com/photos/Zcp8xN9DnjM)
+- **Cover photo**: AI Generated (Flux Pro)
