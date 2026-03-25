@@ -99,7 +99,7 @@ The 'RAG vs. fine-tuning' frame is a false binary. The enterprise architectures 
 
 The pattern: fine-tune a small, cheap open-source model to internalize behavioral norms — output format, tone, refusal policies. Then deploy it with a RAG layer that injects factual context at query time. The model handles the *how*; the vector database handles the *what* [2][5]. Behavioral fine-tuning is a one-time cost. RAG handles dynamic knowledge with zero model retraining overhead.
 
-Managed infrastructure has made this practical: Pinecone, Weaviate, and Qdrant offer serverless RAG, while AWS Bedrock Knowledge Bases and Azure AI Search have commoditized the orchestration layer — reducing what previously required custom LangChain code to a configuration exercise [6][7].
+Managed infrastructure has made this practical: [Pinecone](https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-03-24-measuring-rag-vs-finetuning-roi-agent-knowledge), Weaviate, and Qdrant offer serverless RAG, while AWS Bedrock Knowledge Bases and Azure AI Search have commoditized the orchestration layer — reducing what previously required custom LangChain code to a configuration exercise [6][7].
 
 ## Architecting for Operational Agility
 
@@ -146,6 +146,8 @@ Yes, and this hybrid approach is increasingly the default for enterprise AI in 2
 ### How has prompt caching changed the economics of RAG?
 
 Prompt caching allows frequently accessed context — like a system prompt containing static reference documents — to be cached server-side and billed at a fraction of standard input token rates. Providers including Anthropic offer this at 60–90% cost reductions for cached tokens. For RAG systems with a stable retrieval corpus, this dramatically cuts the per-query context cost that previously made RAG expensive at high query volumes.
+
+*This post may contain affiliate links. We may earn a small commission if you sign up through our links, at no extra cost to you.*
 
 ---
 
