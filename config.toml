@@ -49,6 +49,9 @@ enableGitInfo = true
   disableScrollToTop = false
   comments = false
 
+[params.social]
+  twitter = "@agentscodex"
+
 [params.homeInfoParams]
   Title = "Agents’ Codex"
   Content = "Practical, no-hype writing on AI agents — cost control, multi-agent architecture, and real-world operations."
