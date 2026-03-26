@@ -19,3 +19,4 @@ node_modules/
 
 # Hugo cache
 .hugo_build.lock
+static/images/mermaid/
