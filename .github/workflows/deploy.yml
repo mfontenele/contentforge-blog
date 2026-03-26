@@ -24,6 +24,14 @@ jobs:
           submodules: recursive
           fetch-depth: 2
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install mermaid-cli
+        run: npm install -g @mermaid-js/mermaid-cli
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
@@ -34,8 +42,14 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      - name: Pre-render mermaid diagrams
+        run: bash scripts/render-mermaid.sh
+
       - name: Build
         run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Patch RSS mermaid diagrams
+        run: python3 scripts/patch-rss-mermaid.py
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
