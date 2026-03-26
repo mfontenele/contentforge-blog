@@ -1,7 +1,7 @@
 ---
 title: "Why Enterprise AI Agents Fail: Understanding the MAST Taxonomy"
 date: 2026-03-09T06:00:00-03:00
-description: "Enterprise AI agents fail at alarming rates. The MAST taxonomy from UC Berkeley transforms opaque failures into actionable diagnostic data—here's what IT teams need to know."
+description: "Enterprise AI agents fail at alarming rates. The MAST taxonomy from UC Berkeley turns opaque failures into actionable diagnostics."
 tags: ["ai-agents", "enterprise-automation", "multi-agent-systems", "reliability", "it-automation"]
 keywords: ["MAST taxonomy", "AI agent failures", "enterprise automation", "agent reliability", "ITBench", "multi-agent debugging", "LLM validation", "agent verification"]
 draft: false

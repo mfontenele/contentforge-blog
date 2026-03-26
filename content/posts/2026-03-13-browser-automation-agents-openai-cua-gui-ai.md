@@ -2,7 +2,7 @@
 title: "Browser Automation Agents: OpenAI's CUA and GUI-Based AI"
 date: 2026-03-13T06:00:00-03:00
 draft: false
-description: "OpenAI's Operator and its Computer-Using Agent (CUA) can click, scroll, and navigate like a human. Here's how CUA works, where it beats RPA, and where it still falls short."
+description: "OpenAI's Operator and its Computer-Using Agent (CUA) can click, scroll, and navigate like a human. How CUA works and where it still falls short."
 summary: "OpenAI's Computer-Using Agent (CUA) navigates any website by seeing and reasoning — no DOM, no selectors. This deep dive covers how CUA works, how it compares to Anthropic's approach and traditional RPA, and where the technology still falls short."
 tags:
   - ai-agents

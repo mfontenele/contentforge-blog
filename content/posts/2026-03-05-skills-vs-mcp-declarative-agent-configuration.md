@@ -4,7 +4,7 @@ date: "2026-03-05T06:00:00-03:00"
 categories: ["AI Agent Operations"]
 tags: ["SKILL.md", "agent skills", "MCP alternative", "agent configuration", "OpenClaw", "declarative AI"]
 keywords: ["SKILL.md", "agent skills", "MCP alternative", "agent configuration", "OpenClaw", "declarative AI"]
-description: "MCP's USB-C analogy sounds perfect—but the reality involves JSON-RPC servers, stateful sessions, and infrastructure overhead. Here's why a simple markdown file often beats a protocol-based approach."
+description: "MCP's USB-C analogy sounds perfect — but the reality involves JSON-RPC servers and infrastructure overhead. Why a simple markdown file often beats a protocol."
 draft: false
 summary: "MCP's USB-C analogy sounds perfect—but the reality involves JSON-RPC servers, stateful sessions, and infrastructure overhead. Here's why a simple markdown file often beats a protocol-based approach."
 cover:
