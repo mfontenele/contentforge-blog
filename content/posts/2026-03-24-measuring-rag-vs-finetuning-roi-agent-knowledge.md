@@ -5,7 +5,7 @@ draft: false
 categories: ["AI Agent Operations"]
 tags: ["rag", "fine-tuning", "llm-costs", "enterprise-ai", "agent-architecture"]
 keywords: ["RAG vs fine-tuning cost", "LLM fine-tuning ROI", "retrieval augmented generation enterprise", "knowledge drift fine-tuning", "AI agent memory architecture"]
-description: "Fine-tuning costs $5K–$50K upfront and punishes you every time your data changes. RAG costs a fraction and updates in seconds. Here's the math that decides which one belongs in your agent stack."
+description: "Fine-tuning costs $5K–$50K upfront and punishes you every time data changes. RAG updates in seconds. Here's the math for your agent stack."
 summary: "The TCO math has shifted decisively toward RAG for most enterprise agents — unless your query volume exceeds 100K/day with static knowledge."
 cover:
   image: "/images/covers/2026-03-24-measuring-rag-vs-finetuning-roi-agent-knowledge/cover.jpg"

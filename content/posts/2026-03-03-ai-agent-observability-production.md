@@ -3,7 +3,7 @@ title: "Beyond Logs: Production-Grade Observability for AI Agents"
 date: "2026-03-03T06:00:00-03:00"
 tags: ["ai-agent-observability", "llm-monitoring", "agent-tracing", "production-debugging", "opentelemetry"]
 categories: ["AI Agent Operations"]
-description: "AI agent observability is essential for production. Learn why traditional monitoring fails for LLM agents and how to implement tracing that catches silent failures."
+description: "AI agent observability is essential for production. Learn why traditional monitoring fails for LLM agents and how to implement tracing that catches failures."
 summary: "A deep dive into the unique failure modes of production AI agents and the observability infrastructure needed to detect silent failures, monitor costs, and maintain reliability at scale."
 draft: false
 cover:

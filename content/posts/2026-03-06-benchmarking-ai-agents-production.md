@@ -1,7 +1,7 @@
 ---
 title: "Benchmarking AI Agents: Metrics That Matter Beyond Accuracy"
 date: "2026-03-06T06:00:00-03:00"
-description: "Accuracy benchmarks built for static LLMs fail completely when applied to AI agents. Here's the three-layer evaluation framework, four production KPIs, and CI/CD integration patterns that actually work."
+description: "Accuracy benchmarks built for static LLMs fail for AI agents. The three-layer evaluation framework and production KPIs that actually work."
 tags: ["ai agents", "llm evaluation", "agent benchmarking", "production ai", "mlops"]
 keywords:
 - agent evaluation metrics
