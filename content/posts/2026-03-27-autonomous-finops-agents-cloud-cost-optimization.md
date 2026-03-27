@@ -120,25 +120,6 @@ The results from production deployments are concrete—and consistent. One AWS c
 
 Across organizations adopting AI-enabled FinOps, year-one savings average 25–35% through rightsizing and idle resource reduction [4]. Forecast accuracy improves 23–41% compared to traditional costing methods [5]; Fortune 500 companies report up to 30% cost reduction on data cloud platforms [4]. Tech company Kissht freed 18% of their Snowflake budget through autonomous save-as-you-go optimization [4].
 
-<!-- ILLUSTRATOR: suggested chart — Bar chart comparing year-one cost savings percentages: AWS (62%), Bayer ($2M), Carlsberg ($400K), and industry average (25-35%) — sourced from production FinOps deployments. -->
-
-Numbers this consistent do not happen by accident. The quadrant below maps these outcomes against the industry baseline—note how every named deployment lands in the top half, with AWS and Bayer at the extreme high end where automation scope was broadest and the four-stage rollout was followed most closely.
-
-```mermaid
-quadrantChart
-    title Cost Savings from FinOps Agents
-    x-axis Lower Savings --> Higher Savings
-    y-axis "" --> ""
-    quadrant-1 "Industry Average"
-    quadrant-2 "Outstanding Results"
-    quadrant-3 ""
-    quadrant-4 ""
-    "AWS": [0.62, 0.9]
-    "Bayer": [0.8, 0.85]
-    "Carlsberg": [0.7, 0.75]
-    "Industry Avg (25-35%)": [0.3, 0.5]
-```
-
 ## How to Deploy Autonomous FinOps Agents: A Four-Stage Path
 
 Full autonomous execution doesn't happen in week one. Organizations achieving the largest savings built toward it in stages, expanding automation scope only as each stage proved reliable [4]. The sequence matters more than the technology.
