@@ -9,8 +9,8 @@ description: "Deploy KV cache quantization in production agents using vLLM and T
 summary: "KV cache memory kills agent throughput at scale — here's how to fix it with TurboQuant, FP8 quantization, and H2O eviction in production."
 cover:
   image: "/images/covers/2026-04-02-kv-cache-quantization-production-agents/cover.jpg"
-  alt: "Bar chart showing KV cache memory footprint scaling with context length"
-  caption: "Chart visualization by Ben Wicks on Unsplash"
+  alt: "Abstract visualization of KV cache quantization compressing memory blocks"
+  caption: ""
   relative: false
   hidden: false
 ShowToc: true
