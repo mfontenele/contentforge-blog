@@ -9,7 +9,7 @@ description: "The OWASP Top 10 for Agentic Applications defines the attack surfa
 summary: "Autonomous agents introduce attack surfaces traditional security never anticipated — and the new OWASP ASI framework is the first standard built to address them."
 cover:
   image: "/images/covers/2026-04-03-owasp-top-10-agentic-apps-security-guardrails/cover.jpg"
-  alt: "teal LED panel"
+  alt: "Security guardrails for autonomous AI agent systems — OWASP ASI framework"
   caption: "Photo by [Adi Goldstein](https://unsplash.com/@adigold1) on [Unsplash](https://unsplash.com/photos/EUsVwEOsblE)"
   relative: false
   hidden: false
@@ -46,7 +46,11 @@ The ten ASI risks span the full agent lifecycle: goal hijacking (ASI01), tool mi
 > Every piece of text an agent reads is a potential attack surface. Agents do not inherently distinguish between legitimate instructions and injected ones — they process both as natural language.
 
 ```mermaid
-graph TD\n A[Input] --> B{Planning}\n B --> C[Tool Execution]\n C --> D[Memory]\n D --> E[Output]\n
+graph TD
+    A[Input] --> B{Planning}
+    B --> C[Tool Execution]
+    C --> D[Memory]
+    D --> E[Output]
 ```
 
 ## ASI01–ASI03: goal hijacking, tool misuse, and the identity crisis
@@ -72,7 +76,10 @@ The attack vector is prompt injection. An attacker steers an LLM to generate cra
 The IDEsaster Project, published January 2026, found 30+ vulnerabilities across AI-powered IDEs with 24 CVEs assigned — 100% of tested tools were vulnerable [7]. Scope: 1.8 million developers. Tools affected included GitHub Copilot, Cursor, Windsurf, [Claude Code](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/), Gemini CLI, and others. One flaw scored CVSS 10.0. The three-stage attack chain: prompt injection hijacks AI context, legitimate tools collect sensitive data, then the agent writes malicious JSON configs triggering base IDE features for exfiltration or RCE [7]. These IDEs were designed for human users. Autonomous agents weaponize the same features into attack primitives.
 
 ```mermaid
-graph TD\n A[Prompt Injection] --> B{Tool Exploitation}\n B --> C[Config Weaponization]\n C --> D[RCE/Data Exfiltration]\n
+graph TD
+    A[Prompt Injection] --> B{Tool Exploitation}
+    B --> C[Config Weaponization]
+    C --> D[RCE/Data Exfiltration]
 ```
 
 ## Memory poisoning and supply chain: the persistent threats (ASI04, ASI06)
@@ -96,10 +103,6 @@ Deploying guardrails without benchmarks is guesswork. The PINT benchmark provide
 | AWS Bedrock Guardrails | 89.24% | 1–3% | AWS-native |
 | Azure AI Prompt Shield | 89.12% | 1–3% | Azure-native |
 | Rebuff (open source) | Varies | Varies | Self-hosted |
-
-```mermaid
-graph TD\n    A[Pre-deployment] --> B[ASI assessment, policy definition, compliance mapping]\n    B --> C[Implementation]\n    C --> D[Zero-trust credentials, audit logging, prompt shield proxy]\n    D --> E[Ongoing]\n    E --> F[Monthly log reviews, quarterly red-team, MITRE ATLAS exercises]
-```
 
 Beyond prompt injection detection, production hardening follows three phases [11]. Pre-deployment is mostly assessment work: run an OWASP ASI risk assessment, define acceptable use policies for each agent, and map compliance requirements (GDPR, HIPAA, SOC 2) before a line of agentic code ships. Then harden at implementation. Configure zero-trust access with short-lived credentials, enable comprehensive audit logging with tamper-proof records, and deploy your prompt shield as an API proxy. Ongoing: monthly log reviews, quarterly vulnerability assessments, and periodic red-team exercises using MITRE ATLAS (AML.T0080) [11].
 
