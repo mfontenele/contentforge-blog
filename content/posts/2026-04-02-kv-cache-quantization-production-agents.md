@@ -9,7 +9,7 @@ description: "Deploy KV cache quantization in production agents using vLLM and T
 summary: "KV cache memory kills agent throughput at scale — here's how to fix it with TurboQuant, FP8 quantization, and H2O eviction in production."
 cover:
   image: "/images/covers/2026-04-02-kv-cache-quantization-production-agents/cover.jpg"
-  alt: "Abstract visualization of KV cache quantization compressing memory blocks"
+  alt: "Visualization of KV cache quantization: large memory matrix compressed through a prism into a compact dense block"
   caption: ""
   relative: false
   hidden: false
@@ -17,7 +17,7 @@ ShowToc: true
 TocOpen: true
 faq:
 - q: "Does KV cache quantization affect generation quality?"
-  a: "For FP8 and TurboQuant, measurable accuracy loss is minimal to zero on standard benchmarks. More aggressive methods like KIVI (2-bit) and H2O eviction can degrade performance on multi-hop reasoning tasks. Always benchmark on your specific task distribution before deploying to production."
+  a: "For FP8 and TurboQuant, measurable accuracy loss is minimal to zero on standard benchmarks. More aggressive methods like KIVI (2-bit) and H2O eviction can degrade performance on multi-hop reasoning tasks. Always benchmark on your specific task distribution before deploying to production — no generic benchmark substitutes for your actual request mix."
 - q: "Can I use KV cache quantization with any LLM?"
   a: "FP8 KV cache in vLLM and TensorRT-LLM works with any model they support. TurboQuant is a custom kernel-level method not yet natively integrated into these frameworks. KIVI and H2O are also framework-dependent — check your serving stack's documentation for current model support."
 - q: "What hardware is required for FP8 KV cache?"
@@ -34,13 +34,19 @@ faq:
 - TurboQuant delivers 6x memory reduction and up to 8x speedup on H100s with zero accuracy loss; no calibration needed.
 - vLLM FP8 KV cache halves memory; TensorRT-LLM INT8 adds up to 1.45x decode throughput on Hopper hardware.
 
-Serving a single LLaMA-70B request at 128K context requires 1,280 GB of GPU memory just for the KV cache [7]. That is not a typo — and it does not leave room for concurrency. As agent context windows scale toward 1M tokens, the KV cache has become the primary bottleneck in production inference, growing linearly with context length and frequently eclipsing model weights. The real fix is not bigger GPUs. It is KV cache [quantization](/posts/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/): compressing key-value tensors from FP16 to sub-4-bit representations with techniques like TurboQuant, KIVI, and H2O eviction, reducing memory by 6x or more while maintaining generation quality. This guide covers how to implement these techniques in production using vLLM and TensorRT-LLM, with concrete benchmarks and operational guidance for long-context agent workloads.
+KV cache [quantization](/posts/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/) is the most effective answer to a memory crisis that breaks production inference at scale. Serving a single LLaMA-70B request at 128K context requires 1,280 GB of GPU memory just for the KV cache [7] — and that leaves no room for concurrency. As agent context windows scale toward 1M tokens, the KV cache has become the primary bottleneck, growing linearly with context length and frequently eclipsing model weights.
+
+By compressing key-value tensors from FP16 to sub-4-bit representations using techniques like TurboQuant, KIVI, and H2O eviction, KV cache quantization reduces memory by 6x or more while maintaining generation quality. This guide covers how to implement these techniques in production using vLLM and TensorRT-LLM, with concrete benchmarks and operational guidance for long-context agent workloads.
 
 ## Why KV cache memory breaks production inference at long context
 
-The KV cache stores the attention key and value tensors for every token in the context, enabling the model to attend back without recomputation; it is the core data structure in autoregressive inference. At short contexts — 4K tokens — this is manageable. At 128K tokens, it is catastrophic. For LLaMA-70B, the KV cache footprint at batch size 1 reaches 1,280 GB [7]. That is roughly 16 A100 80GB GPUs consumed by a single conversation thread.
+The KV cache stores the attention key and value tensors for every token in the context, enabling the model to attend back without recomputation; it is the core data structure in autoregressive inference.
 
-This scaling is strictly linear. Double the context, double the memory. For agent workloads with multi-turn histories, tool call logs, and retrieved documents, hitting 64K–128K tokens per request is not unusual — tool call logs alone can consume tens of thousands of tokens. The consequence is brutal: without compression, you can run exactly one concurrent long-context request per cluster, eliminating any possibility of throughput-driven cost amortization [7].
+At short contexts — 4K tokens — this is manageable. At 128K tokens, it is catastrophic.
+
+For LLaMA-70B, the KV cache footprint at batch size 1 reaches 1,280 GB [7]. That is roughly 16 A100 80GB GPUs consumed by a single conversation thread.
+
+This scaling is strictly linear. Double the context, double the memory: 640 GB at 64K tokens, 1280 GB at 128K, and 2560 GB at 256K — these are not rounding errors. For agent workloads with multi-turn histories, tool call logs, and retrieved documents, hitting 64K–128K tokens per request is not unusual. The consequence is brutal: without compression, you can run exactly one concurrent long-context request per cluster, eliminating any possibility of throughput-driven cost amortization [7].
 
 ```mermaid
 xychart-beta
@@ -61,7 +67,9 @@ Quantization addresses this directly. By reducing the precision of KV tensors fr
 
 Most sub-4-bit quantization methods require offline calibration — you pass representative data through the model to compute quantization parameters before deployment. TurboQuant skips this entirely [2]. It is data-oblivious and operates dynamically at inference time, applying a two-stage compression pipeline it calls PolarQuant and QJL error correction [1].
 
-PolarQuant converts key vectors into polar coordinate space, where the angular component carries most of the attention-critical information and can be quantized aggressively. The QJL (Quantized Johnson-Lindenstrauss) layer applies a random projection that provably bounds the reconstruction error, achieving 3.5-bit effective compression [1]. The result: 6x memory reduction and up to 8x inference speedup on H100 GPUs — with zero measurable accuracy loss on standard benchmarks [1].
+PolarQuant converts key vectors into polar coordinate space, where the angular component carries most of the attention-critical information and can be quantized aggressively. The math works.
+
+The QJL (Quantized Johnson-Lindenstrauss) layer then applies a random projection that provably bounds the reconstruction error, achieving 3.5-bit effective compression [1]. The result: 6x memory reduction and up to 8x inference speedup on H100 GPUs — with zero measurable accuracy loss on standard benchmarks [1].
 
 The data-oblivious property is what makes TurboQuant operationally attractive. Prior product quantization methods require a warm-up phase with calibration data tuned to your specific workload. TurboQuant needs no such pipeline — you can deploy it on a new model or a new domain without re-running calibration [1]. For teams running diverse agent workloads across many models, this removes a significant deployment cost.
 
@@ -82,7 +90,9 @@ vllm serve meta-llama/Llama-3-70b-instruct \
   --max-model-len 131072
 ```
 
-TensorRT-LLM covers more ground. It supports both FP8 and INT8 KV cache natively, and on Hopper GPUs (H100, H200) it delivers up to 1.45x throughput improvement in decode-heavy scenarios [6]. Hopper's FP8 tensor cores handle dequantization in hardware, eliminating the latency tax that Ampere (A100) GPUs pay in software. If you are running decode-heavy agent workloads, the H100 + TensorRT-LLM combination offers the best current price-performance ratio.
+TensorRT-LLM covers more ground. It supports both FP8 and INT8 KV cache natively, and on Hopper GPUs (H100, H200) it delivers up to 1.45x throughput improvement in decode-heavy scenarios [6].
+
+Hopper's FP8 tensor cores handle dequantization in hardware, eliminating the latency tax that Ampere (A100) GPUs pay in software. If you are running decode-heavy agent workloads, the H100 + TensorRT-LLM combination offers the best current price-performance ratio.
 
 | Framework | FP8 KV Cache | INT8 KV Cache | Decode Throughput Gain | Calibration Required |
 | --- | --- | --- | --- | --- |
@@ -90,11 +100,11 @@ TensorRT-LLM covers more ground. It supports both FP8 and INT8 KV cache natively
 | TensorRT-LLM | Native (stable) | Native (stable) | Up to 1.45x on Hopper | Yes (for INT8) |
 | TurboQuant | N/A (custom) | N/A (custom) | Up to 8x on H100 | No |
 
-The choice between frameworks hinges on hardware and workload type. vLLM's PagedAttention shines for variable-length prefill-heavy workloads and dynamic batching. TensorRT-LLM outperforms for sustained decode throughput in steady-state deployments. Neither is universally better — run your own benchmarks with your request distribution.
+The choice between frameworks hinges on hardware and workload type. vLLM's PagedAttention shines for variable-length prefill-heavy workloads and dynamic batching — the scheduler handles heterogeneous request lengths better than TensorRT-LLM's more static execution model. TensorRT-LLM outperforms for sustained decode throughput in steady-state deployments. Neither is universally better — run your own benchmarks with your request distribution.
 
-## Combining quantization with eviction: KIVI, H2O, and StreamingLLM
+## KV cache quantization + eviction: KIVI, H2O, and StreamingLLM
 
-Quantization reduces bits per token. Eviction removes tokens entirely. They are orthogonal and stack. For production agents with indefinitely growing contexts, eviction is not optional — it is what keeps memory bounded as sessions extend.
+Quantization reduces bits per token. Eviction removes tokens entirely. These two strategies are orthogonal and stack — KIVI applies quantization for 2.6x memory reduction, H2O applies selective eviction for up to 29x throughput improvement, and StreamingLLM combines attention anchoring with rolling eviction for stable infinite-context generation. For production agents with indefinitely growing contexts, eviction is not optional — it is what keeps memory bounded as sessions extend.
 
 KIVI applies 2-bit per-channel quantization to the KV cache using residual quantization, cutting peak memory by up to 2.6x without requiring any model fine-tuning — a plug-and-play approach [3]. It is more aggressive than FP8 but needs careful validation on your task distribution. On standard benchmarks, KIVI shows minimal quality degradation, but multi-hop reasoning tasks warrant additional testing.
 
@@ -124,13 +134,17 @@ StreamingLLM solves a different problem: stable infinite-context generation. It 
 
 ## Operational guidelines for long-context agent deployments
 
-Deploying KV cache quantization in production requires more than flipping a flag. The dequantization overhead — converting compressed tensors back to FP16 at attention time — adds latency that varies by hardware. On Ampere GPUs, this overhead can erode throughput gains for prefill-heavy workloads. On Hopper, dedicated FP8 tensor cores handle this in hardware, making the overhead negligible [6].
+Deploying KV cache quantization in production requires more than flipping a flag. The dequantization overhead — converting compressed tensors back to FP16 at attention time — adds latency that varies by hardware.
+
+On Ampere GPUs, this overhead can erode throughput gains for prefill-heavy workloads. On Hopper, dedicated FP8 tensor cores handle this in hardware, making the overhead negligible [6].
 
 Stack quantization strategically. Combining FP8 KV cache with weight quantization (AWQ or GPTQ) multiplies the savings: you reduce both static memory (weights) and dynamic memory (KV cache). PagedAttention in vLLM handles KV cache memory allocation at the page level, reducing fragmentation. Together — weight quantization, KV quantization, and PagedAttention — represent the current state-of-the-art production stack for long-context agents [6] [7].
 
-Precision fallback matters. For tasks that require high-fidelity recall of early-context information — legal document analysis, multi-step code review, structured data extraction — maintain a fallback path to full FP16 KV cache. Route requests above a complexity threshold (token count, task type, expected reasoning depth) to a full-precision endpoint. The per-request cost will be higher, but you avoid the tail-end accuracy failures that erode user trust [7].
+Precision fallback matters for accuracy-sensitive workloads. Tasks that require high-fidelity recall of early-context information — legal document analysis, multi-step code review, structured data extraction — need a fallback path to full FP16 KV cache.
 
-[Agent memory](/posts/2026-03-31-kv-cache-quantization-production-agents/) architecture deserves a holistic view. KV cache handles in-context memory — the live window of the current session. For persistent cross-session memory, your agent needs an external retrieval layer. Pairing KV cache quantization with a vector store like [Pinecone](https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-04-02-kv-cache-quantization-production-agents) lets you compress the in-context footprint aggressively while offloading long-term facts to fast approximate nearest-neighbor retrieval — keeping your per-request GPU spend low without sacrificing the agent's effective memory horizon.
+Route requests above a complexity threshold to a full-precision endpoint; use token count, task type, or expected reasoning depth as your routing signal, whichever is cheapest to compute at request time. The per-request cost will be higher. But that tradeoff beats the alternative: silent accuracy failures that erode user trust [7].
+
+[Agent memory](/posts/2026-03-24-measuring-rag-vs-finetuning-roi-agent-knowledge/) architecture deserves a holistic view. KV cache handles in-context memory — the live window of the current session. For persistent cross-session memory, you need an external retrieval layer. Pairing KV cache quantization with a vector store like [Pinecone](https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-04-02-kv-cache-quantization-production-agents){rel="sponsored"} lets you compress the in-context footprint aggressively while offloading long-term facts to fast approximate nearest-neighbor retrieval — keeping GPU spend low without sacrificing memory horizon.
 
 ## Practical Takeaways
 
@@ -142,7 +156,7 @@ Precision fallback matters. For tasks that require high-fidelity recall of early
 
 ## Conclusion
 
-KV cache quantization is no longer a research curiosity. The tooling is in vLLM stable, TensorRT-LLM stable, and increasingly in custom kernels like TurboQuant that push below 4 bits with zero accuracy penalty. For teams serving long-context agent workloads, the path forward is clear: FP8 KV cache as the baseline, H2O or StreamingLLM for session-length management, and TurboQuant or KIVI for workloads that demand maximum compression. The economics change dramatically — what required 16 GPUs per concurrent session can fit on one. Start by enabling --kv-cache-dtype fp8 in your next vLLM deployment. Measure your actual memory and throughput before and after. The numbers will make the next optimization decision obvious.
+KV cache quantization is no longer a research curiosity. The tooling is in vLLM stable, TensorRT-LLM stable, and increasingly in custom kernels like TurboQuant that push below 4 bits with zero accuracy penalty. For teams serving long-context agent workloads, the path forward is clear: FP8 KV cache as the baseline, H2O or StreamingLLM for session-length management, and TurboQuant or KIVI for workloads that demand maximum compression. The economics change dramatically — what required 16 GPUs per concurrent session can fit on one. Start by enabling --kv-cache-dtype fp8 in your next vLLM deployment. Measure your actual memory and throughput before and after — the delta is almost always larger than teams expect. The numbers will make the next optimization decision obvious.
 
 *This post may contain affiliate links. We may earn a small commission if you sign up through our links, at no extra cost to you.*
 
@@ -150,7 +164,7 @@ KV cache quantization is no longer a research curiosity. The tooling is in vLLM 
 
 ### Does KV cache quantization affect generation quality?
 
-For FP8 and TurboQuant, measurable accuracy loss is minimal to zero on standard benchmarks. More aggressive methods like KIVI (2-bit) and H2O eviction can degrade performance on multi-hop reasoning tasks. Always benchmark on your specific task distribution before deploying to production.
+For FP8 and TurboQuant, measurable accuracy loss is minimal to zero on standard benchmarks. More aggressive methods like KIVI (2-bit) and H2O eviction can degrade performance on multi-hop reasoning tasks. Always benchmark on your specific task distribution before deploying to production — no generic benchmark substitutes for your actual request mix.
 
 ### Can I use KV cache quantization with any LLM?
 
