@@ -46,16 +46,14 @@ At short contexts — 4K tokens — this is manageable. At 128K tokens, it is ca
 
 For LLaMA-70B, the KV cache footprint at batch size 1 reaches 1,280 GB [7]. That is roughly 16 A100 80GB GPUs consumed by a single conversation thread.
 
-This scaling is strictly linear. Double the context, double the memory: 640 GB at 64K tokens, 1280 GB at 128K, and 2560 GB at 256K — these are not rounding errors. For agent workloads with multi-turn histories, tool call logs, and retrieved documents, hitting 64K–128K tokens per request is not unusual. The consequence is brutal: without compression, you can run exactly one concurrent long-context request per cluster, eliminating any possibility of throughput-driven cost amortization [7].
+This scaling is strictly linear. Double the context, double the memory. For agent workloads with multi-turn histories, tool call logs, and retrieved documents, hitting 64K–128K tokens per request is not unusual. The consequence is brutal: without compression, you can run exactly one concurrent long-context request per cluster, eliminating any possibility of throughput-driven cost amortization [7].
 
 ```mermaid
 xychart-beta
   title "KV Cache Memory Footprint: LLaMA-70B at Different Context Lengths"
   x-axis ["4K", "32K", "64K", "128K"]
   y-axis "Memory (GB)" 0 --> 1400
-  bar [80, 640, 1280, 2560]
-  line [40, 40, 40, 40]
-
+  bar [40, 320, 640, 1280]
 ```
 
 Quantization addresses this directly. By reducing the precision of KV tensors from FP16 (16 bits) to INT8, FP8, or sub-4-bit representations, you cut the cache footprint proportionally while keeping the model weights and activations untouched. The academic literature has converged on two orthogonal strategies: quantization (reduce bits per stored value) and eviction (discard low-importance tokens entirely). Production deployments combine both.
