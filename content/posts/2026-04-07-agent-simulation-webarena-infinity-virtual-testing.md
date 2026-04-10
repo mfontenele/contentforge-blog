@@ -34,11 +34,11 @@ faq:
 - Strong open-source models still score below 50% on WebArena-Infinity's verifiable tasks — yet human performance sits at 78.24% on the original benchmark.
 - Three competing paradigms emerged in early 2026: browser auto-generation, code-driven environments (Agent World Model), and game engine world models (Moonlake AI).
 
-Agent simulation used to be expensive. The original WebArena benchmark, published in 2023, required a team of researchers months of engineering work to produce five environments and 812 tasks [3]. Teams that wanted more coverage either paid that price again or shipped agents into production without adequate testing. That tradeoff is ending. A cluster of papers and startups that emerged in early 2026 can now generate evaluation environments in hours for under $100 [1], [2]. The real shift is not just cost — it is what infinite synthetic environments reveal about capability. When you can generate 10,000 verifiable tasks automatically, the 50% ceiling on today's best open-source models stops looking like a benchmark problem and starts looking like a capability problem.
+Agent simulation used to be expensive. The original WebArena benchmark, published in 2023, required a team of researchers months of engineering work to produce four website environments and 812 tasks [3]. Teams that wanted more coverage either paid that price again or shipped agents into production without adequate testing. That tradeoff is ending. A cluster of papers and startups that emerged in early 2026 can now generate evaluation environments in hours for under $100 [1], [2]. The real shift is not just cost — it is what infinite synthetic environments reveal about capability. When you can generate 10,000 verifiable tasks automatically, the 50% ceiling on today's best open-source models stops looking like a benchmark problem and starts looking like a capability problem.
 
 ## Why static benchmarks became a bottleneck for agent simulation
 
-812 tasks across five environments. That is the scale of the original WebArena benchmark [3] — an achievement that required significant research engineering, but which anyone who tried to replicate the setup immediately understood as expensive. GPT-4 cleared only 14.41% of those tasks; humans cleared 78.24% [3]. The gap was diagnostic: agents had serious problems with multi-step, stateful web interaction. And the benchmark was already expensive enough that most teams couldn't build something comparable.
+812 tasks across four website environments. That is the scale of the original WebArena benchmark [3] — an achievement that required significant research engineering, but which anyone who tried to replicate the setup immediately understood as expensive. GPT-4 cleared only 14.41% of those tasks; humans cleared 78.24% [3]. The gap was diagnostic: agents had serious problems with multi-step, stateful web interaction. And the benchmark was already expensive enough that most teams couldn't build something comparable.
 
 The practical problem was replication. Every time an underlying app updated, benchmark drift set in. Researchers studying enterprise software, developer tooling, or domain-specific workflows had no path to comparable coverage without comparable effort. Static benchmarks carry a second risk: once a dataset is public, model providers can — intentionally or not — optimize for it. You lose the signal; the benchmark becomes a target, not a test.
 
@@ -49,7 +49,7 @@ gantt
     title Environment Generation: Then vs Now
     dateFormat  YYYY
     section Original WebArena 2023
-    Research team 812 tasks five environments : 2023, 2024
+    Research team 812 tasks four environments : 2023, 2024
     section Auto-Generation 2026
     WebArena-Infinity under ten hours under hundred dollars per env : 2026, 2026
     AutoWebWorld eleven thousand trajectories : 2026, 2026
@@ -172,7 +172,7 @@ No. Moonlake emerged from stealth with $28M in 2025 [9] and is still building fo
 | 6 | OpenAI | "Computer-Using Agent (CUA) Announcement" | https://openai.com/index/computer-using-agent/ | 2025-01-23 | Blog |
 | 7 | ServiceNow | "WorkArena: Benchmarking Agents on Enterprise Tasks" | https://servicenow.github.io/WorkArena/ | 2024 | Technical |
 | 8 | Snowflake Labs / arXiv | "Agent World Model: Infinity Synthetic Environments for Agentic Reinforcement Learning" | https://arxiv.org/abs/2602.10090 | 2026-02-10 | Paper |
-| 9 | Moonlake AI / Enterprise AI World | "Moonlake AI Emerges from Stealth with $28M Seed to Support Vibe Coding Interactive Worlds" | https://www.enterpriseaiworld.com/Articles/News/News/Moonlake-AI-Emerges-from-Stealth-with-$28M-Seed-to-Support-Vibe-Coding-Interactive-Worlds-171928.aspx | 2025-10-01 | News |
+| 9 | AI Journ | "Moonlake AI Emerges with $28M from AIX Ventures, Threshold, and NVIDIA Ventures" | https://aijourn.com/moonlake-ai-emerges-with-28m-from-aix-ventures-threshold-and-nvidia-ventures-to-let-anyone-vibe-code-interactive-worlds/ | 2025-10-01 | News |
 | 10 | Latent Space Podcast | "Moonlake: Causal World Models should be Multimodal, Interactive, and Efficient" | https://www.latent.space/p/moonlake | 2026 | Blog |
 | 11 | HAL (Helping Agents Learn) / Princeton | "GAIA Benchmark Leaderboard" | https://hal.cs.princeton.edu/gaia | 2025-09 | Documentation |
 | 12 | OSU NLP Group | "Mind2Web 2: Long-horizon Web Task Benchmark" | https://osu-nlp-group.github.io/Mind2Web-2/ | 2025 | Documentation |
