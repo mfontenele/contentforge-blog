@@ -45,15 +45,25 @@ The practical problem was replication. Every time an underlying app updated, ben
 By 2025, the bottleneck was clear: environment construction, not task design, was the rate limiter. Generate realistic environments automatically — verifiable ground truth included — and you could scale evaluation to match the scale of model training. Three distinct technical approaches emerged by early 2026. None of them are interchangeable; each solves a different slice of the problem.
 
 ```mermaid
-gantt
-    title Environment Generation: Then vs Now
-    dateFormat  YYYY
-    section Original WebArena 2023
-    Research team 812 tasks four environments : 2023, 2024
-    section Auto-Generation 2026
-    WebArena-Infinity under ten hours under hundred dollars per env : 2026, 2026
-    AutoWebWorld eleven thousand trajectories : 2026, 2026
-    Agent World Model one thousand envs : 2026, 2026
+graph LR
+    subgraph 2023["2023 — Manual Construction"]
+        WA["WebArena<br/>812 tasks, 4 envs<br/>Months of research engineering"]
+    end
+    subgraph 2026["2026 — Auto-Generation"]
+        WI["WebArena-Infinity<br/>< $100, < 10 hrs per env"]
+        AW["AutoWebWorld<br/>11,663 trajectories<br/>$0.04 each"]
+        AWM["Agent World Model<br/>1,000 envs from<br/>100 scenario names"]
+    end
+    WA -->|"100x cost compression"| WI
+    WA -->|"Synthetic data"| AW
+    WA -->|"Code-driven state"| AWM
+
+    style 2023 fill:#1a1a2e,stroke:#e94560,color:#fff
+    style 2026 fill:#1a1a2e,stroke:#0f3460,color:#fff
+    style WA fill:#16213e,stroke:#e94560,color:#fff
+    style WI fill:#16213e,stroke:#00d2ff,color:#fff
+    style AW fill:#16213e,stroke:#00d2ff,color:#fff
+    style AWM fill:#16213e,stroke:#00d2ff,color:#fff
 ```
 
 ## WebArena-Infinity: agent simulation environments for under $100
