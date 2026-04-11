@@ -9,8 +9,8 @@ description: "Build production-grade AI agent state machines with graph-based or
 summary: "State machine patterns give production AI agents the structure to handle multi-step workflows, recover from failures, and maintain context — here's the architecture that makes it work."
 cover:
   image: "/images/covers/2026-04-10-ai-agent-state-machines-designing-persistent-workflows-for-production/cover.jpg"
-  alt: "Cover image with the article title 'AI agent state machines: designing persistent workflows' and 'Agents' Codex' on a black background."
-  caption: "Photo by [AI Generated (Flux Pro)](N/A) on [Unsplash](https://unsplash.com/photos/N/A)"
+  alt: "Architectural diagram of an AI agent state machine — circular nodes representing workflow states connected by directed arrows, with a durable checkpoint layer beneath the execution graph, rendered on a dark technical background."
+  caption: ""
   relative: false
   hidden: false
 ShowToc: true
@@ -32,7 +32,7 @@ faq:
 
 - StateFlow-style state machines achieve 13–28% higher success rates than ReAct loops with 3–5x lower cost [1].
 - LangGraph's DAG-based StateGraph is the production standard, used by Uber, LinkedIn, and Replit for multi-hour workflows [3].
-- Temporal resumes failed workflows without re-executing completed LLM calls; PostgreSQL + pgvector cuts memory infrastructure costs 66% [5][7].
+- Temporal resumes failed workflows without re-executing completed LLM calls; PostgreSQL + pgvector unifies episodic, semantic, and procedural memory in one store [5][7].
 
 A ReAct agent that fails on step 12 of a 15-step workflow restarts from step 1. Every LLM call reruns. Every tool execution repeats. For a pipeline with $0.50 in inference per run, that is not just annoying — it is a compounding reliability and cost problem at scale.
 
@@ -101,9 +101,9 @@ PostgreSQL with the pgvector extension collapses all three memory types into a s
 
 The vendor-cited case study claims a 66% infrastructure cost reduction versus fragmented multi-database setups [7]. One source. No independent verification. Treat it as directionally plausible — the operational savings from consolidating three stores into one are real, but whether 66% is your actual number depends on scale, query patterns, and your existing database licensing costs.
 
-Redis handles the hot path: sub-millisecond state lookups, short-term session memory, and semantic caching via LangCache [8]. Semantic caching intercepts LLM calls and returns cached responses when the incoming query is semantically similar to a cached one — Redis claims 50–80% LLM cost reduction for this mechanism [8]. For agents that answer repetitive queries — a SQL bot, a customer service agent — that is one of the highest-return optimizations available.
+Redis handles the hot path: sub-millisecond state lookups, short-term session memory, and semantic caching via LangCache [8]. Semantic caching intercepts LLM calls and returns cached responses when the incoming query is semantically similar to a cached one. Redis reports meaningful LLM cost reduction for agents handling repetitive queries via this mechanism [8]. For agents that answer repetitive queries — a SQL bot, a customer service agent — that is one of the highest-return optimizations available.
 
-For long-term semantic memory that needs to scale beyond a single PostgreSQL instance, purpose-built vector databases like <a href="https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-04-10-ai-agent-state-machines-designing-persistent-workflows-for-production" rel="sponsored">Pinecone</a> handle billion-scale vector search with managed infrastructure, freeing you from tuning HNSW index parameters on PostgreSQL as your corpus grows.
+For long-term semantic memory that needs to scale beyond a single PostgreSQL instance, purpose-built vector databases like <a href="https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-04-10-ai-agent-state-machines-designing-persistent-workflows-for-production" rel="sponsored">Pinecone</a> handle billion-scale vector search with managed infrastructure, freeing you from tuning HNSW index parameters on PostgreSQL as your corpus grows. *(Affiliate disclosure: this article contains a sponsored link to Pinecone — we may earn a commission if you sign up.)*
 
 ```mermaid
 graph LR
@@ -117,7 +117,7 @@ graph LR
 
 ## Multi-agent state synchronization without token waste
 
-MetaGPT's analysis of multi-agent communication found 72% token duplication across agent interactions [9]. Agents were passing redundant context to each other, each reconstructing the same background knowledge independently. At $0.01 per 1K tokens, that duplication is a direct tax on every interaction. It compounds fast.
+Multi-agent communication generates significant token waste when agents are poorly coordinated: each agent reconstructs the same background knowledge independently, passing redundant context back and forth [9]. That duplication compounds fast in production systems with dozens of active agents.
 
 Three synchronization patterns address this at different scales. Shared state with concurrency control works for tightly coupled agents: a central state store that multiple agents read and write, with optimistic concurrency control or distributed locks preventing conflicting updates [9]. This is the LangGraph model — one StateGraph object, multiple nodes with coordinated access.
 
@@ -131,7 +131,7 @@ Event-driven coordination extends this to fully decoupled networks where agents 
 | Orchestrator-Worker | Medium | Event log | Parallel task dispatch, dynamic worker scaling |
 | Event-Driven | Loose | Distributed event stream | Fully decoupled agent networks, cross-service coordination |
 
-{{< figure src="/images/posts/2026-04-10-ai-agent-state-machines-designing-persistent-workflows-for-production/image-4.jpg" alt="Conceptual timeline comparison: LangGraph checkpointing with periodic saves versus Temporal durable execution with continuous recovery for AI agent workflows." caption="LangGraph checkpointing contrasted with Temporal durable execution." >}}
+{{< figure src="/images/posts/2026-04-10-ai-agent-state-machines-designing-persistent-workflows-for-production/image-4.jpg" alt="Side-by-side conceptual comparison of LangGraph periodic checkpointing versus Temporal continuous event-sourced recovery for AI agent workflow resilience." caption="LangGraph checkpointing contrasted with Temporal durable execution." >}}
 
 ## Persistent workflow patterns for stateful agent APIs
 
@@ -149,12 +149,12 @@ As graph-based orchestration matures, expect standardized state interchange form
 2. Decouple compute from state: use external persistence (PostgreSQL, Redis) so any execution environment is disposable.
 3. Checkpoint after every LLM call and every irreversible external action.
 4. Try PostgreSQL + pgvector as a unified memory store before reaching for specialized databases.
-5. Enable Redis semantic caching for agents handling repetitive query types — 50–80% LLM cost reduction is achievable [8].
+5. Enable Redis semantic caching for agents handling repetitive query types — significant cost savings are achievable for workloads with similar repeated queries [8].
 6. Log every state transition with timestamps; production failures in complex graphs need a complete transition history to diagnose.
 
 ## Conclusion
 
-State machine architecture delivers measurable production results: a 28% success rate gap and 5x cost advantage over ReAct [1], from teams that made the architectural call early. Start with LangGraph and PostgresSaver. Add Temporal when workflows exceed 30 minutes or span services where duplicate LLM calls cause integrity issues. As agent workflows grow in complexity and lifespan, state management will become as consequential as model selection. The teams that design their state layer correctly from the start will not be retrofitting it after the next outage — they will be building the infrastructure standards everyone else follows.
+State machine architecture delivers measurable production results. The numbers are concrete: a 28% success rate gap and 5x cost advantage over ReAct [1]. Start with LangGraph and PostgresSaver. Add Temporal only when workflows exceed 30 minutes, span multiple services, or require guaranteed-once execution semantics — that threshold is narrower than most teams expect. As agent workflows grow in complexity and lifespan, state management will become as consequential as model selection; the teams building their state layer correctly today will not be retrofitting it after the next outage.
 
 ## Frequently Asked Questions
 
@@ -197,6 +197,6 @@ LangGraph with PostgresSaver. See the checkpointing section above for granularit
 
 ## Image Credits
 
-- **Cover photo**: [AI Generated (Flux Pro)](N/A) on [Unsplash](https://unsplash.com/photos/N/A)
-- **Figure 1**: Midjourney
-- **Figure 2**: Photo by [AI Generated](N/A) on [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license)
+- **Cover photo**: AI Generated
+- **Figure 1**: AI Generated
+- **Figure 2**: AI Generated
