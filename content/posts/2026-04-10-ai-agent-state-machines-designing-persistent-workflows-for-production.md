@@ -9,8 +9,8 @@ description: "Build production-grade AI agent state machines with graph-based or
 summary: "State machine patterns give production AI agents the structure to handle multi-step workflows, recover from failures, and maintain context — here's the architecture that makes it work."
 cover:
   image: "/images/covers/2026-04-10-ai-agent-state-machines-designing-persistent-workflows-for-production/cover.jpg"
-  alt: "Architectural diagram of an AI agent state machine — circular nodes representing workflow states connected by directed arrows, with a durable checkpoint layer beneath the execution graph, rendered on a dark technical background."
-  caption: ""
+  alt: "Server room corridor with blue ambient lighting and fiber optic cables forming geometric patterns between server racks, representing AI agent workflow orchestration infrastructure."
+  caption: "Generated with Flux Pro"
   relative: false
   hidden: false
 ShowToc: true
@@ -23,7 +23,7 @@ faq:
 - q: "How do I prevent race conditions when multiple agents write to shared state?"
   a: "LangGraph's immutable state pattern handles this at the framework level — each node creates a new state version rather than modifying the existing one [2]. For custom state stores, use optimistic concurrency control with version numbers or compare-and-swap operations. Distributed locks work but create bottlenecks under high concurrency; prefer OCC for most agent workloads."
 - q: "Does the 66% infrastructure cost reduction from unified PostgreSQL hold at scale?"
-  a: "That figure is from a single vendor-cited case study without independent verification [7]. We don't have clean production benchmarks across multiple teams at different scales. The directional claim is plausible — running one managed PostgreSQL instance rather than three specialized stores does reduce overhead. Measure your own stack before committing to a migration; the variables that matter most are your query patterns and your existing database licensing costs."
+  a: "That figure comes from a single vendor-cited case study without independent verification, and we currently lack clean production benchmarks across multiple teams at different scales to confirm it [7]. The directional claim is plausible — running one managed PostgreSQL instance rather than three specialized stores does reduce overhead. Measure your own stack before committing to a migration; the variables that matter most are your query patterns and your existing database licensing costs."
 - q: "What is the minimum viable checkpointing setup for a new agent project?"
   a: "LangGraph with PostgresSaver. See the checkpointing section above for granularity guidance."
 ---
@@ -172,7 +172,7 @@ LangGraph's immutable state pattern handles this at the framework level — each
 
 ### Does the 66% infrastructure cost reduction from unified PostgreSQL hold at scale?
 
-That figure is from a single vendor-cited case study without independent verification [7]. We don't have clean production benchmarks across multiple teams at different scales. The directional claim is plausible — running one managed PostgreSQL instance rather than three specialized stores does reduce overhead. Measure your own stack before committing to a migration; the variables that matter most are your query patterns and your existing database licensing costs.
+That figure comes from a single vendor-cited case study without independent verification, and we currently lack clean production benchmarks across multiple teams at different scales to confirm it [7]. The directional claim is plausible — running one managed PostgreSQL instance rather than three specialized stores does reduce overhead. Measure your own stack before committing to a migration; the variables that matter most are your query patterns and your existing database licensing costs.
 
 ### What is the minimum viable checkpointing setup for a new agent project?
 
@@ -197,6 +197,6 @@ LangGraph with PostgresSaver. See the checkpointing section above for granularit
 
 ## Image Credits
 
-- **Cover photo**: AI Generated
-- **Figure 1**: AI Generated
-- **Figure 2**: AI Generated
+- **Cover photo**: Generated with [Flux Pro](https://blackforestlabs.ai/)
+- **Figure 1**: Generated with [Flux Pro](https://blackforestlabs.ai/)
+- **Figure 2**: Generated with [Flux Pro](https://blackforestlabs.ai/)
