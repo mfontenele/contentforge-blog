@@ -9,8 +9,8 @@ description: "Choosing between n8n and Camunda for agent workflow orchestration?
 summary: "This article compares agent workflow orchestration platforms and explains why the 'simple' tool often costs more in governance gaps than it saves in setup time."
 cover:
   image: "/images/covers/2026-04-15-agent-workflow-orchestration-n8n-vs-camunda/cover.jpg"
-  alt: "Abstract visualization of agent workflow orchestration with glowing network connections"
-  caption: "Photo by [Logan Voss](https://unsplash.com/@loganvoss) on [Unsplash](https://unsplash.com/photos/zMvcimtZWuU)"
+  alt: "Hand drawing a workflow flowchart in red marker on a whiteboard, with decision nodes branching from Sign In to Dashboard and downstream tasks like Plans, Budget, and Media"
+  caption: "Photo by [Christina @ wocintechchat.com](https://unsplash.com/@wocintechchat) on [Unsplash](https://unsplash.com/photos/tYVkjjMYFBo)"
   relative: false
   hidden: false
 ShowToc: true
@@ -21,16 +21,16 @@ faq:
 - q: "Do I need BPMN expertise to use Camunda for agent orchestration?"
   a: "Basic agentic tasks can be modeled with minimal BPMN knowledge, but the real power comes from formal process constructs. Implementing error handling with automatic retries, compensation flows, and process versioning requires understanding event sub-processes, boundary events, and transaction semantics. Teams already using Camunda for business processes have a head start. Teams new to BPMN should budget for training. The learning curve is real, but the governance payoff is substantial for high-stakes workflows."
 - q: "How do I decide between single-agent and multi-agent architectures?"
-  a: "Start simple. Add agents only when a task genuinely decomposes into distinct sub-problems—Anthropic's benchmarks show the 15x token cost is real, though production variance outside controlled benchmarks is less documented [5]."
+  a: "Start simple. Add agents only when a task genuinely decomposes into distinct sub-problems—Anthropic's benchmarks show the 15x token cost is real, though production variance outside controlled benchmarks is less documented [10]."
 - q: "Can I migrate between these platforms later?"
   a: "Yes, but migration complexity depends on orchestration depth—see the decision framework table above to gauge where you fall. Workflows using only basic triggers and API calls port relatively easily. Workflows using platform-specific features—n8n's AI Agent node configurations, Camunda's BPMN compensation handlers, or enterprise-specific governance rules—require refactoring. Design core agent logic to be framework-agnostic where possible."
 ---
 
 **TL;DR**
 
-- [Multi-agent systems](/posts/2026-03-27-autonomous-finops-agents-cloud-cost-optimization/) outperform single agents by 90.2%. They also consume 15x more tokens—cost efficiency demands smart orchestration [5].
+- Anthropic's internal research benchmarks show [multi-agent systems](/posts/2026-03-27-autonomous-finops-agents-cloud-cost-optimization/) outperform single agents by 90.2% on complex tasks. They also consume 15x more tokens—cost efficiency demands smart orchestration [10].
 - n8n excels at integration-heavy workflows with 1000+ connectors and self-hosted deployment; Camunda provides deterministic BPMN control with agentic extensions [1][5].
-- By 2028, 58% of business functions will use [AI agents](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/) daily. Enterprise-grade orchestration will separate production systems from experiments [6].
+- By 2028, 33% of enterprise software applications will embed agentic AI, enabling 15% of day-to-day work decisions to be made autonomously by [AI agents](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/) [9]. Enterprise-grade orchestration will separate production systems from experiments.
 
 Your AI agent works perfectly in demos. Then you deploy it. Reality hits fast.
 
@@ -70,7 +70,7 @@ graph TD
 ```
 
 > [!NOTE]
-> Gartner predicts 58% of business functions will have AI agents managing at least one process daily by 2028; 15% of daily business decisions will be fully automated by agents [6]. The platform you choose today determines whether those agents operate as governed production systems or expensive experiments.
+> Gartner predicts that by 2028, 33% of enterprise software applications will include agentic AI — up from less than 1% in 2024 — enabling 15% of day-to-day work decisions to be made autonomously [9]. The platform you choose today determines whether those agents operate as governed production systems or expensive experiments.
 
 ## n8n: integration density for self-hosted agent workflows
 
@@ -110,13 +110,11 @@ This architectural choice matters most when failure costs are high. Camunda's do
 
 The enterprise technology research firm Gartner placed Camunda in the Visionary quadrant of its 2025 Magic Quadrant for Business Orchestration and Automation Technologies (BOAT), specifically citing its agentic orchestration capabilities [7]. That positioning matters not because analyst recognition validates architecture, but because it reflects where enterprise buying decisions are heading: toward AI agents operating within governed process frameworks, not as standalone black boxes.
 
-{{< figure src="/images/posts/2026-04-15-agent-workflow-orchestration-n8n-vs-camunda/image-1.jpg" alt="Abstract visualization of AI agent workflow orchestration with interconnected process nodes and directional flow paths on a dark background" caption="BPMN process model embedding an AI agent task with built-in compensation boundary" >}}
-
 The trade-off is complexity. Modeling compensation flows requires understanding event sub-processes, compensation handlers, and transaction boundaries that n8n hides behind simpler abstractions. For teams without BPMN expertise, initial setup takes longer. For teams already using Camunda for business process automation, adding agentic tasks is incremental—not transformational.
 
 ## Multi-agent math: why more agents means more problems
 
-The economics are counterintuitive. Multi-agent configurations outperform single agents by 90.2% on complex tasks—yet they also consume 15x more tokens, and token usage alone explains 80% of performance differences across configurations [5]. More agents do not just cost more. They create failure modes that do not exist in single-agent systems, and those failures compound in ways that are genuinely hard to predict before you hit them in production.
+The economics are counterintuitive. Multi-agent configurations outperform single agents by 90.2% on complex tasks—yet they also consume 15x more tokens, and token usage alone explains 80% of performance differences across configurations [10]. More agents do not just cost more. They create failure modes that do not exist in single-agent systems, and those failures compound in ways that are genuinely hard to predict before you hit them in production.
 
 Coordination overhead scales combinatorially—three agents manage three pairwise relationships, but ten agents require forty-five [5]. In practice, this manifests as increased latency, exponential token consumption, and quality drift: errors from upstream agents cascading through downstream processes in ways that become harder to debug as chain length increases.
 
@@ -147,11 +145,11 @@ OneReach.ai GSX emphasizes cognitive orchestration with contextual memory, colla
 
 Selecting an orchestration platform requires honest assessment of three factors: failure cost; compliance requirements; and team expertise.
 
-| Agent Count | Pairwise Relationships | Failure Modes |
-| --- | --- | --- |
-| 3 agents | 3 relationships | Manageable with logs |
-| 5 agents | 10 relationships | Requires structured tracing |
-| 10 agents | 45 relationships | Formal orchestration required |
+| Platform | Best For | Failure Cost Tolerance | Compliance Support | Team Requirement |
+| --- | --- | --- | --- | --- |
+| n8n | Integration-heavy workflows | Low-to-moderate | Execution logs, self-hosted deployment | No BPMN expertise needed |
+| Camunda | Regulated process automation | High | BPMN compensation, saga patterns, process versioning | BPMN modeling skills required |
+| Enterprise suites (xpander.ai, Kore.ai, OneReach.ai) | Multi-framework regulated environments | Very high | Full lifecycle governance, rollback, human-in-the-loop | Dedicated platform team |
 
 If a failed workflow costs you a customer record that can be manually restored, n8n's speed and integration density likely outweigh its governance limitations. If a failed workflow costs you regulatory fines or unrecoverable financial transactions, Camunda's deterministic control becomes worth the complexity premium.
 
@@ -160,7 +158,7 @@ Nearly 50% of surveyed vendors identify AI orchestration as their primary compet
 ## Practical Takeaways
 
 1. Audit your failure modes before choosing a platform—if you cannot afford manual reconciliation of partial transactions, you need deterministic orchestration with compensation support.
-2. Budget for token costs explicitly: multi-agent systems deliver 90.2% better results but consume 15x more tokens; without cost monitoring, efficiency gains disappear [5].
+2. Budget for token costs explicitly: multi-agent systems deliver 90.2% better results but consume 15x more tokens; without cost monitoring, efficiency gains disappear [10].
 3. Validate checkpoint locations in multi-agent chains—errors compound, so insert validation gates between agents handling critical data [5].
 4. Consider team BPMN expertise honestly—Camunda's power requires investment in process modeling skills that n8n abstracts away.
 5. Plan for the orchestration layer's lifespan changing more slowly than the agents it manages—invest in governance primitives you may not need today but will regret lacking tomorrow.
@@ -183,7 +181,7 @@ Basic agentic tasks can be modeled with minimal BPMN knowledge, but the real pow
 
 ### How do I decide between single-agent and multi-agent architectures?
 
-Start simple. Add agents only when a task genuinely decomposes into distinct sub-problems—Anthropic's benchmarks show the 15x token cost is real, though production variance outside controlled benchmarks is less documented [5].
+Start simple. Add agents only when a task genuinely decomposes into distinct sub-problems—Anthropic's benchmarks show the 15x token cost is real, though production variance outside controlled benchmarks is less documented [10].
 
 ### Can I migrate between these platforms later?
 
@@ -201,10 +199,11 @@ Yes, but migration complexity depends on orchestration depth—see the decision 
 | 4 | Camunda | "Agentic Orchestration Documentation" | https://docs.camunda.io/docs/components/modeler/web-modeler/agentic-ai/ | 2026 | Documentation |
 | 5 | n8n | "Multi-agent System: Frameworks & Step-by-Step Tutorial" | https://n8n.io/blog/multi-agent-system/ | 2026-01 | Blog |
 | 6 | Kore.ai | "What is Multi-Agent Orchestration and How Does It Work?" | https://kore.ai/blog/ai-agents/what-is-multi-agent-orchestration/ | 2026 | Blog |
-| 7 | Camunda | "Camunda Named a Visionary in 2025 Gartner Magic Quadrant for Business Orchestration and Automation Technologies" | https://camunda.com/blog/2025/06/gartner-magic-quadrant-2025/ | 2025-06 | News |
+| 7 | Camunda | "Camunda Named a Visionary in 2025 Gartner Magic Quadrant for Business Orchestration and Automation Technologies" | https://camunda.com/press_release/camunda-named-a-visionary-in-2025-gartner-magic-quadrant-for-business-orchestration-and-automation-technologies/ | 2025-10 | News |
 | 8 | n8n | "n8n Pricing" | https://n8n.io/pricing/ | 2026 | Documentation |
+| 9 | Gartner | "Gartner Predicts 40% of Enterprise Apps Will Feature Task-Specific AI Agents by 2026, Up from Less Than 5% in 2025" | https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025 | 2025-08 | Press Release |
+| 10 | Anthropic | "How we built our multi-agent research system" | https://www.anthropic.com/engineering/multi-agent-research-system | 2025-06 | Engineering Blog |
 
 ## Image Credits
 
-- **Cover photo**: [Logan Voss](https://unsplash.com/@loganvoss) on [Unsplash](https://unsplash.com/photos/zMvcimtZWuU)
-- **Figure 1**: AI Generated (Flux Pro)
+- **Cover photo**: [Christina @ wocintechchat.com](https://unsplash.com/@wocintechchat) on [Unsplash](https://unsplash.com/photos/tYVkjjMYFBo)
