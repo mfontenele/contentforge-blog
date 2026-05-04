@@ -9,8 +9,8 @@ description: "Visual GUI agents show promise — and sting in production costs. 
 summary: "Smaller frozen-backbone models with task-specific heads are winning against giants in visual GUI automation."
 cover:
   image: "/images/covers/2026-05-01-visual-gui-agents-production-computer-vision/cover.jpg"
-  alt: "Visual GUI agents concept with computer interface and AI agent visualization"
-  caption: "Photo by [Kevin Ku](https://unsplash.com/photos/closeup-photo-of-eyeglasses-w7ZyuGYNpRQ) on [Unsplash](https://unsplash.com/photos/w7ZyuGYNpRQ)"
+  alt: "Visual GUI agent represented as small robotic figure interacting with desktop application interface using cursor"
+  caption: ""
   relative: false
   hidden: false
 ShowToc: true
@@ -66,7 +66,7 @@ The efficiency gap determines how quickly teams can experiment with architectura
 
 Frozen-backbone training also preserves generalization. When a new interface pattern emerges, the backbone's pre-trained visual understanding transfers without degrading performance on novel UI layouts. Full fine-tuning risks overfitting to the training distribution, degrading performance on novel UI layouts.
 
-{{< figure src="/images/posts/2026-05-01-visual-gui-agents-production-computer-vision/image-1.jpg" alt="Server infrastructure showing visual GUI agent training efficiency comparison" caption="" >}}
+{{< figure src="/images/posts/2026-05-01-visual-gui-agents-production-computer-vision/image-1.jpg" alt="Frozen-backbone training architecture for visual GUI agents — frozen pre-trained vision encoder with task-specific adapter layers" caption="" >}}
 
 ## The Screenshot Token Problem: Where GUI Agent Costs Explode
 
@@ -111,7 +111,7 @@ OpenAI's Computer Use API offers evidence that visual GUI agents can achieve pro
 
 General-purpose VLMs treat screenshots as photographs. GUI-specific architectures can exploit the structured nature of interface elements — rectangular regions, text hierarchies, predictable layouts — to compress visual information without losing grounding fidelity. The UGround framework from OSU demonstrates that pure vision approaches can outperform multimodal baselines by up to 20% absolute across benchmarks when designed with explicit spatial reasoning components [13].
 
-{{< figure src="/images/posts/2026-05-01-visual-gui-agents-production-computer-vision/image-2.jpg" alt="Abstract data flow representing visual token efficiency in GUI agents" caption="" >}}
+{{< figure src="/images/posts/2026-05-01-visual-gui-agents-production-computer-vision/image-2.jpg" alt="Visual token efficiency for GUI agents — dense input tokens reduced to sparse high-attention tokens via selection" caption="" >}}
 
 For production systems, the most impactful optimization is often reducing screenshot frequency. An agent capturing screen state only on significant DOM mutations or user actions — rather than polling at fixed intervals — can cut vision costs by 60-80% depending on task dynamics [7].
 
@@ -171,6 +171,6 @@ The interaction between native multimodal architectures and GUI-specific trainin
 
 ## Image Credits
 
-- **Cover photo**: [Kevin Ku](https://unsplash.com/photos/closeup-photo-of-eyeglasses-w7ZyuGYNpRQ) on [Unsplash](https://unsplash.com/photos/w7ZyuGYNpRQ)
-- **Figure 1**: Photo by [Kevin Ache](https://unsplash.com/@kevinache) on [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license)
-- **Figure 2**: Photo by [灿雄 邱](https://unsplash.com/@cader_) on [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license)
+- **Cover photo**: Image generated with Flux Pro 1.1 (ContentForge AI illustration)
+- **Figure 1**: Image generated with Flux Pro 1.1 (ContentForge AI illustration)
+- **Figure 2**: Image generated with Flux Pro 1.1 (ContentForge AI illustration)
