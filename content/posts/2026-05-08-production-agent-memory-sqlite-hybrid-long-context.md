@@ -36,7 +36,7 @@ faq:
 
 Your customer support agent just lost the conversation thread. After thirty messages tracking a complex refund case, it treats the customer like a stranger. Context windows overflow—and token costs explode. For production agent builders, memory isn't optional; it's the difference between a tool users trust and one they abandon.
 
-Most teams default to Pinecone or Weaviate for vector storage. The real value isn't cloud hosting: it's hybrid architecture. SQLite with sqlite-vec delivers sub-millisecond query latency for thousands of memories while costing near-zero in infrastructure. This article explores production-grade patterns for implementing agent memory using SQLite as a hybrid database: structured episodic storage married to semantic vector search, with clear scaling boundaries and migration paths when you hit SQLite's limits.
+Most teams default to [Pinecone](https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-05-08-production-agent-memory-sqlite-hybrid-long-context) or Weaviate for vector storage. The real value isn't cloud hosting: it's hybrid architecture. SQLite with sqlite-vec delivers sub-millisecond query latency for thousands of memories while costing near-zero in infrastructure. This article explores production-grade patterns for implementing agent memory using SQLite as a hybrid database: structured episodic storage married to semantic vector search, with clear scaling boundaries and migration paths when you hit SQLite's limits.
 
 ## Why SQLite Works for Production Agent Memory
 
@@ -232,6 +232,8 @@ Implement composite scoring combining recency, importance, and access frequency.
 ### Is this approach suitable for multi-tenant SaaS applications?
 
 SQLite works for multi-tenant scenarios with one database file per tenant. The single-writer limitation becomes a per-tenant constraint, which scales horizontally. For high-volume tenants exceeding 1K concurrent users, migrate individual tenants to PostgreSQL or TiDB as they grow.
+
+*This post may contain affiliate links. We may earn a small commission if you sign up through our links, at no extra cost to you.*
 
 ---
 
