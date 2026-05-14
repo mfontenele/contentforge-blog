@@ -69,7 +69,7 @@ This tight integration eliminates serialization overhead and keeps your data in 
 ```mermaid
 graph TD
   A[SQLite Table] --> B[Virtual Table Interface]
-  B --> C[Vector Index (HNSW)]
+  B --> C["Vector Index (HNSW)"]
   C --> D[Approximate Nearest Neighbor Search]
   D --> E[Agent Query Result]
 ```
