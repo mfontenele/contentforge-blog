@@ -9,8 +9,8 @@ description: "GitHub Copilot Agent Mode GA delivers 56% SWE-bench performance wi
 summary: "GitHub Copilot Agent Mode GA combines autonomous coding with GitHub integration; Pro+ tier is mandatory for productive teams building AI coding workflows at scale."
 cover:
   image: "/images/covers/2026-05-15-github-copilot-agent-mode-production/cover.jpg"
-  alt: "GitHub Copilot Agent Mode: Production Playbook for AI Teams"
-  caption: "Image generated with dalle3 (ContentForge AI illustration)"
+  alt: "GitHub Copilot Agent Mode workspace showing AI coding teams and autonomous workflows"
+  caption: "Image generated with flux-pro-1.1 (ContentForge AI illustration)"
   relative: false
   hidden: false
 ShowToc: true
@@ -30,11 +30,11 @@ faq:
 
 **TL;DR**
 
-- GitHub Copilot Agent Mode GA (March 2026) hits 56% SWE-bench Verified while offering tighter GitHub integration than [Claude Code](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/)'s 63.7-70.3% [3].
+- GitHub Copilot Agent Mode GA (March 2026) hits 56% SWE-bench Verified while offering tighter GitHub integration than Claude Code's 63.7-70.3% [3].
 - Cloud Coding Agent startup latency dropped 50% via pre-indexing—enabling async issue-to-PR workflows without real-time supervision [2].
 - Copilot Pro+ at $39/month is the practical minimum; according to third-party analysis, each Agent Mode task consumes 3-10+ premium requests [4].
 
-Production engineering reached an inflection point in March 2026. Autocomplete tools evolved into autonomous agents capable of planning multi-step tasks, editing files across projects, and submitting pull requests without intervention. GitHub Copilot Agent Mode reached General Availability across VS Code, JetBrains IDEs, Visual Studio, and Xcode—shifting how development teams approach code generation and repository management [1],[6].\n\nYet benchmark scores create persistent misunderstanding. Copilot scores 56% on SWE-bench Verified while Claude Code achieves 63.7-70.3% using the same underlying model [3]. Teams adopt Copilot anyway because benchmark scores miss what [actually matters](/posts/2026-03-06-benchmarking-ai-agents-production/) in production workflows [4].\n\nThis article examines when Copilot Agent Mode beats Claude Code for enterprise teams; why the Pro+ tier at $39 per month is effectively mandatory; and how that 56% benchmark score translates to measurable productivity gains in real-world development.
+Production engineering reached an inflection point in March 2026. Autocomplete tools evolved into autonomous agents capable of planning multi-step tasks, editing files across projects, and submitting pull requests without intervention. GitHub Copilot Agent Mode reached General Availability across VS Code, JetBrains IDEs, Visual Studio, and Xcode—shifting how development teams approach code generation and repository management [1],[6].\n\nYet benchmark scores create persistent misunderstanding. Copilot scores 56% on SWE-bench Verified while Claude Code achieves 63.7-70.3% using the same underlying model [3]. Teams adopt Copilot anyway because benchmark scores miss what actually matters in production workflows [4].\n\nThis article examines when Copilot Agent Mode beats Claude Code for enterprise teams; why the Pro+ tier at $39 per month is effectively mandatory; and how that 56% benchmark score translates to measurable productivity gains in real-world development.
 
 ## What March 2026 Changed: GA Across All Major IDEs
 
@@ -44,7 +44,7 @@ Two substantial technical improvements shipped alongside the GA announcement. Fi
 
 Simply assign an issue to Copilot, step away for coffee, and return to find a pull request ready for review. It works. Slow initialization previously made these workflows unusable; the friction of waiting thirty seconds per agent invocation destroyed productivity for teams working asynchronously on complex projects.
 
-Second: custom agents via .agent.md files now enable workspace-aware configurations with model choice and MCP ([Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/)) connections that teams can customize for their specific needs [1],[6]. Development teams can define agents with specific skills automatically discovered from .github/skills/ directories—creating reusable instruction sets for recurring patterns such as API migrations between versions, comprehensive test generation, and logging standardization across multiple repositories [6].
+Second: custom agents via .agent.md files now enable workspace-aware configurations with model choice and MCP (Model Context Protocol) connections that teams can customize for their specific needs [1],[6]. Development teams can define agents with specific skills automatically discovered from .github/skills/ directories—creating reusable instruction sets for recurring patterns such as API migrations between versions, comprehensive test generation, and logging standardization across multiple repositories [6].
 
 > [!NOTE]
 > Vim and Neovim users remain limited to completions—no Agent Mode or chat capabilities exist for these editors [1]; if senior engineers on your team live in tmux, this gap matters materially for adoption strategy.
@@ -215,6 +215,6 @@ March 2026 GA delivered production readiness across all major IDEs: VS Code, Vis
 
 ## Image Credits
 
-- **Cover photo**: Image generated with dalle3 (ContentForge AI illustration)
+- **Cover photo**: Image generated with flux-pro-1.1 (ContentForge AI illustration)
 - **Figure 1**: Image generated with flux-pro-1.1 (ContentForge AI illustration)
 - **Figure 2**: Image generated with flux-pro-1.1 (ContentForge AI illustration)
