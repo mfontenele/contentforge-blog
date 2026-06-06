@@ -5,8 +5,8 @@ draft: false
 categories: ["AI Agent Operations"]
 tags: ["agent-gateway", "mcp-gateway", "llm-routing", "cost-control", "agent-infrastructure"]
 keywords: ["agent gateway", "LLM routing", "cost control", "MCP gateway", "agent infrastructure"]
-description: "How agent gateways use centralized routing, tool validation, and session budget tracking to prevent runaway costs in production AI agent systems."
-summary: "The agent gateway extends traditional LLM proxies with tool call validation, per-session budget tracking, and autonomy enforcement — infrastructure that separates production-ready agent systems from expensive experiments."
+description: "How agent gateways use centralized routing, tool call validation, and per-session budget tracking to prevent runaway costs in production AI agent systems."
+summary: "The agent gateway extends traditional LLM proxies with tool call validation, per-session budget tracking, and autonomy enforcement: the infrastructure that separates production-ready agent systems from expensive experiments."
 cover:
   image: "/images/covers/2026-06-05-agent-gateway-centralized-routing-cost-control/cover.jpg"
   alt: "Centralized AI agent gateway with data streams connecting to multiple endpoints"
@@ -19,11 +19,11 @@ faq:
 - q: "Do I need an agent gateway if I already use LiteLLM for cost control?"
   a: "LiteLLM controls LLM spend. It cannot see or control tool actions. If your agents interact with databases, APIs, or external services, add tool-level governance on top of model-level cost control. See the implementation migration phases above."
 - q: "What is the latency cost of routing through an agent gateway?"
-  a: "Bifrost claims 11 microseconds per request at 5,000 RPS [9]. Set against LLM inference times of 500ms to 30s, that overhead is noise. Even with full policy evaluation and validation, a well-implemented gateway adds single-digit milliseconds. For regulated workloads where audit trails are mandatory, the latency trade-off isn't a trade-off — it's the cost of compliance."
+  a: "Bifrost claims 11 microseconds per request at 5,000 RPS [9]. Set against LLM inference times of 500ms to 30s, that overhead is noise. Even with full policy evaluation and validation, a well-implemented gateway adds single-digit milliseconds. For regulated workloads where audit trails are mandatory, the latency trade-off isn't a trade-off; it's the cost of compliance."
 - q: "Should I self-host or use a managed agent gateway?"
   a: "It depends on your infrastructure capacity and regulatory requirements. Managed options (Cloudflare AI Gateway, AWS Bedrock AgentCore) reduce operational burden but couple you to a cloud vendor. Self-hosted options (Bifrost, Pomerium) give you control over data residency and policy logic. We don't have clean comparative TCO data between approaches at production scale yet. For regulated industries where data locality matters, self-hosted is the safer starting point. For teams without dedicated infrastructure capacity, managed options let you skip the operational learning curve while still getting tool-level governance."
 - q: "Can I enforce autonomy tiers without an agent gateway?"
-  a: "No. Frameworks catch only their own agents. The gateway catches all of them regardless of framework, runtime, or language — that's the architecture's core value proposition."
+  a: "No. Frameworks catch only their own agents. The gateway catches all of them regardless of framework, runtime, or language. That's the architecture's core value proposition."
 - q: "How do agent gateways handle the MCP protocol specifically?"
   a: "Agent gateways act as MCP intermediaries: the agent connects to the gateway via MCP, the gateway authenticates and authorizes the request, then forwards it to the actual tool server. This lets the gateway inspect every tool call without requiring changes to MCP servers or agent runtimes. Anthropic, OpenAI, Microsoft, and Google have all adopted MCP as the agent-to-tool communication standard."
 ---
@@ -32,9 +32,9 @@ faq:
 
 - Gartner predicts 75% of API gateway vendors will integrate MCP by end 2026; at least 50% of GenAI projects will overrun budgets through 2028 [1] [2].
 - Agent gateways add three capabilities LLM gateways lack: tool call validation, multi-step budget tracking, and autonomy-level enforcement [3] [4].
-- The unified gateway pattern — LLM routing, MCP tool governance, and cost control in one layer — is becoming the production standard [5].
+- The unified gateway pattern (LLM routing, MCP tool governance, and cost control in one layer) is becoming the production standard [5].
 
-A single user request to a production agent can cascade into dozens of LLM calls as the system plans, retrieves, validates, and retries. LLM gateways enforce per-request token limits. They cannot see that a request just triggered a 14-step tool chain consuming orders of magnitude more budget than expected. That blindness isn't a missing feature. It's a category mismatch. The agent gateway pattern fills this gap by extending the proxy layer with tool call validation, per-session budget tracking, and autonomy-level enforcement — infrastructure that separates production-ready [agent systems](/posts/2026-03-03-ai-agent-observability-production/) from expensive experiments. This article maps the full architecture, compares the platforms, and gives you a migration path from simple LLM proxy to full agent gateway.
+A single user request to a production agent can cascade into dozens of LLM calls as the system plans, retrieves, validates, and retries. LLM gateways enforce per-request token limits. They cannot see that a request just triggered a 14-step tool chain consuming orders of magnitude more budget than expected. That blindness isn't a missing feature. It's a category mismatch. The agent gateway pattern fills this gap by extending the proxy layer with tool call validation, per-session budget tracking, and autonomy-level enforcement: the infrastructure that separates production-ready [agent systems](/posts/2026-03-03-ai-agent-observability-production/) from expensive experiments. This article maps the full architecture, compares the platforms, and gives you a migration path from simple LLM proxy to full agent gateway.
 
 ## The Problem: Why LLM Gateways Are Blind to Agent Behavior
 
@@ -59,9 +59,7 @@ AWS's prescriptive guidance for agentic AI defines three tool access patterns, a
 
 In-runtime tools are the default: zero latency, zero governance. Direct remote tools via MCP add protocol-based interoperability and server-level authentication. The tools gateway pattern centralizes discovery, security, versioning, and per-tool policy enforcement; every tool call passes through a single control point that validates schemas, enforces allow-deny-approve rules, and tracks session spend [8].
 
-The gateway builds on MCP (97 million monthly SDK downloads, 78% enterprise adoption [9]) without replacing it. MCP standardizes agent-to-tool communication; the gateway adds governance, observability, and cost control on that protocol layer.
-
-<!-- ILLUSTRATOR: suggested diagram — Three tool access patterns side by side: in-runtime tools embedded in agent process, direct remote tools connecting via MCP protocol, and centralized tools gateway pattern with policy enforcement layer -->
+The gateway builds on MCP (97 million monthly SDK downloads [9]) without replacing it. MCP standardizes agent-to-tool communication; the gateway adds governance, observability, and cost control on that protocol layer.
 
 ## Model Routing and Cost Optimization at the Gateway Layer
 
@@ -86,10 +84,10 @@ graph TD
 
 Semantic caching at the gateway delivers 20-73% cost reduction with dual-layer exact hash plus vector similarity matching [10]. The range is workload-dependent: repetitive support workflows hit the upper end. Creative generation hits the lower end. Bifrost's Code Mode claims up to 92% token reduction by pre-computing deterministic paths before reaching an LLM [9].
 
-The cached response arrives in milliseconds — sub-5ms in Bifrost benchmarks [3]. Budget management adds a hierarchy: per-virtual-key caps for individual agents, per-team budgets for departments, per-customer hard caps for multi-tenant platforms — with soft-cap alerts before hard cuts [6] [5]. Combined with session-level tracking, gateways enforce spend-per-outcome: requests that exceed the task's economic value are rejected before execution.
+The cached response arrives in roughly 5 milliseconds in Bifrost benchmarks [3]. Budget management adds a hierarchy: per-virtual-key caps for individual agents, per-team budgets for departments, and per-customer hard caps for multi-tenant platforms, with soft-cap alerts before hard cuts [6] [5]. Combined with session-level tracking, gateways enforce spend-per-outcome: requests that exceed the task's economic value are rejected before execution.
 
 {{< key-takeaway >}}
-Model routing inside a gateway isn't about saving cents per request. When cumulative session spend is visible to the routing engine, the system trades accuracy against cost in real time based on remaining budget — making each agent session economically viable rather than a unit-cost optimization.
+Model routing inside a gateway isn't about saving cents per request. When cumulative session spend is visible to the routing engine, the system trades accuracy against cost in real time based on remaining budget, making each agent session economically viable rather than a unit-cost optimization.
 {{< /key-takeaway >}}
 
 ## Tool Call Validation and Authorization
@@ -100,15 +98,13 @@ The permission model moves from server-level to method-level. Instead of "access
 
 AWS Bedrock AgentCore layers Cedar policy with Lambda interceptors. Cedar evaluates agent identity, tool method, and request context against deterministic access rules; Lambda interceptors execute custom logic for context-dependent decisions like data residency checks [11]. Response sanitization closes the loop: the gateway validates tool outputs for [prompt injection](/posts/2026-04-03-owasp-top-10-agentic-apps-security-guardrails/) payloads and PII before returning them to the agent. Portkey captures full traces across agent runs including MCP calls, with 40+ metrics out of the box [12].
 
-<!-- ILLUSTRATOR: suggested screenshot — Gateway tool call validation dashboard showing policy engine intercepting agent requests, schema validation checking parameters, and allow-deny-approve decision log with agent identity and timestamps -->
-
 ## Multi-Step Budget and Autonomy Enforcement
 
-The defining cost-control challenge for agents is cumulative session spend. One research query triggers planning, search, retrieval, synthesis, formatting — a dozen LLM invocations before the user sees a response [6]. A per-request budget of $0.50 would approve each call individually while the session burns through $6.00.
+The defining cost-control challenge for agents is cumulative session spend. One research query triggers planning, search, retrieval, synthesis, and formatting: a dozen LLM invocations before the user sees a response [6]. A per-request budget of $0.50 would approve each call individually while the session burns through $6.00.
 
 Agent gateways solve this with session-scoped budget counters that accumulate across all steps, blocking execution when the cap is reached [4] [6]. Escalation rules fire at 50%, 80%, and 95% thresholds for intervention before the hard cap triggers.
 
-Atomic enforcement under concurrency is hard: 20 agents sharing a $100 daily budget, ten trying to spend $20 simultaneously — naïve checking can allow $200 through. Production gateways use atomic decrement operations (deduct before execution, refund unused) analogous to two-phase commit [6]. Not every gateway gets this right.
+Atomic enforcement under concurrency is hard: 20 agents sharing a $100 daily budget, ten trying to spend $20 simultaneously, and naïve checking can allow $200 through. Production gateways use atomic decrement operations (deduct before execution, refund unused) analogous to two-phase commit [6]. Not every gateway gets this right.
 
 Autonomy enforcement adds tiered execution: draft mode (read-only), suggest mode (proposals requiring approval), execute mode (autonomous within guardrails) [4] [8]. A developer agent might create PRs on staging in execute mode but require approval for merging to main. The gateway enforces this uniformly across all frameworks; no framework-level guard can match that reach.
 
@@ -116,25 +112,25 @@ Autonomy enforcement adds tiered execution: draft mode (read-only), suggest mode
 
 Agents should never hold long-lived credentials. Agent gateways address this with short-lived credential injection: the agent authenticates to the gateway with its own identity, the gateway handles upstream OAuth 2.1 flows, and short-lived tokens are injected into each tool call [4]. The agent never sees the upstream credentials.
 
-Pomerium implements this with an X-Pomerium-Assertion header carrying signed, short-lived assertions of the agent's identity and permissions [4]. The identity model is per-agent, not per-user: an agent authenticated as code-review-bot has specific tool permissions independent of which user triggered it. This least-privilege model means a prompt-injection attack that tries destructive operations gets blocked at the gateway — code-review-bot simply lacks those permissions [4] [8].
+Pomerium implements this with an X-Pomerium-Assertion header carrying signed, short-lived assertions of the agent's identity and permissions [4]. The identity model is per-agent, not per-user: an agent authenticated as code-review-bot has specific tool permissions independent of which user triggered it. This least-privilege model means a prompt-injection attack that tries destructive operations gets blocked at the gateway, because code-review-bot simply lacks those permissions [4] [8].
 
 Enterprise IdP integration (Okta, Entra ID, any OIDC provider) enables SSO for agent platforms and federated authentication across organizational boundaries [4].
 
 ## Platform Comparison: Choosing Your Agent Gateway
 
-The agent gateway market is forming. No independent benchmarks compare options head-to-head. The table below organizes the landscape — treat it as a decision framework.
+The agent gateway market is forming. No independent benchmarks compare options head-to-head. The table below organizes the landscape; treat it as a decision framework.
 
 | Platform | Deployment | LLM Routing | Tool Validation | Budget Tracking | Best Fit |
 | --- | --- | --- | --- | --- | --- |
 | Bifrost (Maxim AI) | Self-hosted Go binary | 100+ providers, semantic cache | Native MCP, allow-deny per tool | Hierarchical virtual keys, per-session | Unified LLM+MCP+agent [9] |
-| LiteLLM | Self-hosted Python proxy | 100+ providers, 2500+ models | None — LLM proxy only | Per-key/team caps [6] | LLM cost governance [6] |
+| LiteLLM | Self-hosted Python proxy | 100+ providers, 2500+ models | None (LLM proxy only) | Per-key/team caps [6] | LLM cost governance [6] |
 | Portkey Agent Gateway | Self-hosted, cloud | Provider routing | Agent Registry, RBAC | 40+ metrics, full traces [12] | Observability + governance [12] |
 | Cloudflare AI Gateway | Hosted edge | Multi-provider, edge caching | Workers binding | Per-agent attribution [13] | Cloudflare ecosystem [13] |
-| Pomerium | Self-hosted Go binary | N/A — MCP focus | Tool-level auth, OAuth 2.1 | Session policy enforcement [4] | Zero-trust MCP [4] |
+| Pomerium | Self-hosted Go binary | N/A (MCP focus) | Tool-level auth, OAuth 2.1 | Session policy enforcement [4] | Zero-trust MCP [4] |
 | AWS Bedrock AgentCore | Managed (AWS) | Bedrock routing | Cedar policy + Lambda | Per-session, Cedar-enforced [11] | AWS-native, regulated [11] |
 | Kong AI Gateway | Self-hosted, cloud | Provider routing | MCP OAuth plugin (Feb 2026) | Enterprise rate limiting | Existing Kong investment [9] |
 
-Bifrost and Portkey both claim the category — Portkey launched its Agent Gateway in April 2026; Bifrost positions its MCP gateway with Code Mode as the unified option. No independent benchmarks validate either claim [9] [12]. Pomerium takes a narrower, deeper approach on tool-level auth and zero-trust [4]. LiteLLM sits just outside the category: solid LLM cost governance, no tool-layer controls [6].
+Bifrost and Portkey both claim the category. Portkey launched its Agent Gateway in April 2026; Bifrost positions its MCP gateway with Code Mode as the unified option. No independent benchmarks validate either claim [9] [12]. Pomerium takes a narrower, deeper approach on tool-level auth and zero-trust [4]. LiteLLM sits just outside the category: solid LLM cost governance, no tool-layer controls [6].
 
 Self-hosted options (Bifrost, Pomerium, LiteLLM) give control but require ops investment. Managed options (Cloudflare, AWS) reduce burden but lock you into an ecosystem. Kong bridges both worlds with enterprise support contracts.
 
@@ -152,7 +148,7 @@ graph LR
 
 Phase 1 is where most teams are: routing model calls with per-key budgets. Phase 2 puts an MCP gateway in front of tool servers for discovery and basic authentication.
 
-Phase 3 adds tool-level policies — mapping each method to allow, deny, or require-approval per agent identity. Phase 4 layers session-scoped budget enforcement.
+Phase 3 adds tool-level policies, mapping each method to allow, deny, or require-approval per agent identity. Phase 4 layers session-scoped budget enforcement.
 
 ```yaml
 # Bifrost / Pomerium tool-level policy
@@ -170,21 +166,19 @@ budgets:
     escalation_thresholds: [0.5, 0.8, 0.95]
 ```
 
-Phase 5 activates autonomy tiers: draft for read-only, suggest for approval-required, execute for trusted autonomous operation. TrueFoundry warns: start with governance before agents multiply — agent sprawl is the next SaaS sprawl [2] [5]. Build observability from Phase 2: Prometheus metrics for per-tool latency and cost, OpenTelemetry traces stitching model calls, tool invocations, and policy decisions into a single session trace [12] [9] [4].
-
-<!-- ILLUSTRATOR: suggested flow — Five-phase migration roadmap from LLM proxy to full agent gateway, showing incremental capability gains at each phase with example tools and latency impact -->
+Phase 5 activates autonomy tiers: draft for read-only, suggest for approval-required, execute for trusted autonomous operation. TrueFoundry warns: start with governance before agents multiply, because agent sprawl is the next SaaS sprawl [2] [5]. Build observability from Phase 2: Prometheus metrics for per-tool latency and cost, OpenTelemetry traces stitching model calls, tool invocations, and policy decisions into a single session trace [12] [9] [4].
 
 ## The Convergence: Gateways, MCP, and the Agent Infrastructure Stack
 
-Gartner predicts 75% of API gateway vendors will integrate MCP by end 2026 — structural convergence in the infrastructure stack [1]. API gateways managed REST for two decades. Agent gateways manage tool endpoints, model endpoints, and the interaction patterns between them. Retrofitting an API gateway with MCP isn't the same as building one designed for agent workloads.
+Gartner predicts 75% of API gateway vendors will integrate MCP by end 2026, structural convergence in the infrastructure stack [1]. API gateways managed REST for two decades. Agent gateways manage tool endpoints, model endpoints, and the interaction patterns between them. Retrofitting an API gateway with MCP isn't the same as building one designed for agent workloads.
 
-The MCP roadmap names enterprise auth, audit trails, and gateway patterns as priority work [9]. With 97 million monthly SDK downloads and 78% enterprise adoption, the protocol layer and gateway layer are co-evolving [9]. Gateways benefit from a standard protocol. MCP benefits from gateways solving governance problems the spec leaves open.
+The MCP roadmap names enterprise auth, audit trails, and gateway patterns as priority work [9]. With 97 million monthly SDK downloads, the protocol layer and gateway layer are co-evolving [9]. Gateways benefit from a standard protocol. MCP benefits from gateways solving governance problems the spec leaves open.
 
-Which gateway you choose depends on maturity. Basic chatbot teams start with LiteLLM and add MCP later; multi-step [agent teams](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/) need tool-level authorization from day one — Pomerium or Bifrost. Multi-tenant platforms should evaluate managed options like AWS Bedrock AgentCore or invest in self-hosted unified gateways. The next frontier: gateway-to-gateway protocols for cross-organizational agent interoperation. Gartner's prediction that at least 50% of GenAI projects will overrun budgets through 2028 [2] is a signal: infrastructure decisions made in 2026 determine who ships in 2028.
+Which gateway you choose depends on maturity. Basic chatbot teams start with LiteLLM and add MCP later; multi-step [agent teams](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/) need tool-level authorization from day one, via Pomerium or Bifrost. Multi-tenant platforms should evaluate managed options like AWS Bedrock AgentCore or invest in self-hosted unified gateways. The next frontier: gateway-to-gateway protocols for cross-organizational agent interoperation. Gartner's prediction that at least 50% of GenAI projects will overrun budgets through 2028 [2] is a signal: infrastructure decisions made in 2026 determine who ships in 2028.
 
 ## Practical Takeaways
 
-1. Deploy an MCP gateway (Bifrost or Pomerium) in front of your tool servers before adding more agents — tool-level authorization is the highest-impact first step beyond LLM proxies.
+1. Deploy an MCP gateway (Bifrost or Pomerium) in front of your tool servers before adding more agents; tool-level authorization is the highest-impact first step beyond LLM proxies.
 2. Configure session-scoped budget caps even if per-key limits feel generous; a single agent session can silently consume orders of magnitude more tokens than expected.
 3. Adopt the phased migration (LLM proxy → MCP gateway → tool policies → session budgets → autonomy tiers) and build observability from Phase 2 with Prometheus and OpenTelemetry.
 
@@ -200,7 +194,7 @@ LiteLLM controls LLM spend. It cannot see or control tool actions. If your agent
 
 ### What is the latency cost of routing through an agent gateway?
 
-Bifrost claims 11 microseconds per request at 5,000 RPS [9]. Set against LLM inference times of 500ms to 30s, that overhead is noise. Even with full policy evaluation and validation, a well-implemented gateway adds single-digit milliseconds. For regulated workloads where audit trails are mandatory, the latency trade-off isn't a trade-off — it's the cost of compliance.
+Bifrost claims 11 microseconds per request at 5,000 RPS [9]. Set against LLM inference times of 500ms to 30s, that overhead is noise. Even with full policy evaluation and validation, a well-implemented gateway adds single-digit milliseconds. For regulated workloads where audit trails are mandatory, the latency trade-off isn't a trade-off; it's the cost of compliance.
 
 ### Should I self-host or use a managed agent gateway?
 
@@ -208,7 +202,7 @@ It depends on your infrastructure capacity and regulatory requirements. Managed 
 
 ### Can I enforce autonomy tiers without an agent gateway?
 
-No. Frameworks catch only their own agents. The gateway catches all of them regardless of framework, runtime, or language — that's the architecture's core value proposition.
+No. Frameworks catch only their own agents. The gateway catches all of them regardless of framework, runtime, or language. That's the architecture's core value proposition.
 
 ### How do agent gateways handle the MCP protocol specifically?
 
