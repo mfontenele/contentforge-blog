@@ -93,11 +93,11 @@ Each receipt carries: signature_id, agent_id, action, algorithm (ML-DSA-65), tim
 | Bounded | Pre-execution gate (gate_action) + post-execution close (complete_action) | Performance-sensitive workflows, batch processing | Approval is cryptographically linked to outcome; omission detectable |
 | Detectable | Post-hoc signing with chain verification | Legacy systems, incremental rollout, low-risk automation | Tampering or omission is detected on verification, not prevented |
 
-A payment agent needs Strong-tier. A notification agent can work with Detectable-tier during rollout. Upgrade tier by tier without changing the schema.
+A payment agent needs Strong-tier. A notification agent can work with Detectable-tier during rollout. Tier upgrades are backward-compatible: because the receipt schema remains identical across all three tiers, you can raise enforcement level incrementally without rewriting any existing parsers or consumers that already process your audit stream.
 
 ### Why ML-DSA-65 and Not ECDSA?
 
-ML-DSA-65 (FIPS 204) targets AES-192 equivalent security [3], [7]. Audit trails retained 5+ years outlast pre-quantum cryptography. Pragmatic path: ECDSA now (IETF AAT baseline [5]), ML-DSA-65 when retention exceeds 5 years [7].
+ML-DSA-65 (FIPS 204) targets AES-192 equivalent security [3], [7]. Audit trails retained 5+ years outlast pre-quantum cryptography. Given that AI systems deployed today will still process regulated data in 2030 and beyond, choosing cryptographic primitives with a longer security horizon is a planning decision, not a theoretical one. Pragmatic path: ECDSA now (IETF AAT baseline [5]), ML-DSA-65 when retention exceeds 5 years [7].
 
 ## Agent Decision Record Schema: What Goes in the Receipt
 
