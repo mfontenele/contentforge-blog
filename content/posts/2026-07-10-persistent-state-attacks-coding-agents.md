@@ -10,7 +10,7 @@ summary: "The UK AI Security Institute has identified a new attack surface where
 cover:
   image: "/images/covers/2026-07-10-persistent-state-attacks-coding-agents/cover.jpg"
   alt: "Persistent-state attacks in AI coding agents, showing hidden state and persistent threats"
-  caption: "Illustrated with SVG fallback"
+  caption: "Image generated with flux-pro-1.1 (Agents' Codex AI illustration)"
   relative: false
   hidden: false
 ShowToc: true
@@ -171,7 +171,7 @@ The most immediate unknown is human-in-the-loop integration. The ensemble's 47% 
 
 ## Conclusion
 
-The 93% evasion rate against full-context monitors is a signal, not a statistic. Security teams adopting AI coding agents face a binary first audit: does your review infrastructure treat PRs as independent events? If yes, you are exposed. The open question that follows is harder: will the first widely adopted cross-PR monitoring platform come from a startup, an open-source project, or a GitHub/CircleCI extension? Infrastructure decisions made this year will lock teams into architectures that either enable stateful monitoring or make it prohibitively expensive to retrofit.
+The 93% evasion rate against full-context monitors is a signal, not a statistic. Security teams adopting AI coding agents face a binary first audit: does your review infrastructure treat PRs as independent events? If yes, you are exposed. The open question that follows is harder: what should that monitoring infrastructure prioritize first? Directing reviewer attention toward the PRs and code paths where fragmented attacks are most likely to reconnect.
 
 ## Frequently Asked Questions
 
@@ -208,5 +208,5 @@ Two things, in order. First, restrict what your coding agents can access: remove
 
 ## Image Credits
 
-- **Cover photo**: Illustrated with SVG fallback
+- **Cover photo**: Image generated with flux-pro-1.1 (Agents' Codex AI illustration)
 - **Figure 1**: Image generated with flux-pro-1.1 (Agents' Codex AI illustration)
