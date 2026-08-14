@@ -23,7 +23,7 @@ faq:
 - q: "How do I authenticate machine-to-machine tool calls when no user is present?"
   a: "Use the OAuth client credentials flow from SEP-1046, and prefer JWT assertions per RFC 7523 over shared client secrets. Assertions can be scoped, expiring, and audience-bound, which gives you a revocation story across boundaries that a plain secret cannot provide."
 - q: "What is the biggest unsolved problem in federated MCP?"
-  a: "Capability attestation. The specs define authentication and identity, but there is no standard for how a downstream server verifies that an upstream caller is authorized to act on a user's behalf. This is not a small gap: it is the difference between proving who you are and proving you are allowed to do the thing. The strongest public signal we have is a Hacker News discussion thread, not a normative spec, and production gateway vendors do not hand you a general answer. Realistically, every team crossing an organizational boundary today builds this authorization policy itself, from scratch. That fragmentation is exactly what a future SEP needs to close, and until it lands, the trust logic remains the part you own."
+  a: "Capability attestation. The specs define authentication and identity, but there is no standard for how a downstream server verifies that an upstream caller is authorized to act on a user's behalf. This is not a small gap: it is the difference between proving who you are and proving you are allowed to do the thing. No normative spec addresses it yet, and production gateway vendors do not hand you a general answer. Realistically, every team crossing an organizational boundary today builds this authorization policy itself, from scratch. That fragmentation is exactly what a future SEP needs to close, and until it lands, the trust logic remains the part you own."
 ---
 
 **TL;DR**
@@ -75,7 +75,7 @@ That missing piece is capability attestation; it is the genuine unsolved problem
 This is a hard problem with no canonical answer yet.
 
 > [!WARNING]
-> Treat this absence as the real technical risk: not a footnote. Our strongest signal on the gap is a Hacker News discussion [6]; a conversation, not a normative document. If you build cross-boundary tool access today, you are designing this layer yourself.
+> Treat this absence as the real technical risk: not a footnote. The SEPs are silent on it: SEP-1046 covers authentication for machine-to-machine calls [7], but authorization across trust domains has no normative treatment yet. If you build cross-boundary tool access today, you are designing this layer yourself.
 
 The spec offers one building block. SEP-1046 adds the OAuth client credentials flow for machine-to-machine scenarios where no end-user is available for interactive authorization [7]; it recommends asymmetric methods (JWT assertions per RFC 7523) while still allowing client secrets for backward compatibility [7].
 
@@ -85,7 +85,7 @@ Identity, in short, is table stakes.
 
 ## Federated MCP as a Mesh: Killing the Single Point of Failure
 
-The topological shift is the whole point. Hub-and-spoke centralizes every request through one gateway. A mesh lets a server call another server, which calls a third, forming delegation chains with no mandatory hub [6].
+The topological shift is the whole point. Hub-and-spoke centralizes every request through one gateway. A mesh lets a server call another server, which calls a third, forming delegation chains with no mandatory hub.
 
 The diagram below contrasts the two patterns. On the left, every client routes through a single choke point; on the right, servers hand work off laterally; the failure of any one node does not cut off the rest.
 
@@ -112,24 +112,6 @@ Delegation chains only work if a network intermediary can route MCP traffic with
 That last point is bigger than it looks.
 
 Demand for this pattern predates the formal spec. Community proxies — sparfenyuk/mcp-proxy, open-webui/mcpo — already bridge between transports; a GitHub search for mcp proxy surfaces a growing ecosystem of them [9]. People were hacking federation together before the SEPs ratified it; the specs chased the practice.
-
-```mermaid
-graph LR
-  subgraph Hub-and-Spoke
-    A1[Client A] --> G[Central Gateway]
-    A2[Client B] --> G
-    A3[Client C] --> G
-    G --> S1[Server 1]
-    G --> S2[Server 2]
-    G --> S3[Server 3]
-  end
-  subgraph Mesh Topology
-    M1[Server A] --> M2[Server B]
-    M2 --> M3[Server C]
-    M1 --> M3
-    M3 --> M1
-  end
-```
 
 ## What Production Gateways Reveal About Federation Maturity
 
@@ -181,7 +163,7 @@ Use the OAuth client credentials flow from SEP-1046, and prefer JWT assertions p
 
 ### What is the biggest unsolved problem in federated MCP?
 
-Capability attestation. The specs define authentication and identity, but there is no standard for how a downstream server verifies that an upstream caller is authorized to act on a user's behalf. This is not a small gap: it is the difference between proving who you are and proving you are allowed to do the thing. The strongest public signal we have is a Hacker News discussion thread, not a normative spec, and production gateway vendors do not hand you a general answer. Realistically, every team crossing an organizational boundary today builds this authorization policy itself, from scratch. That fragmentation is exactly what a future SEP needs to close, and until it lands, the trust logic remains the part you own.
+Capability attestation. The specs define authentication and identity, but there is no standard for how a downstream server verifies that an upstream caller is authorized to act on a user's behalf. This is not a small gap: it is the difference between proving who you are and proving you are allowed to do the thing. No normative spec addresses it yet, and production gateway vendors do not hand you a general answer. Realistically, every team crossing an organizational boundary today builds this authorization policy itself, from scratch. That fragmentation is exactly what a future SEP needs to close, and until it lands, the trust logic remains the part you own.
 
 ---
 
