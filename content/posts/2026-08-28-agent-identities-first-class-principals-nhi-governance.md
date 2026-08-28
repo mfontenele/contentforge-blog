@@ -19,7 +19,7 @@ faq:
 - q: "Is a password manager enough for agent credentials?"
   a: "No. A password manager protects credentials at rest, but the real problem is how an agent uses them at runtime. You need runtime credential governance, not just storage."
 - q: "What is the difference between secret storage and runtime credential governance?"
-  a: "Secret storage keeps a credential somewhere safe until it is needed, and that is where it stops. Runtime credential governance controls the credential at the exact moment an identity uses it, brokering each request and writing an audit record rather than assuming a pre-provisioned secret is fine [1]. Storage is necessary but insufficient; the decision that actually matters is made in the brokerage layer, when the agent asks to read a table or call an API, not at rest in the vault."
+  a: "Secret storage keeps a credential somewhere safe until it is needed, and that is where it stops. Runtime credential governance controls the credential at the exact moment an identity uses it, brokering each request and writing an audit record rather than assuming a pre-provisioned secret is fine [1]. Storage is necessary but insufficient; the decision that [actually matters](/posts/2026-03-06-benchmarking-ai-agents-production/) is made in the brokerage layer, when the agent asks to read a table or call an API, not at rest in the vault."
 - q: "Should we adopt workload identity federation right away?"
   a: "It depends on your cloud posture. Federation removes the long-lived secret and is the cleanest fix, but it requires trust configuration between your platform and an external identity provider. We have not seen clean production guidance on how agent-to-agent delegation behaves under federation, so pilot it on one workload and measure before you roll it out broadly."
 - q: "How do we find agent credentials we did not know we had?"
@@ -158,9 +158,3 @@ Start with discovery: scan for API keys and MCP config files across your repos a
 | 1 | NHI Management Group | "AI Agent Credentials Need Runtime Governance, Not Embedded Secrets" | https://nhimg.org/articles/ai-agent-credentials-need-runtime-governance-not-embedded-secrets/ | 2026-04-02 | Blog |
 | 2 | 1Password | "Natoma + 1Password: Scale Enterprise AI" | https://1password.com/blog/natoma-1password-scale-enterprise-ai | 2026-04-02 | Blog |
 | 3 | Microsoft | "Workload Identity Federation - Microsoft Learn" | https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation | undated | Documentation |
-
-## Image Credits
-
-- **Cover photo**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
-- **Figure 1**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
-- **Figure 2**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
