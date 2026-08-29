@@ -32,9 +32,9 @@ faq:
 - Runtime credential governance controls access at the moment of use, replacing standing secrets with brokered, short-lived tokens.
 - Federated token exchange removes the long-lived credential entirely, so there is nothing left to leak or revoke.
 
-In a single year, [Model Context Protocol](/posts/2026-08-14-federated-mcp-distributed-tool-access/) (MCP) configuration files exposed 24,008 unique secrets; AI-related credential leaks climbed 81.5% in that same window [1]. The pattern behind both numbers is the same: we keep handing agents long-lived credentials that outlive the workflows that needed them. Treat it as a storage problem — you will buy a better vault and still lose. It is a governance problem, and it compounds quietly. The fix is two-fold: broker credential use at runtime, and treat agents as first-class principals rather than borrowed credentials.
+In a single year, [Model Context Protocol](/posts/2026-08-14-federated-mcp-distributed-tool-access/) (MCP) configuration files exposed 24,008 unique secrets; AI-related credential leaks climbed 81.5% in that same window [1]. The pattern behind both numbers is the same: weak agent identity practices keep handing agents long-lived credentials that outlive the workflows that needed them. Treat it as a storage problem — you will buy a better vault and still lose. It is a governance problem, and it compounds quietly. The fix is two-fold: broker credential use at runtime, and treat agents as first-class principals rather than borrowed credentials.
 
-## Why agent credentials sprawl faster than teams can revoke them
+## Why agent identity credentials sprawl faster than teams can revoke them
 
 AI infrastructure leaks secrets at five times the rate of the core LLM providers [1]. Read that number slowly; the risk is not in the model itself, it is in the plumbing that connects an agent to your databases, internal APIs, and tooling.
 
@@ -50,7 +50,7 @@ Agents break the traditional IAM model for a concrete reason: they are non-deter
 
 {{< figure src="/images/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/image-1.jpg" alt="Secret sprawl: a single brass key fracturing into diverging cracks, symbolizing one shared credential fanning out across multiple agent workflows with no central view" caption="One shared credential fanning out across multiple agent workflows" >}}
 
-## From a shared service account to a first-class principal
+## From a shared service account to a first-class agent identity
 
 A service account is a shared resource: an application borrows a credential, and rarely does anyone ask which part of the application actually used it. Agents make that model untenable. A single key now fans out across dozens of autonomous decision points with no single owner in charge.
 
@@ -114,7 +114,7 @@ The policy controls are what turn this from a convenience into governance: read-
 
 Ravi Chinni, Global Head of IAM at S&P Global, frames the endgame clearly: as [AI agents](/posts/2026-07-24-rotunda-agent-native-browser/) become more embedded in enterprise operations, organizations will need interoperable approaches that bring together credential protection, policy governance, and auditability across platforms [2]. It is a coordination problem more than a tooling problem.
 
-{{< figure src="/images/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/image-2.jpg" alt="Secret sprawl flow: a single brass key radiates copper wires to seven tarnished nodes, symbolizing one shared API key fanning out across agent workflows with no central view." caption="One key, seven paths: how a single credential leaks across agent workflows." >}}
+{{< figure src="/images/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/image-2.jpg" alt="Brokered access: a metallic connector device with a glowing orange port mediating between an intact copper wire and a frayed one, symbolizing policy-gated access that filters and approves each connection rather than granting a single key to every path" caption="Mediated, not multiplied: brokered access checks every connection at the point of use" >}}
 
 The lesson here is not the specific vendor pair; it is that brokered access, enforced at the point of use, is a pattern teams can adopt today with the secrets tooling they already run. Waiting for a full platform migration is how these programs stall. The smaller win is available now.
 
