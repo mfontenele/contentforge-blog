@@ -9,7 +9,7 @@ description: "Federated MCP lets agents discover and invoke tools across organiz
 summary: "The hard part of federated MCP isn't plumbing between servers; it's deciding who can invoke what across a boundary no single party controls."
 cover:
   image: "/images/covers/2026-08-14-federated-mcp-distributed-tool-access/cover.jpg"
-  alt: "Federated MCP: Distributed Tool Access Without a Central Server — abstract network topology with no central hub, dark background, no text or logos"
+  alt: "Federated MCP as three separate stone platforms linked by light with no central hub - distributed tool access without a server"
   caption: "Image generated with gemini-3-pro-image (Agents' Codex AI illustration)"
   relative: false
   hidden: false

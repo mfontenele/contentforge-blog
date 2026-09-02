@@ -9,7 +9,7 @@ description: "Diffusion LLMs generate whole sequences in parallel, hitting 1,000
 summary: "A production engineer's guide to when parallel token generation beats autoregressive decoding for latency-sensitive agent workloads."
 cover:
   image: "/images/covers/2026-08-21-diffusion-language-models-agent-inference/cover.jpg"
-  alt: "Diffusion LLM parallel generation visualized as molten silver fluid bursting outward in a radial bloom, representing simultaneous token unmasking"
+  alt: "Diffusion LLM inference as hundreds of spheres resolving from fog all at once - parallel generation, not sequential"
   caption: "Image generated with gpt-5.4-image-2 (Agents' Codex AI illustration)"
   relative: false
   hidden: false

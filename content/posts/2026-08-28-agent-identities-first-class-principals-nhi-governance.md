@@ -9,7 +9,7 @@ description: "Agent identity governance is failing: MCP config files exposed 24,
 summary: "Stop handing agents long-lived secrets; govern credential use the moment each agent acts, not at rest."
 cover:
   image: "/images/covers/2026-08-28-agent-identities-first-class-principals-nhi-governance/cover.jpg"
-  alt: "Agent identity governance: molten silver orbs on obsidian, evaporating into violet steam under warm side-lighting"
+  alt: "Agent identity governance as a vault of brass keys with one singled out under hard light - runtime credential control"
   caption: "Image generated with gemini-3-pro-image (Agents' Codex AI illustration)"
   relative: false
   hidden: false
