@@ -9,7 +9,7 @@ description: "Learn how to detect cost regressions in AI coding agents, profile 
 summary: "AI coding agents burn tokens invisibly; cost regression gates turn that waste into a failing build signal you can act on."
 cover:
   image: "/images/covers/2026-09-04-frugal-tokens-cost-regression-detection-coding-agents/cover.jpg"
-  alt: "Cost regression detection for AI coding agents using token spend profiling"
+  alt: "Cost regression detection for AI coding agents — one spending vessel overflows and is caught before it spreads"
   caption: "Image generated with gpt-5.4-image-2 (Agents' Codex AI illustration)"
   relative: false
   hidden: false
