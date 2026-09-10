@@ -16,7 +16,7 @@ cover:
 ShowToc: true
 TocOpen: true
 faq:
-- q: "Do I really need all three layers — profiling, CI gates, and runtime limits?"
+- q: "Do I really need all three layers: profiling, CI gates, and runtime limits?"
   a: "No. Start with a local profiler for a week, then add a CI gate for whatever pattern you find. Runtime limits matter only if you run agents unattended in production."
 - q: "Which agent should I switch if I'm worried about token overhead?"
   a: "The overhead gap is real: Claude Code's 4.7x input overhead over OpenCode before a single prompt [1] makes tool choice a cost lever, not a matter of taste. But overhead is only part of spend. Measure your own agent's cache hit rate before migrating, because a tool with low overhead and a high miss rate can still cost more overall."
@@ -43,7 +43,7 @@ Tool calls make this worse: each function the agent invokes returns output that 
 > [!IMPORTANT]
 > The cost you can cut fastest is usually cache misses, not model choice. aireceipts traces show that when caching works, up to 85% of input tokens are served from cache instead of billed fresh [3].
 
-## Seeing the Spend: Local Cost Profiling Tools That Reveal the Leak
+## Seeing the Spend: Local Profilers for Early Cost Regression Detection
 
 Provider dashboards show aggregate usage after the fact; they do not show which feature, which session, or which subagent drove the spend. Local profilers close that gap by reading the agent's own session files and turning them into a live cost view. Agentic Metric is the closest thing to a `top` command for your coding agents: a real-time TUI tracking tokens and cost across Claude Code, Codex, OpenCode, Qwen Code, and VS Code Copilot [4].
 
@@ -82,7 +82,7 @@ But how do you make a dollar figure fail a build?
 
 aireceipts attacks the same problem from the review side. It attaches an itemized cost receipt to the PR as a comment, so a reviewer sees the dollar impact of a change right beside the diff [3]. What did this change actually cost? The receipt answers that; it shows cache served 85% of input tokens, with costs attributed across Bash, Edit, Read, Write, and thinking calls [3].
 
-The threshold choice is where most teams trip. Set it too tight and every refactor goes red; too loose and the gate never fires. Start wide — ten percent delta — then tighten once you have a stable baseline [2].
+The threshold choice is where most teams trip. Set it too tight and every refactor goes red; too loose and the gate never fires. Start wide (a ten percent delta), then tighten once you have a stable baseline [2].
 
 The shift matters because it moves cost from a monthly surprise to a per-commit decision. When a test run tells you this refactor added eleven cents per invocation (an imaginary but realistic figure), you catch it before it ships; you do not wait for it to multiply across every user.
 
@@ -109,7 +109,7 @@ The value is a clean stop. Instead of discovering on the invoice that an agent s
 
 Once a team shares agents, you need to attribute cost across tools and hierarchies, not just per session. ObservAgent gives Claude Code zero-config observability via hooks, tracking cost, tool usage, latency, and subagent trees in real time [7]. lazyagent visualizes that subagent hierarchy in a TUI or web app for Claude, Codex, and OpenCode, breaking token usage down so cache savings become visible [8].
 
-For teams already running OpenTelemetry, Lumina offers OTel-native observability for LLM apps with cost tracking, replay testing, and semantic comparison [9]. The ecosystem is young; star counts reflect it: Agentic Metric leads at 201 while lazyagent sits around 77 [4][8]. Treat these as instruments you can extend — and read the source before you bet a team on them.
+For teams already running OpenTelemetry, Lumina offers OTel-native observability for LLM apps with cost tracking, replay testing, and semantic comparison [9]. The ecosystem is young; star counts reflect it: Agentic Metric leads at 201 while lazyagent sits around 77 [4][8]. Treat these as instruments you can extend, and read the source before you bet a team on them.
 
 The deeper problem is that none of this shows up in provider dashboards. You see a dollar total, not the reason behind it. Wattage's detectors exist precisely because the bill alone cannot tell you whether that total came from caching you forgot to enable or a loop that never should have started [2].
 
@@ -127,7 +127,7 @@ Treating token spend as a regression test changes who feels the budget. Today mo
 
 ## Frequently Asked Questions
 
-### Do I really need all three layers — profiling, CI gates, and runtime limits?
+### Do I really need all three layers: profiling, CI gates, and runtime limits?
 
 No. Start with a local profiler for a week, then add a CI gate for whatever pattern you find. Runtime limits matter only if you run agents unattended in production.
 
@@ -158,7 +158,3 @@ Early. Star counts like 201 for Agentic Metric and 77 for lazyagent [4][8] signa
 | 7 | darshannere (GitHub) | "ObservAgent — Observability for Claude Code (cost, tools, subagents)" | https://github.com/darshannere/observagent | 2026-07-30 | Documentation |
 | 8 | chojs23 (GitHub) | "lazyagent — Watch what your AI coding agents are doing" | https://github.com/chojs23/lazyagent | 2026-07-29 | Documentation |
 | 9 | use-lumina (GitHub) | "Lumina — Open-source observability for LLM applications" | https://github.com/use-lumina/Lumina | 2026-02-27 | Documentation |
-
-## Image Credits
-
-- **Cover photo**: Image generated with gpt-5.4-image-2 (Agents' Codex AI illustration)
