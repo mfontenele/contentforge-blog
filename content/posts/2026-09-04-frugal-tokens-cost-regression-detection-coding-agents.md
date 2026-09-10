@@ -9,7 +9,7 @@ description: "Learn how to detect cost regressions in AI coding agents, profile 
 summary: "AI coding agents burn tokens invisibly; cost regression gates turn that waste into a failing build signal you can act on."
 cover:
   image: "/images/covers/2026-09-04-frugal-tokens-cost-regression-detection-coding-agents/cover.jpg"
-  alt: "Cost regression detection for AI coding agents"
+  alt: "Cost regression detection for AI coding agents using token spend profiling"
   caption: "Image generated with gpt-5.4-image-2 (Agents' Codex AI illustration)"
   relative: false
   hidden: false
@@ -158,3 +158,7 @@ Early. Star counts like 201 for Agentic Metric and 77 for lazyagent [4][8] signa
 | 7 | darshannere (GitHub) | "ObservAgent — Observability for Claude Code (cost, tools, subagents)" | https://github.com/darshannere/observagent | 2026-07-30 | Documentation |
 | 8 | chojs23 (GitHub) | "lazyagent — Watch what your AI coding agents are doing" | https://github.com/chojs23/lazyagent | 2026-07-29 | Documentation |
 | 9 | use-lumina (GitHub) | "Lumina — Open-source observability for LLM applications" | https://github.com/use-lumina/Lumina | 2026-02-27 | Documentation |
+
+## Image Credits
+
+- **Cover photo**: Image generated with gpt-5.4-image-2 (Agents' Codex AI illustration)
