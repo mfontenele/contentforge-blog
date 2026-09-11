@@ -91,7 +91,7 @@ Human takeover is logged too. Events like help_requested, control_taken, and con
 
 No tug of war; an operator and an agent never fight over the same session.
 
-{{< figure src="/images/posts/2026-09-11-openbot-production-patterns-ai-coworkers-dedicated-compute/image-1.jpg" alt="Audit trail for AI coworker actions: physical ledger with redacted entries and padlock, symbolizing policy enforcement and human oversight" caption="Audit Trail Ledger" >}}
+{{< figure src="/images/posts/2026-09-11-openbot-production-patterns-ai-coworkers-dedicated-compute/image-1.jpg" alt="Black cube with blue neon glow and golden data streams flowing from it, symbolizing audit trail and compute isolation for AI coworkers" caption="Audit Trail: Compute Isolation in Action" >}}
 
 ## AG-UI Makes the Agent Framework a Swappable Detail
 
