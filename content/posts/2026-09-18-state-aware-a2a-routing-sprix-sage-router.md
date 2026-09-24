@@ -30,7 +30,7 @@ faq:
 
 **TL;DR**
 
-- Sprix SAGE Router adds checkpoint-aware routing on top of the A2A protocol, cutting wasted work by 43% versus always-handoff policies.
+- Sprix SAGE Router adds checkpoint-aware routing on top of the A2A protocol, cutting wasted work by 43% versus a progress-masked baseline.
 - Three decision modes (SELF, COLLABORATE, and HANDOFF) pick the cheapest continuer based on completed work, artifact portability, and contextual trust.
 - Contextual trust (requirement-conditioned posteriors) reaches a Brier score of 0.0125 versus 0.0355 for naive reputation.
 
@@ -111,14 +111,14 @@ flowchart TD
 
 SAGE's numbers come from controlled trajectory replay across 1,000 checkpoints over five seeds [1]. Progress-aware SAGE scored 0.298 utility versus 0.085 for always-continue, a 3.5x gap. Against always-handoff it scored 0.298 versus 0.290; the margin is thin, but SAGE wins it while doing far less wasted work.
 
-Wasted work is the more interesting number for production: SAGE cut it to 0.059 versus 0.130 for always-handoff and 0.104 for progress-masked SAGE, a 43% reduction over the handoff baseline [1]. Deadline misses run the same direction: 23.3% for SAGE, against 34.4% for always-continue and 30.5% for always-handoff; only the hidden-state oracle, at 19.6%, beat it.
+Wasted work is the more interesting number for production: SAGE cut it to 0.059 versus 0.104 for progress-masked SAGE and 0.130 for always-handoff, a 43% reduction versus progress-masked SAGE [1]. Deadline misses run the same direction: 23.3% for SAGE, against 34.4% for always-continue and 30.5% for always-handoff; only the hidden-state oracle, at 19.6%, beat it.
 
 | Policy | Utility | Wasted work | Deadline miss rate |
 | --- | --- | --- | --- |
 | Always-continue | 0.085 | n/a | 34.4% |
 | Always-handoff | 0.290 | 0.130 | 30.5% |
 | SAGE (progress-aware) | 0.298 | 0.059 | 23.3% |
-| Hidden-state oracle | n/a | n/a | 19.6% |
+| Hidden-state oracle | 0.375 | n/a | 19.6% |
 
 > [!WARNING]
 > These benchmarks replay recorded trajectories, not live traffic. Treat the 43% wasted-work reduction as proof the approach works, not a guarantee your workload sees the same figure.
@@ -193,9 +193,3 @@ No. It comes from controlled trajectory replay over 1,000 checkpoints, not live 
 | 4 | Sprix AI | "SAGE Checkpoint-Aware Algorithm Design" | https://github.com/wang2122/sprix-sage-router/blob/main/ALGORITHM.md | 2026-09-15 | Paper |
 | 5 | Sprix AI | "SAGE Operations and Production-Readiness Guide" | https://github.com/wang2122/sprix-sage-router/blob/main/docs/OPERATIONS.md | 2026-09-15 | Documentation |
 | 6 | Sprix AI | "SAGE Related Work and Research Boundary" | https://github.com/wang2122/sprix-sage-router/blob/main/RELATED_WORK.md | 2026-09-15 | Paper |
-
-## Image Credits
-
-- **Cover photo**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
-- **Figure 1**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
-- **Figure 2**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
