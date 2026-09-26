@@ -98,17 +98,21 @@
   [{{- range $i, $v := . -}}
   {{- if $i }}, {{end -}}
   {
-    "@type": "Person",
+    "@type": "Organization",
     "name": {{ $v }}
   }
   {{- end }}],
     {{- else -}}
   {
-    "@type": "Person",
+    "@type": "Organization",
     "name": {{ . }}
   },
     {{- end -}}
   {{- end }}
+  "reviewedBy": {
+    "@type": "Person",
+    "name": "Marcelo Fontenele"
+  },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": {{ .Permalink | safeHTML }}
