@@ -1,8 +1,8 @@
 ---
-title: "Agent Memory: Hybrid Episodic-Semantic Systems for Production"
+title: "Hybrid Retrieval for AI Agent Memory in Production"
 date: 2026-03-10T06:00:00-03:00
 draft: false
-description: "How production AI agents use hybrid episodic-semantic memory to scale beyond context windows — with implementations in LangChain, AutoGen, Mem0, and Letta."
+description: "Hybrid retrieval for AI agent memory: combining episodic and semantic stores to scale beyond context windows — with LangChain, AutoGen, Mem0, and Letta."
 summary: "A practical guide to hybrid episodic-semantic memory architectures that enable production AI agents to maintain coherent behavior across sessions without hitting context window limits."
 categories:
   - "AI Agent Operations"

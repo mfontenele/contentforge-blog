@@ -1,11 +1,11 @@
 ---
-title: "Cryptographic Audit Trails: Verifiable Action Logs for AI Agents"
+title: "Deterministic Replay: Immutable Audit Logs for AI Agents"
 date: 2026-06-26T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]
 tags: ["agent-audit-trail", "cryptographic-logging", "agent-governance", "tamper-evident-logs", "eu-ai-act"]
 keywords: ["agent audit trail", "cryptographic logging", "agent governance", "tamper-evident logs", "compliance"]
-description: "How to build cryptographically signed, hash-chained audit trails for verifiable AI agent action logs: essential before the EU AI Act enforcement deadline."
+description: "Deterministic replay for AI agents: how to build cryptographically signed, hash-chained immutable audit logs before the EU AI Act enforcement deadline."
 summary: "Standard logging won't satisfy an auditor: mutable, self-attested, and blind to which agent did what. Here's the cryptographic audit trail architecture that does."
 cover:
   image: "/images/covers/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/cover.jpg"

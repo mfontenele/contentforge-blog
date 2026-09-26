@@ -1,11 +1,11 @@
 ---
-title: "From SWE-Bench to FrontierCode: The New Agent Code Quality Era"
+title: "SWE-Bench to FrontierCode: Coding Agent Evaluation 2026"
 date: 2026-06-19T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]
 tags: ["coding-agents", "benchmarks", "code-quality", "agent-evaluation", "frontiercode"]
 keywords: ["FrontierCode", "DeepSWE", "coding agent benchmarks", "code quality evaluation", "AA-AgentPerf"]
-description: "FrontierCode grades like a tech lead. DeepSWE exposes benchmark gaming. AA-AgentPerf tracks agents per megawatt. June 2026 redefined coding agent evaluation."
+description: "SWE-Bench to FrontierCode: how FrontierCode grades like a tech lead, DeepSWE exposes benchmark gaming, and AA-AgentPerf tracks coding agents per megawatt."
 summary: "Three simultaneous June 2026 benchmark releases rewired how we measure coding agents: correctness is table stakes; maintainability, contamination resistance, and agents per megawatt are the new axes."
 cover:
   image: "/images/covers/2026-06-19-swe-bench-frontier-code-code-quality-era/cover.jpg"
