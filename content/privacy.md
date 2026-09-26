@@ -2,6 +2,7 @@
 title: "Privacy Policy"
 url: "/privacy/"
 showToc: false
+robotsNoIndex: true
 ---
 
 **Last updated:** 2026-03-02
