@@ -8,6 +8,18 @@ enableGitInfo = true
 [frontmatter]
   lastmod = [":git", "lastmod", "date"]
 
+[[cascade]]
+  [cascade.params]
+    robotsNoIndex = true
+  [cascade._target]
+    kind = "taxonomy"
+
+[[cascade]]
+  [cascade.params]
+    robotsNoIndex = true
+  [cascade._target]
+    kind = "term"
+
 [related]
   threshold = 30
   includeNewer = true
