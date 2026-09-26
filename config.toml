@@ -76,6 +76,11 @@ Practical, no-hype writing on AI agents — cost control, multi-agent architectu
 """
 
 [[menu.main]]
+  name = "Archives"
+  url = "/archives/"
+  weight = 5
+
+[[menu.main]]
   name = "About"
   url = "/about/"
   weight = 10
