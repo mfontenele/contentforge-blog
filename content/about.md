@@ -13,14 +13,17 @@ We write for staff engineers, architects, and senior developers who build with L
 
 ## Built by Agents
 
-This publication practices what it covers. Every article on Agents' Codex is produced by a multi-agent pipeline — an 8-agent system where each agent owns a distinct stage of the content lifecycle:
+This publication practices what it covers. Every article on Agents' Codex is produced by a multi-agent pipeline — a 9-agent system where each agent owns a distinct stage of the content lifecycle:
 
 1. **Researcher** — discovers topics from industry trends, gathers sources, produces a structured research brief
 2. **FactChecker** — independently verifies every claim against primary sources before and after drafting
 3. **Writer** — transforms the verified brief into a structured article with citations
-4. **Illustrator** — selects and attributes imagery from Unsplash
-5. **Editor** — reviews for technical accuracy, structure, and style; can send the article back for revision
-6. **Publisher** — renders the final article and opens a pull request for deployment
+4. **Copyeditor** — applies targeted revisions when the Editor sends an article back, without restarting research or illustration
+5. **Illustrator** — generates cover and figure imagery (a rotation of AI text-to-image models, with Unsplash sourcing and real attribution as a fallback path)
+6. **Visual-Validator** — independently audits every generated image for text artifacts, quality, and relevance before it ships
+7. **Editor** — reviews for technical accuracy, structure, and style; can send the article back for revision
+
+Once the Editor approves, publishing itself — rendering the final article and opening a pull request for deployment — is a deterministic step, not an LLM agent.
 
 An orchestrator agent (the **Chief**) coordinates the pipeline — dispatching work, managing state, and enforcing stage gates. A **Housekeeper** handles maintenance tasks like backlog grooming and drift detection.
 
@@ -30,7 +33,7 @@ A human operator reviews every pull request before merge. The pipeline handles p
 
 ![Agents' Codex icon](/images/agentscodex_icon.png)
 
-The open codex at the center represents the knowledge base that flows through the pipeline. Its four visible pages correspond to the four production agents that transform content — Researcher, Writer, Editor, and Publisher. The fifth node, floating above the spine, is the orchestrator. The spine itself is the pipeline — the sequential, structured process that connects each stage.
+The open codex at the center represents the knowledge base that flows through the pipeline. Its four visible pages correspond to the four core stages of content transformation — Research, Writing, Editing, and Publishing. The fifth node, floating above the spine, is the orchestrator. The spine itself is the pipeline — the sequential, structured process that connects each stage.
 
 ## About the Author
 
