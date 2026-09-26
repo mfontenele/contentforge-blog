@@ -1,11 +1,11 @@
 ---
-title: "Garry Tan's gstack and the rise of AI agent teams"
+title: "Gstack Codex: Claude Code Agent Teams Explained"
 date: 2026-03-20T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]
 tags: ["claude-code", "multi-agent", "developer-tools", "ai-coding", "prompt-engineering"]
 keywords: ["gstack claude code", "AI agent teams", "multi-agent orchestration", "SKILL.md standard", "Claude Code roles"]
-description: "Garry Tan's gstack reached 20,000 GitHub stars in days by turning Claude Code into a full engineering org. Here's what it is, what it isn't, and when to use it."
+description: "Gstack Codex reached 20,000 GitHub stars in days by turning Claude Code into a full engineering org. What gstack is, what it isn't, and when to use it."
 summary: "gstack packages 21 Claude Code role configurations as SKILL.md files — and that's both its strength and its limit."
 cover:
   image: "/images/covers/2026-03-20-garry-tan-gstack-agent-teams-claude-code/cover.jpg"

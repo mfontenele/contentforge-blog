@@ -1,11 +1,11 @@
 ---
-title: "Mixture of Experts: Expert Parallelism and the New Inference Stack"
+title: "Expert Parallelism: Mixture of Experts in Production"
 date: 2026-03-17T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]
 tags: ["moe", "inference", "llm-serving", "distributed-systems", "transformers"]
 keywords: ["mixture of experts production", "expert parallelism", "MoE inference", "Transformers v5", "sparse LLM deployment"]
-description: "How MoE models like GPT-OSS reshape production LLM inference with expert parallelism, async weight loading, and grouped GEMM backends in Transformers v5."
+description: "Expert parallelism vs. tensor parallelism: MoE models like GPT-OSS reshape production inference with async weight loading and grouped GEMM in Transformers v5."
 summary: "Sparse MoE architectures have won the LLM scaling race — here is how to actually run them at production scale."
 cover:
   image: "/images/covers/2026-03-17-mixture-of-experts-production-expert-parallelism/cover.jpg"

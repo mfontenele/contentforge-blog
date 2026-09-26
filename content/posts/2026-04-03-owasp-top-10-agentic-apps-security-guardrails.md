@@ -1,11 +1,11 @@
 ---
-title: "OWASP Top 10 for agentic apps: agent security guardrails"
+title: "OWASP Top 10 for Agentic Applications: Security Guardrails"
 date: 2026-04-03T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]
 tags: ["agent-security", "owasp", "prompt-injection", "llm-security", "ai-guardrails"]
 keywords: ["agent security", "OWASP agentic applications", "prompt injection", "agent guardrails", "tool misuse"]
-description: "The OWASP Top 10 for Agentic Applications defines the attack surfaces autonomous AI creates. Here's how to deploy production guardrails against each risk."
+description: "The OWASP Top 10 for Agentic Applications defines the attack surfaces autonomous AI creates, including ASI06 memory poisoning — with guardrails for each risk."
 summary: "Autonomous agents introduce attack surfaces traditional security never anticipated — and the new OWASP ASI framework is the first standard built to address them."
 cover:
   image: "/images/covers/2026-04-03-owasp-top-10-agentic-apps-security-guardrails/cover.jpg"
