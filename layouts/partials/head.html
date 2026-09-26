@@ -9,7 +9,8 @@
 {{- end }}
 
 {{- /* Title */}}
-<title>{{ if .IsHome }}{{ else }}{{ if .Title }}{{ .Title }} | {{ end }}{{ end }}{{ site.Title }}</title>
+{{- /* FEAT-109: disambiguate from OpenAI Codex in search results — the home title was just the bare brand name */}}
+<title>{{ if .IsHome }}Agents&#39; Codex — AI Agent Operations for Engineers{{ else }}{{ if .Title }}{{ .Title }} | {{ end }}{{ site.Title }}{{ end }}</title>
 
 {{- /* Meta */}}
 {{- if .IsHome }}

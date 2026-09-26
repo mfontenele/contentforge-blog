@@ -66,7 +66,14 @@ enableGitInfo = true
 
 [params.homeInfoParams]
   Title = "Agents’ Codex"
-  Content = "Practical, no-hype writing on AI agents — cost control, multi-agent architecture, and real-world operations."
+  # FEAT-109: disambiguate from OpenAI Codex — most home-page search traffic was landing here by brand-name collision
+  Content = """
+Practical, no-hype writing on AI agents — cost control, multi-agent architecture, and real-world operations.
+
+*Independent publication, not affiliated with OpenAI.*
+
+**Looking for OpenAI Codex how-tos?** We're building a dedicated series on working with Codex agents — check back soon.
+"""
 
 [[menu.main]]
   name = "About"
