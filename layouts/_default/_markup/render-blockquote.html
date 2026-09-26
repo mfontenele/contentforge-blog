@@ -1,8 +1,8 @@
-{{- $type := .Type -}}
+{{- $type := .AlertType -}}
 
 {{- if $type -}}
 <div class="alert alert-{{ $type }}">
-  <p class="alert-heading">{{ upper $type }}</p>
+  <p class="alert-heading">{{ .AlertTitle | default (title $type) }}</p>
   {{ .Text | safeHTML }}
 </div>
 {{- else -}}
