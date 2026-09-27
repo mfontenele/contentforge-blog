@@ -106,7 +106,7 @@ Quantization reduces bits per token. Eviction removes tokens entirely. These two
 
 KIVI applies 2-bit per-channel quantization to the KV cache using residual quantization, cutting peak memory by up to 2.6x without requiring any model fine-tuning — a plug-and-play approach [3]. It is more aggressive than FP8 but needs careful validation on your task distribution. On standard benchmarks, KIVI shows minimal quality degradation, but multi-hop reasoning tasks warrant additional testing.
 
-H2O (Heavy-Hitter Oracle) takes a different angle: it identifies which KV cache tokens receive high attention mass (heavy hitters) and evicts everything else. By retaining only recent tokens plus high-attention tokens, H2O caps cache size while preserving the tokens that [actually matter](/posts/2026-03-06-benchmarking-ai-agents-production/) for generation quality. In throughput benchmarks, H2O achieves up to 29x improvement by enabling much higher concurrency on the same GPU [4].
+H2O (Heavy-Hitter Oracle) takes a different angle: it identifies which KV cache tokens receive high attention mass (heavy hitters) and evicts everything else. By retaining only recent tokens plus high-attention tokens, H2O caps cache size while preserving the tokens that actually matter for generation quality. In throughput benchmarks, H2O achieves up to 29x improvement by enabling much higher concurrency on the same GPU [4].
 
 ```mermaid
 flowchart TD
@@ -142,7 +142,7 @@ Precision fallback matters for accuracy-sensitive workloads. Tasks that require 
 
 Route requests above a complexity threshold to a full-precision endpoint; use token count, task type, or expected reasoning depth as your routing signal, whichever is cheapest to compute at request time. The per-request cost will be higher. But that tradeoff beats the alternative: silent accuracy failures that erode user trust [7].
 
-[Agent memory](/posts/2026-03-24-measuring-rag-vs-finetuning-roi-agent-knowledge/) architecture deserves a holistic view. KV cache handles in-context memory — the live window of the current session. For persistent cross-session memory, you need an external retrieval layer. Pairing KV cache quantization with a vector store like [Pinecone](https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-04-02-kv-cache-quantization-production-agents) lets you compress the in-context footprint aggressively while offloading long-term facts to fast approximate nearest-neighbor retrieval — keeping GPU spend low without sacrificing memory horizon.
+[Agent memory](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/) architecture deserves a holistic view. KV cache handles in-context memory — the live window of the current session. For persistent cross-session memory, you need an external retrieval layer. Pairing KV cache quantization with a vector store like [Pinecone](https://try.pinecone.io/tz9zm84oj8g3?utm_source=agentscodex&utm_medium=blog&utm_campaign=2026-04-02-kv-cache-quantization-production-agents) lets you compress the in-context footprint aggressively while offloading long-term facts to fast approximate nearest-neighbor retrieval — keeping GPU spend low without sacrificing memory horizon.
 
 ## Practical Takeaways
 

@@ -17,7 +17,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-The USB-C analogy for MCP is brilliant marketing [10]. One universal port that connects everything—databases, IDEs, browsers, SaaS tools—to any [AI agent](/posts/2026-03-03-ai-agent-observability-production/) that speaks the protocol. Anthropic's [Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/), launched November 25, 2024 [1], promises to eliminate the integration sprawl problem: instead of every agent needing a custom connector to every tool, agents and tools each implement a single standard. The community quickly dubbed this the shift from N×M custom integrations to a simpler model where both sides converge on one protocol.
+The USB-C analogy for MCP is brilliant marketing [10]. One universal port that connects everything—databases, IDEs, browsers, SaaS tools—to any AI agent that speaks the protocol. Anthropic's [Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/), launched November 25, 2024 [1], promises to eliminate the integration sprawl problem: instead of every agent needing a custom connector to every tool, agents and tools each implement a single standard. The community quickly dubbed this the shift from N×M custom integrations to a simpler model where both sides converge on one protocol.
 
 But here's what the marketing doesn't emphasize: USB-C cables don't require you to run a local server, negotiate stateful sessions, or debug JSON-RPC error codes at 2 AM. MCP does.
 
@@ -27,7 +27,7 @@ This article examines both approaches honestly. MCP solves real problems for rea
 
 ## The Two Paths: Declarative vs Protocol-Based Configuration
 
-Agent configuration today splits into two fundamentally different philosophies.
+[Agent configuration](/posts/2026-05-22-agents-md-self-describing-repositories/) today splits into two fundamentally different philosophies.
 
 **SKILL.md takes a declarative approach.** You write a YAML frontmatter block describing the skill's metadata—name, description, parameters—followed by markdown instructions telling the agent exactly how to behave. The file lives on the filesystem. The agent reads it when needed. No servers spin up. No sockets open. No protocols negotiate capabilities.
 
@@ -98,7 +98,7 @@ The decision isn't about which is better—it's about which fits your constraint
 **Choose SKILL.md when:**
 
 - You're encoding procedural knowledge (code review guidelines, deployment procedures, team conventions)
-- Rapid iteration matters more than protocol compliance
+- Rapid iteration matters more than protocol [compliance](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/)
 - You lack operations resources for server management
 - Version control integration and rollback simplicity are priorities
 - Context window efficiency matters—loading metadata for 100 SKILL.md files costs roughly ~10,000 tokens (an approximation based on typical SKILL.md frontmatter size); 100 active MCP connections require persistent session state

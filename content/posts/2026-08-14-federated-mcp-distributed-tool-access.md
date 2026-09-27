@@ -28,7 +28,7 @@ faq:
 
 **TL;DR**
 
-- Federated MCP shifts tool access from a hub-and-spoke client-server model to a mesh where servers delegate to each other across trust boundaries.
+- Federated [MCP](/posts/2026-03-04-mcp-model-context-protocol/) shifts tool access from a hub-and-spoke client-server model to a mesh where servers delegate to each other across trust boundaries.
 - Stateless protocol changes (SEP-2575, SEP-2567) are what make cross-boundary, load-balanced MCP deployments practical.
 - Capability attestation (proving a downstream invocation is authorized) remains the unsolved problem in the ecosystem.
 

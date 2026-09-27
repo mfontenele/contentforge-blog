@@ -19,7 +19,7 @@ faq:
 - q: "Is a password manager enough for agent credentials?"
   a: "No. A password manager protects credentials at rest, but the real problem is how an agent uses them at runtime. You need runtime credential governance, not just storage."
 - q: "What is the difference between secret storage and runtime credential governance?"
-  a: "Secret storage keeps a credential somewhere safe until it is needed, and that is where it stops. Runtime credential governance controls the credential at the exact moment an identity uses it, brokering each request and writing an audit record rather than assuming a pre-provisioned secret is fine [1]. Storage is necessary but insufficient; the decision that [actually matters](/posts/2026-03-06-benchmarking-ai-agents-production/) is made in the brokerage layer, when the agent asks to read a table or call an API, not at rest in the vault."
+  a: "Secret storage keeps a credential somewhere safe until it is needed, and that is where it stops. Runtime credential governance controls the credential at the exact moment an identity uses it, brokering each request and writing an audit record rather than assuming a pre-provisioned secret is fine [1]. Storage is necessary but insufficient; the decision that actually matters is made in the brokerage layer, when the agent asks to read a table or call an API, not at rest in the vault."
 - q: "Should we adopt workload identity federation right away?"
   a: "It depends on your cloud posture. Federation removes the long-lived secret and is the cleanest fix, but it requires trust configuration between your platform and an external identity provider. We have not seen clean production guidance on how agent-to-agent delegation behaves under federation, so pilot it on one workload and measure before you roll it out broadly."
 - q: "How do we find agent credentials we did not know we had?"
@@ -32,7 +32,7 @@ faq:
 - Runtime credential governance controls access at the moment of use, replacing standing secrets with brokered, short-lived tokens.
 - Federated token exchange removes the long-lived credential entirely, so there is nothing left to leak or revoke.
 
-In a single year, [Model Context Protocol](/posts/2026-08-14-federated-mcp-distributed-tool-access/) (MCP) configuration files exposed 24,008 unique secrets; AI-related credential leaks climbed 81.5% in that same window [1]. The pattern behind both numbers is the same: weak agent identity practices keep handing agents long-lived credentials that outlive the workflows that needed them. Treat it as a storage problem — you will buy a better vault and still lose. It is a governance problem, and it compounds quietly. The fix is two-fold: broker credential use at runtime, and treat agents as first-class principals rather than borrowed credentials.
+In a single year, [Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/) (MCP) configuration files exposed 24,008 unique secrets; AI-related credential leaks climbed 81.5% in that same window [1]. The pattern behind both numbers is the same: weak agent identity practices keep handing agents long-lived credentials that outlive the workflows that needed them. Treat it as a storage problem — you will buy a better vault and still lose. It is a governance problem, and it compounds quietly. The fix is two-fold: broker credential use at runtime, and treat agents as first-class principals rather than borrowed credentials.
 
 ## Why agent identity credentials sprawl faster than teams can revoke them
 
@@ -96,7 +96,7 @@ Effective agent identity governance is not one tool; the NHI Management Group st
 | Layer | Function | What it looks like in practice |
 | --- | --- | --- |
 | Discovery | Find every agent and its credentials across environments | Inventory of agents, keys, and MCP configs |
-| Storage | Hold credentials outside [agent configurations](/posts/2026-05-22-agents-md-self-describing-repositories/) | Centralized vault or secrets manager |
+| Storage | Hold credentials outside [agent configurations](/posts/2026-03-05-skills-vs-mcp-declarative-agent-configuration/) | Centralized vault or secrets manager |
 | Brokerage | Mediate agent access with policy enforcement | Policy gateway that approves or blocks each use |
 | Audit | Keep immutable logs of what agents did | SIEM and cloud-native audit services |
 
@@ -112,7 +112,7 @@ Natoma and 1Password partnered to ship a working version of this model [2], and 
 
 The policy controls are what turn this from a convenience into governance: read-only database access, write-operation blocking, query rate limiting, and scope-by-user-group permissions [2]. An agent gets exactly the access the policy allows, and nothing more.
 
-Ravi Chinni, Global Head of IAM at S&P Global, frames the endgame clearly: as [AI agents](/posts/2026-07-24-rotunda-agent-native-browser/) become more embedded in enterprise operations, organizations will need interoperable approaches that bring together credential protection, policy governance, and auditability across platforms [2]. It is a coordination problem more than a tooling problem.
+Ravi Chinni, Global Head of IAM at S&P Global, frames the endgame clearly: as AI agents become more embedded in enterprise operations, organizations will need interoperable approaches that bring together credential protection, policy governance, and auditability across platforms [2]. It is a coordination problem more than a tooling problem.
 
 {{< figure src="/images/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/image-2.jpg" alt="Brokered access: a metallic connector device with a glowing orange port mediating between an intact copper wire and a frayed one, symbolizing policy-gated access that filters and approves each connection rather than granting a single key to every path" caption="Mediated, not multiplied: brokered access checks every connection at the point of use" >}}
 
@@ -139,7 +139,7 @@ No. A password manager protects credentials at rest, but the real problem is how
 
 ### What is the difference between secret storage and runtime credential governance?
 
-Secret storage keeps a credential somewhere safe until it is needed, and that is where it stops. Runtime credential governance controls the credential at the exact moment an identity uses it, brokering each request and writing an audit record rather than assuming a pre-provisioned secret is fine [1]. Storage is necessary but insufficient; the decision that [actually matters](/posts/2026-03-06-benchmarking-ai-agents-production/) is made in the brokerage layer, when the agent asks to read a table or call an API, not at rest in the vault.
+Secret storage keeps a credential somewhere safe until it is needed, and that is where it stops. Runtime credential governance controls the credential at the exact moment an identity uses it, brokering each request and writing an audit record rather than assuming a pre-provisioned secret is fine [1]. Storage is necessary but insufficient; the decision that actually matters is made in the brokerage layer, when the agent asks to read a table or call an API, not at rest in the vault.
 
 ### Should we adopt workload identity federation right away?
 

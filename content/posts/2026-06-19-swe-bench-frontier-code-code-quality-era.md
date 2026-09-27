@@ -34,7 +34,7 @@ faq:
 - DeepSWE replaced SWE-Bench Pro in the AA Coding Agent Index after a ~32% grader error rate was uncovered; reshuffling rankings overnight.
 - AA-AgentPerf introduced agents-per-megawatt as the first infrastructure-level benchmark for agentic inference; GB300 NVL72 delivered 20x more agents/MW than H200.
 
-In June 2026, three benchmark releases landed within days of each other and collectively rewired how the industry measures [coding agents](/posts/2026-06-14-harness-engineering-loops-coding-agents/). Cognition published FrontierCode, which asks not whether code passes tests. The question: would a maintainer merge the PR. Artificial Analysis swapped SWE-Bench Pro out of its Coding Agent Index for DeepSWE, after Datacurve's audit revealed a ~32% grader error rate [7]. AA-AgentPerf introduced agents-per-megawatt, the first metric measuring how many concurrent coding agents your inference hardware sustains at defined SLOs [8]. The real story isn't any single benchmark: correctness alone is no longer sufficient. Maintainability, contamination resistance, and throughput density are the new axes of evaluation.
+In June 2026, three benchmark releases landed within days of each other and collectively rewired how the industry measures coding agents. Cognition published FrontierCode, which asks not whether code passes tests. The question: would a maintainer merge the PR. Artificial Analysis swapped SWE-Bench Pro out of its Coding Agent Index for DeepSWE, after Datacurve's audit revealed a ~32% grader error rate [7]. AA-AgentPerf introduced agents-per-megawatt, the first metric measuring how many concurrent coding agents your inference hardware sustains at defined SLOs [8]. The real story isn't any single benchmark: correctness alone is no longer sufficient. Maintainability, contamination resistance, and throughput density are the new axes of evaluation.
 
 ## Why SWE-Bench Pro Had to Be Replaced
 
@@ -94,7 +94,7 @@ On June 12, 2026, Artificial Analysis dropped SWE-Bench Pro from its Coding Agen
 
 DeepSWE consists of 113 tasks across 91 repositories in five languages: TypeScript, Go, Python, JavaScript, and Rust [5][6]. Every task is written from scratch, making contamination impossible. Behavioral verifiers achieve a 0.3% false positive rate versus SWE-Bench Pro's 32% total error [7]. Solutions require roughly ~668 lines of code versus SWE-Bench Pro's ~120 lines; longer-horizon, more realistic software engineering tasks [6].
 
-Codex with GPT-5.5 (xhigh) rose from 65 to 76, overtaking [Claude Code](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/) with Opus 4.8 (max) at 73 [4][5]. Claude Fable 5 entered at 77 but was later revoked under export controls [12]. SWE-Bench Pro's error rate systematically flattered some combinations and penalized others. DeepSWE's behavioral verifiers exposed which could genuinely solve engineering tasks versus which had learned to game blind spots.
+Codex with GPT-5.5 (xhigh) rose from 65 to 76, overtaking Claude Code with Opus 4.8 (max) at 73 [4][5]. Claude Fable 5 entered at 77 but was later revoked under export controls [12]. SWE-Bench Pro's error rate systematically flattered some combinations and penalized others. DeepSWE's behavioral verifiers exposed which could genuinely solve engineering tasks versus which had learned to game blind spots.
 
 | Model + Harness | Old (SWE-Bench) | New (DeepSWE) | Change |
 | --- | --- | --- | --- |
@@ -111,7 +111,7 @@ DeepSWE didn't just change the leaderboard. It proved that a benchmark with a 32
 
 Once you've found a model that writes mergeable, contamination-free code, a harder question remains: how many concurrent agents can your hardware sustain, and at what power cost? AA-AgentPerf is the first benchmark built specifically for agentic inference workloads [8][9].
 
-It uses real coding-agent trajectories up to 200 turns, sequences exceeding 100K tokens, across 12+ languages. The mean agent request is ~27K tokens, far beyond standard LLM serving benchmarks [9]. Agent workloads have distinctly different patterns: long context windows, intermittent tool calls, and [KV cache](/posts/2026-04-02-kv-cache-quantization-production-agents/) behavior unlike chatbot serving.
+It uses real coding-agent trajectories up to 200 turns, sequences exceeding 100K tokens, across 12+ languages. The mean agent request is ~27K tokens, far beyond standard LLM serving benchmarks [9]. Agent workloads have distinctly different patterns: long context windows, intermittent tool calls, and KV cache behavior unlike chatbot serving.
 
 Same model (DeepSeek V4 Pro), same trajectories, same SLO: GB300 NVL72 delivers 61,354 agents per megawatt versus H200's 2,594, a roughly 20x improvement [8][9]. Rack-scale disaggregated inference on GB300 is ~3x more power-efficient than single-node B300 [8]. Production optimizations (KV cache reuse, speculative decoding) are permitted; the benchmark proxies real deployment economics, not raw FLOPs.
 
@@ -176,7 +176,7 @@ Add scope discipline and code quality checks. A 5-point rubric plus a scope chec
 
 ### Does the GB300's 20x advantage over H200 translate to my cloud deployment?
 
-Not directly. The 20x figure comes from controlled benchmarks on specific hardware [8]. Your improvement depends on your model, [agent architecture](/posts/2026-03-04-mcp-model-context-protocol/), request distribution, and cloud instance types. What the benchmark gives you is a new vocabulary: measure agents per megawatt on your actual workload. If your inference provider can't provide this metric, treat it as a red flag.
+Not directly. The 20x figure comes from controlled benchmarks on specific hardware [8]. Your improvement depends on your model, agent architecture, request distribution, and cloud instance types. What the benchmark gives you is a new vocabulary: measure agents per megawatt on your actual workload. If your inference provider can't provide this metric, treat it as a red flag.
 
 ### Why did GPT-5.5 overtake Claude on DeepSWE but trail on FrontierCode?
 

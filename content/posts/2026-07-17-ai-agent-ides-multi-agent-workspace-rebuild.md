@@ -31,7 +31,7 @@ faq:
 **TL;DR**
 
 - Multi-agent workspaces require unified state tracking across heterogeneous tools — ccmux demonstrates this by merging three detection signals into one session state machine.
-- Cursor's side chats, conversation search, and Team MCP distribution reveal a shift where agent interactions become persistent artifacts, not ephemeral chats.
+- Cursor's side chats, conversation search, and Team [MCP](/posts/2026-03-04-mcp-model-context-protocol/) distribution reveal a shift where agent interactions become persistent artifacts, not ephemeral chats.
 - The agent workspace demands new infrastructure: cross-platform context persistence, hook-based agent detection, and UI primitives built for parallel [agent orchestration](/posts/2026-04-15-agent-workflow-orchestration-n8n-vs-camunda/).
 
 Most developers now run at least one AI agent IDE tool: Claude Code in a terminal pane, Copilot in VS Code, or Cursor's [agent mode](/posts/2026-05-15-github-copilot-agent-mode-production/). In our experience, development teams running three or more agents lose measurable time each day to manual pane polling—checking which terminal pane holds the agent that needs attention. Agent-native workspaces are not an incremental IDE improvement. They are a category shift: the development environment becomes a coordination surface, not a code editor. Then they open a second agent. Then a third handles background tasks. At this point, the IDE stops being an editor with a plugin and becomes an orchestration problem. The gap between one agent and five requires new abstractions: state tracking, context sharing, and agent-to-agent handoffs. We examined three implementations at the frontier.
@@ -40,7 +40,7 @@ Most developers now run at least one AI agent IDE tool: Claude Code in a termina
 
 A single coding agent is straightforward. You open a terminal or a chat panel, write a prompt, and wait for output. The agent lives in its own pane; you interact with it in a linear thread. This model works for one agent. It falls apart the moment you have three.
 
-The friction is immediate and concrete: which agent is currently working, and which one is blocked waiting for your approval? Is the Claude Code instance in pane 3 still processing, or did it silently crash? Did Cursor's agent finish the refactor and start waiting for review five minutes ago while you were focused on another terminal? These are not theoretical questions. They are the daily reality of developers running multiple [coding agents](/posts/2026-07-10-persistent-state-attacks-coding-agents/) simultaneously. Without workspace-level awareness, the developer becomes a manual context-switcher, polling each pane to reconstruct agent state from memory.
+The friction is immediate and concrete: which agent is currently working, and which one is blocked waiting for your approval? Is the Claude Code instance in pane 3 still processing, or did it silently crash? Did Cursor's agent finish the refactor and start waiting for review five minutes ago while you were focused on another terminal? These are not theoretical questions. They are the daily reality of developers running multiple coding agents simultaneously. Without workspace-level awareness, the developer becomes a manual context-switcher, polling each pane to reconstruct agent state from memory.
 
 The tools that exist to solve this: ccmux, Cursor's agent window, Claude Code's session management. They share a common architectural insight: the workspace must track agent state as a first-class primitive, not as an afterthought bolted onto a text editor. This is a category shift, not a feature update.
 
@@ -111,7 +111,7 @@ Cursor's Agent Window serves as a command center for agent orchestration, while 
 
 Claude Code runs across five deployment platforms: terminal, web, desktop, VS Code, and JetBrains [2]. This forces a hard question: where does its context live? The answer is a unified persistence layer through the .claude directory: a single source of truth for session transcripts, agent instructions, and memory that transcends any individual interface.
 
-This is the problem every multi-agent workspace inherits. Agents launched from different platforms (web, CLI, IDE) need shared workspace state, memory, and conversation history. Claude Code addresses this through /projects for session transcripts (default ~/.claude/projects) and configuration merging for multiple Claude config directories [2]. The 200,000-token context window with prompt caching makes this persistence practically usable rather than just architecturally sound; large context windows mean agents can carry substantial conversation history across sessions without losing coherence.
+This is the problem every multi-agent workspace inherits. Agents launched from different platforms (web, CLI, IDE) need shared workspace state, memory, and conversation history. Claude Code addresses this through /projects for session transcripts (default ~/.claude/projects) and configuration merging for multiple Claude config directories [2]. The 200,000-token context window with [prompt caching](/posts/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/) makes this persistence practically usable rather than just architecturally sound; large context windows mean agents can carry substantial conversation history across sessions without losing coherence.
 
 The plugin system and Agent SDK suggest extensibility for multi-agent coordination. External tools can participate in agent context, and agents can discover capabilities across skill registries [2]. A workspace that supports this must persist not just agent conversations but the relationships between agents: which agent spawned which subagent, what context was shared, and what outcome resulted.
 
@@ -134,7 +134,7 @@ graph TD
 
 When multi-agent workspaces scale from individual developers to teams, new requirements emerge. Cursor's Team MCP distribution, introduced June 30, 2026, lets administrators configure MCP servers once and distribute them across cloud agents, the agents window, IDE, and CLI [5]. The feature supports organization groups and SCIM directory groups; agent provisioning becomes identity-aware.
 
-This signals that enterprise multi-agent deployment requires centralized governance of which agents can access which tools and how agent activity is auditable across the organization [5]. For teams evaluating agent-native IDEs, the governance layer determines whether the tool is a productivity aid or a compliance liability.
+This signals that enterprise multi-agent deployment requires centralized governance of which agents can access which tools and how agent activity is auditable across the organization [5]. For teams evaluating agent-native IDEs, the governance layer determines whether the tool is a productivity aid or a [compliance](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/) liability.
 
 ## Terminal vs. IDE-Native: Two Approaches, One Architectural Consensus
 
@@ -157,11 +157,11 @@ The terminal-native approach has one structural advantage that IDEs rarely match
 1. Audit your current multi-agent workflow: count how many agents you run simultaneously and measure how often you manually poll panes for state. We have found that if the answer is more than two, you have an orchestration gap worth closing.
 2. Adopt a state-tracking layer before your agent count grows further. ccmux provides this for terminal users; Cursor's agent window provides it for IDE users. Either approach beats manual context-switching.
 3. Treat agent conversation transcripts as searchable artifacts, not ephemeral chats. When agent discussions become part of your project's institutional memory, design decisions gain a retrievable reasoning trail; that trail matters more than the code comments you never wrote.
-4. Evaluate the governance gap before deploying agent workspaces at team scale. Centralized MCP distribution and identity-aware agent provisioning matter more than feature count once multiple developers share [agent infrastructure](/posts/2026-06-05-agent-gateway-centralized-routing-cost-control/).
+4. Evaluate the governance gap before deploying agent workspaces at team scale. Centralized MCP distribution and identity-aware agent provisioning matter more than feature count once multiple developers share agent infrastructure.
 
 ## Conclusion
 
-Teams building on these patterns now are laying the foundation for workflows where multiple [AI agents](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/) run in parallel as a matter of course. Start with one question: can you answer "which agent is waiting for me right now?" without polling terminal panes?
+Teams building on these patterns now are laying the foundation for workflows where multiple AI agents run in parallel as a matter of course. Start with one question: can you answer "which agent is waiting for me right now?" without polling terminal panes?
 
 ## Frequently Asked Questions
 

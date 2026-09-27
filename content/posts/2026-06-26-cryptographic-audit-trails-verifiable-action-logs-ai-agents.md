@@ -89,7 +89,7 @@ Each receipt carries: signature_id, agent_id, action, algorithm (ML-DSA-65), tim
 
 | Enforcement Tier | Mechanism | When to Use | Attack Resistance |
 | --- | --- | --- | --- |
-| Strong | Non-bypassable MCP proxy signs before and after each call | High-risk agents (finance, healthcare, legal) | Prevents execution without a signed bilateral receipt |
+| Strong | Non-bypassable [MCP](/posts/2026-03-04-mcp-model-context-protocol/) proxy signs before and after each call | High-risk agents (finance, healthcare, legal) | Prevents execution without a signed bilateral receipt |
 | Bounded | Pre-execution gate (gate_action) + post-execution close (complete_action) | Performance-sensitive workflows, batch processing | Approval is cryptographically linked to outcome; omission detectable |
 | Detectable | Post-hoc signing with chain verification | Legacy systems, incremental rollout, low-risk automation | Tampering or omission is detected on verification, not prevented |
 
@@ -141,7 +141,7 @@ The Digital Applied framework recommends this three-tier pattern: hot for daily 
 
 Most production agent deployments use shared service accounts. One IAM role shared across dozens of agent instances. Every audit log entry says "payment-service executed transfer" — not which agent, under which policy, with which token. Vector Labs identifies this as the root cause of unintelligible audit trails [10].
 
-Each agent instance needs its own cryptographic identity in a non-human identity (NHI) framework [10]. Short-lived JWT or OAuth 2.0 tokens — expiry in minutes, not days — bound to specific roles in a central registry. A 5–15 minute token limits blast radius. The token's azp/appid field carries the agent identity into every downstream log.
+Each agent instance needs its own cryptographic identity in a [non-human identity](/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/) (NHI) framework [10]. Short-lived JWT or OAuth 2.0 tokens — expiry in minutes, not days — bound to specific roles in a central registry. A 5–15 minute token limits blast radius. The token's azp/appid field carries the agent identity into every downstream log.
 
 Enterprise identity platforms support this through workload identity primitives. Microsoft's Agent Governance Toolkit demonstrates the pattern: the agent-governance-python repo assigns per-agent identities tracked through the hash-chain audit log, with the AgentBehaviorMonitor quarantining agents exceeding behavioral thresholds [11].
 
@@ -172,7 +172,7 @@ The OWASP Top 10 for Agentic Applications elevates audit trails to a cross-cutti
 
 The AGT middleware produces a hash-chain log where each entry contains the SHA-256 of the previous entry. Its AgentBehaviorMonitor tracks tool call rate, failure rate, and privilege escalation, quarantining agents that exceed thresholds [11].
 
-Audit trails mitigate: ASI02 (Tool Misuse) via parameter recording; ASI03 (Privilege Abuse) via identity-policy linkage; ASI09 (Trust Exploitation) via forensic replay; ASI10 (Rogue Agents) via behavioral baselining and quarantine [11]. OWASP minimum fields map onto the receipt schema described earlier.
+Audit trails mitigate: ASI02 ([Tool Misuse](/posts/2026-04-03-owasp-top-10-agentic-apps-security-guardrails/)) via parameter recording; ASI03 (Privilege Abuse) via identity-policy linkage; ASI09 (Trust Exploitation) via forensic replay; ASI10 (Rogue Agents) via behavioral baselining and quarantine [11]. OWASP minimum fields map onto the receipt schema described earlier.
 
 An audit trail built solely for compliance is undersold. The same hash chain that satisfies an auditor also powers security automation: drift detection, privilege escalation alerts, and quarantine triggers. Build it once, use it for both objectives.
 

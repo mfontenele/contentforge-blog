@@ -17,7 +17,7 @@ ShowToc: true
 TocOpen: true
 ---
 
-[Production AI](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/) agents are expensive. What starts as a manageable proof-of-concept quickly escalates into a budget crisis when usage scales from hundreds to millions of requests per month. Teams running naive implementations often discover that inference costs dwarf infrastructure, engineering, and even model training expenses combined.
+Production AI agents are expensive. What starts as a manageable proof-of-concept quickly escalates into a budget crisis when usage scales from hundreds to millions of requests per month. Teams running naive implementations often discover that inference costs dwarf infrastructure, engineering, and even model training expenses combined.
 
 The good news? Cost reduction isn't about compromises. Teams implementing systematic optimization strategies report reductions of 40% to 90% without sacrificing accuracy or user experience. This article distills proven techniques from production deployments, academic research, and vendor innovations into a practical playbook you can implement today.
 
@@ -33,7 +33,7 @@ The strategies that follow aren't theoretical. Each comes from verified producti
 
 ## Strategy 1: Smart Model Routing
 
-Not every task needs a frontier model. [UC Berkeley](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/) researchers demonstrated this with RouteLLM, a framework that learns to route queries to the most cost-effective model capable of handling them [1]. On MT-Bench evaluation, RouteLLM achieved an 85% cost reduction while maintaining comparable accuracy to always using the most capable model.
+Not every task needs a frontier model. UC Berkeley researchers demonstrated this with RouteLLM, a framework that learns to route queries to the most cost-effective model capable of handling them [1]. On MT-Bench evaluation, RouteLLM achieved an 85% cost reduction while maintaining comparable accuracy to always using the most capable model.
 
 The principle is straightforward: classify incoming requests by complexity, then route accordingly. Simple extraction tasks go to fast, cheap models like Claude 3 Haiku or GPT-3.5. Reasoning-heavy tasks get routed to Claude 3.5 Sonnet or GPT-4. The classification itself is lightweight—often a single embedding comparison or a small classifier model. Teams report 40–60% cost reductions from implementing model routing in production workloads [1].
 
