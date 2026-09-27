@@ -38,7 +38,7 @@ LangChain tuned only the harness around a coding agent (same model, same tools) 
 
 ## What Harness Engineering Actually Is, and Why the Benchmark Gap Should Scare You
 
-LangChain's definition has become the standard: Agent = Model + Harness [4]. The harness is everything that isn't the model: system prompts, tool interfaces (including MCP servers), sandboxes, orchestration logic, and memory systems.
+LangChain's definition has become the standard: Agent = Model + Harness [4]. The harness is everything that isn't the model: system prompts, tool interfaces (including [MCP](/posts/2026-03-04-mcp-model-context-protocol/) servers), sandboxes, orchestration logic, and memory systems.
 
 Martin Fowler's framework splits controls into three categories: maintainability harnesses for tests and linters; architecture fitness harnesses for performance and observability; and behavior harnesses combining functional specs with AI-generated test suites [17].
 
@@ -72,7 +72,7 @@ OpenAI used essentially this pattern to build a production product: ~1M lines of
 
 Anthropic's harness splits the problem into two agents: an initializer scaffolds the environment once; a coding agent runs repeatedly making incremental progress [1]. This separation solves four failure modes that plague single-agent setups.
 
-The initializer produces a JSON feature-list file, covering 200 features for their claude.ai clone, with every entry tagged "passes": false [1]. This file becomes the persistent progress ledger. On each loop iteration, the coding agent follows a structured startup ritual: confirm working directory; read git logs and progress files; read the feature list; test basic functionality; then pick the highest-priority uncompleted feature [1]. Features flip to "passes": true only after self-verification via Puppeteer MCP browser automation [1].
+The initializer produces a JSON feature-list file, covering 200 features for their claude.ai clone, with every entry tagged "passes": false [1]. This file becomes the persistent progress ledger. On each loop iteration, the coding agent follows a structured startup ritual: confirm working directory; read git logs and progress files; read the feature list; test basic functionality; then pick the highest-priority uncompleted feature [1]. Features flip to "passes": true only after self-verification via Puppeteer MCP [browser automation](/posts/2026-03-13-browser-automation-agents-openai-cua-gui-ai/) [1].
 
 The harness solves four failure modes. Premature declaration of completion: only the agent flips passes to true after browser-based verification. Undocumented side-effects: automated test suites per iteration block feature completion. Incomplete features marked as tested: the startup ritual reads the feature list before selecting the next task. Wasted time learning to run the app: the initializer handles setup once upfront [1].
 
@@ -118,7 +118,7 @@ Every loop pattern shares one bottleneck: context degradation. Chroma's 2025 stu
 
 LangChain's Delta Channels in LangGraph 1.2 address storage: for a 200-turn coding agent, full-state checkpointing consumed 5.3 GB. Delta Channels store only per-step diffs with periodic full snapshots, reducing footprint to 129 MB; that's a ~41x reduction [10].
 
-On context delivery, OpenAI learned a hard lesson: a monolithic AGENTS.md fails because context is a scarce resource [8]. Their solution: AGENTS.md as a table of contents pointing to discrete files, with agents loading only relevant sections. LangChain adopted progressive disclosure via skills loaded on demand; the agent sees only what the current step needs [4].
+On context delivery, OpenAI learned a hard lesson: a monolithic [AGENTS.md](/posts/2026-05-22-agents-md-self-describing-repositories/) fails because context is a scarce resource [8]. Their solution: AGENTS.md as a table of contents pointing to discrete files, with agents loading only relevant sections. LangChain adopted progressive disclosure via skills loaded on demand; the agent sees only what the current step needs [4].
 
 > [!WARNING]
 > Context resets and structured handoffs are survival mechanisms, not optional optimizations. If your agent's quality degrades after the first few iterations, check whether you're resetting context or just accumulating it; Sonnet 4.5's context anxiety is a real failure mode at production scale [2].

@@ -20,11 +20,11 @@ It was a Tuesday morning when the finance team noticed the spike. The company's 
 
 *This is a composite scenario based on common production failures.*
 
-AI agent observability addresses exactly this gap. Agents don't fail like conventional services—they fail *quietly*. Without specialized infrastructure, these silent failures accumulate until they surface as cost explosions or customer churn.
+AI [agent observability](/posts/2026-08-07-production-agent-debugging-from-logs-to-root-cause/) addresses exactly this gap. Agents don't fail like conventional services—they fail *quietly*. Without specialized infrastructure, these silent failures accumulate until they surface as cost explosions or customer churn.
 
 ## Why Traditional Monitoring Fails for AI Agents
 
-Traditional application performance monitoring tracks uptime, latency, error rates, and throughput—excellent for request-response services where errors produce exceptions. For [AI agents](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/), these metrics are nearly useless.
+Traditional application performance monitoring tracks uptime, latency, error rates, and throughput—excellent for request-response services where errors produce exceptions. For AI agents, these metrics are nearly useless.
 
 The core issue lies in the **decision-making nature** of agent systems. An agent isn't a function that returns a computed result—it's a reasoning loop that selects tools, interprets outputs, and decides next steps. When an agent hallucinates a tool call—invoking a non-existent API endpoint or generating malformed parameters—it often receives an error response that it interprets and handles. The system continues operating while producing wrong outcomes.
 
@@ -47,7 +47,7 @@ A complete agent trace resembles a tree: root for the user query, branches for t
 
 **Token cost monitoring** provides granular visibility into where spend accumulates. Cycles and drift spike costs via redundant LLM calls. Without trajectory length monitoring, teams discover cost anomalies only when bills arrive. Capabilities include per-trace spend, cost breakdowns by model/agent, and anomaly detection for sudden spikes.
 
-**OpenTelemetry** provides the interoperability layer. The GenAI semantic conventions define standardized attributes for model calls, agent orchestration, and tool invocations. Vendors accept OTLP spans at endpoints like `/api/public/otel` (Langfuse-specific), enabling integration across Python, TypeScript, Java, Go, and .NET without vendor lock-in.
+**OpenTelemetry** provides the interoperability layer. The GenAI semantic conventions define standardized attributes for model calls, [agent orchestration](/posts/2026-04-15-agent-workflow-orchestration-n8n-vs-camunda/), and tool invocations. Vendors accept OTLP spans at endpoints like `/api/public/otel` (Langfuse-specific), enabling integration across Python, TypeScript, Java, Go, and .NET without vendor lock-in.
 
 ## The Tool Landscape
 
@@ -55,7 +55,7 @@ A complete agent trace resembles a tree: root for the user query, branches for t
 |------|------|-----------|-------------|
 | **Langfuse** | OSS + Cloud | Native OTel support; 22K+ GitHub stars; 23M+ monthly SDK installs; self-hostable; strong LangGraph integration; backed by ClickHouse | Community support for self-hosted; managed tier for enterprise features |
 | **Arize** | SaaS + OSS (Phoenix) | $131M total funding; Agent Graph visualization for multi-agent workflows; LLM-as-Judge evaluations; clients include Uber, Wayfair, Microsoft | SaaS pricing scales cost-prohibitively |
-| **Maxim AI** | SaaS + In-VPC | Native agent simulation for pre-production testing; real-time alerts; 5x faster debugging cycles; OTel compatible | Proxy-based logging limitations |
+| **Maxim AI** | SaaS + In-VPC | Native [agent simulation](/posts/2026-04-07-agent-simulation-webarena-infinity-virtual-testing/) for pre-production testing; real-time alerts; 5x faster debugging cycles; OTel compatible | Proxy-based logging limitations |
 | **Braintrust** | Eval-first Platform | Notion case study demonstrates 10x improvement in issue resolution; tight CI/CD integration | Limited proxy-based logging; strongest for eval workflows |
 
 **Langfuse** offers the best balance for teams prioritizing open-source flexibility. Acquired by ClickHouse (valued at $15B), Langfuse maintains its MIT license while gaining enterprise backing (ClickHouse, 2026). With 22,522 GitHub stars, 23M+ monthly SDK installs, and 6M+ Docker pulls, it's become the default choice for teams building on LangGraph. Enterprise users include 19 Fortune 50 and 63 Fortune 500 companies including Intuit and Twilio.
@@ -124,7 +124,7 @@ The key insight is placing heartbeats at meaningful completion points—not just
 Teams with existing agents should prioritize observability implementation:
 
 **Phase 1: Distributed Tracing (Week 1-2)**
-- Instrument your [agent framework](/posts/2026-03-04-mcp-model-context-protocol/) with OpenTelemetry using GenAI semantic conventions
+- Instrument your agent framework with OpenTelemetry using GenAI semantic conventions
 - Route spans to an observability backend (Langfuse cloud, self-hosted, or existing Honeycomb/Datadog)
 - Ensure every tool call, model generation, and sub-agent invocation creates a span
 

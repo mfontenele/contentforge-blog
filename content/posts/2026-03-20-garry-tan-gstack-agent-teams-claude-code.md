@@ -31,7 +31,7 @@ faq:
 **TL;DR**
 
 - gstack simulates a 15-person engineering org through specialized Claude Code prompts, not true multi-agent orchestration — a distinction that determines whether it fits your workflow.
-- Garry Tan reports 600,000 lines of production code in 60 days using gstack plus Conductor for parallel worktrees; the SKILL.md standard underlying gstack is portable across multiple major AI coding tools.
+- Garry Tan reports 600,000 lines of production code in 60 days using gstack plus Conductor for parallel worktrees; the [SKILL.md](/posts/2026-03-05-skills-vs-mcp-declarative-agent-configuration/) standard underlying gstack is portable across multiple major AI coding tools.
 - Caylent's AWS Bedrock experience found prompt engineering delivers better ROI than orchestration frameworks — build eval frameworks and optimize prompts before reaching for CrewAI or LangGraph.
 
 Twenty thousand GitHub stars in under a week. Garry Tan's gstack landed on March 12, 2026, and immediately split the developer community between two camps: those who saw it as proof that one engineer with the right prompts can outproduce a mid-sized team, and those who called it well-branded prompt engineering dressed up as something more.
@@ -58,12 +58,12 @@ Each SKILL.md file contains YAML frontmatter with a name and trigger description
 | /plan-ceo-review | Founder/CEO | Product strategy, scope |
 | /plan-eng-review | Engineering Manager | Architecture, data flow, edge cases |
 | /review | Staff Engineer | Bug detection, production risk assessment |
-| /browse | QA Engineer | Browser automation with screenshots |
+| /browse | QA Engineer | [Browser automation](/posts/2026-03-13-browser-automation-agents-openai-cua-gui-ai/) with screenshots |
 | /ship | Release Engineer | Tests, coverage audit, PR creation |
 | /retro | Engineering Manager | Weekly retrospective with commit analysis |
 | /codex | Cross-model reviewer | OpenAI Codex CLI integration for second opinion |
 
-The SKILL.md standard is intentionally portable. The same files work across Claude Code, OpenAI Codex CLI, GitHub Copilot, VS Code, Cursor, and LM-Kit.NET, among others [3]. This portability is one of gstack's strongest practical arguments — you're not locked into a single toolchain.
+The SKILL.md standard is intentionally portable. The same files work across Claude Code, OpenAI Codex CLI, [GitHub Copilot](/posts/2026-05-15-github-copilot-agent-mode-production/), VS Code, Cursor, and LM-Kit.NET, among others [3]. This portability is one of gstack's strongest practical arguments — you're not locked into a single toolchain.
 
 The process Tan describes follows a seven-phase loop: THINK (design doc with `/office-hours`), PLAN (CEO, engineering, and design reviews), BUILD (implementation), REVIEW (`/review` and `/codex` for cross-model analysis), TEST (`/browse` for browser automation), SHIP (`/ship` for tests, coverage, and PR creation), and REFLECT (retrospective and learning capture) [1].
 

@@ -30,7 +30,7 @@ faq:
 
 **TL;DR**
 
-- Claude Tag and Glean AI Coworker launched mid-2026 sharing four architectural primitives: channel-scoped memory, multiplayer agent identity, ambient proactive behavior, and credential proxy governance.
+- Claude Tag and Glean AI Coworker launched mid-2026 sharing four architectural primitives: channel-scoped memory, multiplayer [agent identity](/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/), ambient proactive behavior, and credential proxy governance.
 - Anthropic now generates 65% of its product code through Claude Tag. Engineers delegate tasks, work on other priorities, and return to PRs ready for review.
 - The old Claude in Slack integration retires August 3, 2026: a hard migration from reactive chatbots to autonomous organizational teammates.
 
@@ -47,7 +47,7 @@ Workspace agents aren't chatbots with a Slack integration. They're built on four
 | Behavior | Reactive — waits to be tagged or DMed | Ambient — monitors, flags, follows up autonomously [1][2] |
 | Credentials | User's own tokens in prompt context | Injected at network boundary, per-channel audit trail [3] |
 
-Each primitive solved a genuine bottleneck. Per-session memory meant every Monday morning started with re-explaining context. Per-user identity meant the AI could only access what the individual asker could see, making it useless for cross-team coordination. Reactive-only behavior meant someone had to notice a problem before the AI could help. Putting user credentials into [model context](/posts/2026-03-04-mcp-model-context-protocol/) was a security risk enterprise compliance teams couldn't accept.
+Each primitive solved a genuine bottleneck. Per-session memory meant every Monday morning started with re-explaining context. Per-user identity meant the AI could only access what the individual asker could see, making it useless for cross-team coordination. Reactive-only behavior meant someone had to notice a problem before the AI could help. Putting user credentials into model context was a security risk enterprise [compliance](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/) teams couldn't accept.
 
 > [!IMPORTANT]
 > The agent-in-channel-as-working-surface pattern reduces context-switching by letting teams interact with AI in the same place they discuss work. No tab switching, no separate app, no copy-paste workflows.
@@ -134,13 +134,13 @@ Deploying a workspace agent isn't like adding a Slack integration. It's closer t
 | Identity mode | DM (personal agent) | Channel (shared teammate) | Use DM for sensitive individual work; channel mode for team collaboration [3] |
 | Spend controls | Org-level cap only | Per-channel granular caps | Per-channel controls enable team-level experimentation without org-wide cost risk [6] |
 
-Claude Tag's deployment requires Owner-level Slack permissions for initial setup, and Anthropic provides a 30-day migration window [6]. The model running under the hood is Opus 4.8. [Claude Code](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/), Anthropic's separate coding product, is already generating $2.5 billion in annualized revenue. The agent platform is their strategic bet, not an experiment [6].
+Claude Tag's deployment requires Owner-level Slack permissions for initial setup, and Anthropic provides a 30-day migration window [6]. The model running under the hood is Opus 4.8. Claude Code, Anthropic's separate coding product, is already generating $2.5 billion in annualized revenue. The agent platform is their strategic bet, not an experiment [6].
 
 Most teams underestimate how much organizational process design goes into ambient agent deployment. The technical setup takes hours. Deciding which channels get ambient mode and what autonomy boundaries to set takes weeks. Treat this as a change management project, not a software install.
 
 ### The Road Ahead: Just-in-Time Credentials and Beyond
 
-Anthropic's roadmap points toward just-in-time credential grants: Claude requests user approval for single sensitive actions rather than holding broad standing permissions [3]. This could unlock enterprise adoption in regulated industries where standing agent credentials are a non-starter. Identity-aware overlays for complex clearance structures are also in development, along with expansion beyond Slack to other collaboration surfaces [3][5]. The convergence path points toward workspace agents becoming the orchestration layer for [enterprise AI](/posts/2026-03-09-mast-taxonomy-enterprise-agent-failures/): the primary interface through which teams coordinate with AI systems across their entire toolchain.
+Anthropic's roadmap points toward just-in-time credential grants: Claude requests user approval for single sensitive actions rather than holding broad standing permissions [3]. This could unlock enterprise adoption in regulated industries where standing agent credentials are a non-starter. Identity-aware overlays for complex clearance structures are also in development, along with expansion beyond Slack to other collaboration surfaces [3][5]. The convergence path points toward workspace agents becoming the orchestration layer for enterprise AI: the primary interface through which teams coordinate with AI systems across their entire toolchain.
 
 ## Practical Takeaways
 

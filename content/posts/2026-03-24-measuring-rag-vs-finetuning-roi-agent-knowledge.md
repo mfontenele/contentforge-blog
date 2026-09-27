@@ -34,7 +34,7 @@ faq:
 
 Every enterprise AI project hits the same fork in the road: bake domain knowledge into model weights through fine-tuning, or serve it dynamically at runtime through Retrieval-Augmented Generation? The wrong choice creates architectural debt that compounds every time your data changes.
 
-The answer used to be genuinely ambiguous. Fine-tuning offered lower per-query inference costs; RAG carried a token-cost penalty for large context windows. That balance has shifted. KV caching, prompt caching APIs, and commoditized vector databases have restructured the economics in RAG's favor for the vast majority of enterprise workloads. This piece walks through the actual cost math and defines the specific conditions under which fine-tuning still wins.
+The answer used to be genuinely ambiguous. Fine-tuning offered lower per-query inference costs; RAG carried a token-cost penalty for large context windows. That balance has shifted. KV caching, [prompt caching](/posts/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/) APIs, and commoditized vector databases have restructured the economics in RAG's favor for the vast majority of enterprise workloads. This piece walks through the actual cost math and defines the specific conditions under which fine-tuning still wins.
 
 ## The $50K Misstep: Why Enterprises Overspend on Agent Memory
 
@@ -71,7 +71,7 @@ The setup cost gap is significant but not decisive on its own. The decisive fact
 
 Knowledge drift is the gradual divergence between a fine-tuned model's encoded knowledge and the actual state of the world it covers. Unlike a software bug — discrete and detectable — drift is probabilistic and silent. The model doesn't error; it confidently returns outdated information.
 
-For a compliance agent at a financial services firm, this isn't abstract. A fine-tuned model trained on Q1 regulations still answering queries in Q3 is a liability, not just technical debt. Drift doesn't trigger alarms — it surfaces in audit failures weeks after the fact [1]. RAG eliminates this by design: facts live in the vector database and update when documents are re-indexed, with no model retraining required.
+For a [compliance](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/) agent at a financial services firm, this isn't abstract. A fine-tuned model trained on Q1 regulations still answering queries in Q3 is a liability, not just technical debt. Drift doesn't trigger alarms — it surfaces in audit failures weeks after the fact [1]. RAG eliminates this by design: facts live in the vector database and update when documents are re-indexed, with no model retraining required.
 
 > [!WARNING]
 > **The drift detection gap:** Teams often underestimate how long knowledge drift goes undetected in production. Without an active eval harness testing against known-current facts on a regular cadence, you may be serving stale answers for weeks before anyone notices.

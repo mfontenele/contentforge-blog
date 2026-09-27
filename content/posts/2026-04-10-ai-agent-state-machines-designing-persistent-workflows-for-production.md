@@ -95,7 +95,7 @@ For LangGraph, checkpointing integrates via `PostgresSaver` or Redis-based check
 
 ## Unified memory architectures that cut infrastructure costs
 
-[Agent memory](/posts/2026-04-02-kv-cache-quantization-production-agents/) splits naturally into three types: episodic (what happened in past sessions), semantic (what the agent knows about the world), and procedural (how to execute recurring tasks). Most teams build separate infrastructure for each — a time-series store for [episodic memory](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/), a vector database for semantic search, a relational database for structured knowledge. That fragmentation is expensive and operationally painful.
+Agent memory splits naturally into three types: episodic (what happened in past sessions), semantic (what the agent knows about the world), and procedural (how to execute recurring tasks). Most teams build separate infrastructure for each — a time-series store for [episodic memory](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/), a vector database for semantic search, a relational database for structured knowledge. That fragmentation is expensive and operationally painful.
 
 PostgreSQL with the pgvector extension collapses all three memory types into a single database [7]. TimescaleDB hypertables handle episodic memory with time-partitioned queries, pgvector handles semantic memory with HNSW approximate nearest-neighbor search, and standard relational tables handle procedural memory with full SQL expressiveness. A single CTE can pull episodic context, retrieve semantically similar past interactions, and join procedural rules in one query [7].
 
@@ -135,7 +135,7 @@ Event-driven coordination extends this to fully decoupled networks where agents 
 
 ## Persistent workflow patterns for stateful agent APIs
 
-Most [agent frameworks](/posts/2026-03-04-mcp-model-context-protocol/) treat state as optional. The next generation of production tooling is moving in the opposite direction: state is the primitive, execution is ephemeral. LangGraph's stateful graph model, Temporal's durable execution engine, and unified memory stores are converging toward a world where agent context persists across sessions, failures, and model upgrades without application-layer plumbing.
+Most agent frameworks treat state as optional. The next generation of production tooling is moving in the opposite direction: state is the primitive, execution is ephemeral. LangGraph's stateful graph model, Temporal's durable execution engine, and unified memory stores are converging toward a world where agent context persists across sessions, failures, and model upgrades without application-layer plumbing.
 
 The open question is portability. State schema migrations are the hidden operational cost of durable agents — as your agent logic evolves, checkpointed state from previous versions may be incompatible with new code. Design state objects with a schema version field from day one and write migration handlers before you need them in production. When an agent's state is serialized inside a framework-specific checkpointer, migrating to a different orchestration layer means rebuilding the state schema from scratch.
 

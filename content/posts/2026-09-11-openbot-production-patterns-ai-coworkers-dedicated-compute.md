@@ -64,7 +64,7 @@ The resource cost is modest and predictable. You need a 2 GB floor per deploymen
 
 ## The Gateway Is the Security Boundary, Not the Agent
 
-Here is the architectural move that sets OpenBot apart — every tool call (browser, file, or MCP) returns to the server gateway before it touches the computer. The gateway resolves the target; it evaluates a Common Expression Language (CEL) policy; it writes an audit row; and only then does it forward the call [3]. The computer itself does not decide policy; the server gateway does.
+Here is the architectural move that sets OpenBot apart — every tool call (browser, file, or [MCP](/posts/2026-03-04-mcp-model-context-protocol/)) returns to the server gateway before it touches the computer. The gateway resolves the target; it evaluates a Common Expression Language (CEL) policy; it writes an audit row; and only then does it forward the call [3]. The computer itself does not decide policy; the server gateway does.
 
 There is no code path that acts without the record existing first. The audit row is written before the action executes; a race condition cannot skip the trail [3].
 

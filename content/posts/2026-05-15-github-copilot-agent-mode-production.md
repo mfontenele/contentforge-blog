@@ -30,13 +30,13 @@ faq:
 
 **TL;DR**
 
-- GitHub Copilot Agent Mode GA (March 2026) hits 56% SWE-bench Verified while offering tighter GitHub integration than [Claude Code](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/)'s 63.7-70.3% [3].
+- GitHub Copilot Agent Mode GA (March 2026) hits 56% SWE-bench Verified while offering tighter GitHub integration than Claude Code's 63.7-70.3% [3].
 - Cloud Coding Agent startup latency dropped 50% via pre-indexing—enabling async issue-to-PR workflows without real-time supervision [2].
 - Copilot Pro+ at $39/month is the practical minimum; according to third-party analysis, each Agent Mode task consumes 3-10+ premium requests [4].
 
 Production engineering reached an inflection point in March 2026. Autocomplete tools evolved into autonomous agents capable of planning multi-step tasks, editing files across projects, and submitting pull requests without intervention. GitHub Copilot Agent Mode reached General Availability across VS Code, JetBrains IDEs, Visual Studio, and Xcode—shifting how development teams approach code generation and repository management [1],[6].
 
-Yet benchmark scores create persistent misunderstanding. Copilot scores 56% on SWE-bench Verified while Claude Code achieves 63.7-70.3% using the same underlying model [3]. Teams adopt Copilot anyway because benchmark scores miss what [actually matters](/posts/2026-03-06-benchmarking-ai-agents-production/) in production workflows [4].
+Yet benchmark scores create persistent misunderstanding. Copilot scores 56% on SWE-bench Verified while Claude Code achieves 63.7-70.3% using the same underlying model [3]. Teams adopt Copilot anyway because benchmark scores miss what actually matters in production workflows [4].
 
 This article examines when Copilot Agent Mode beats Claude Code for enterprise teams; why the Pro+ tier at $39 per month is effectively mandatory; and how that 56% benchmark score translates to measurable productivity gains in real-world development.
 
@@ -122,7 +122,7 @@ Copilot Pro at $10 per month includes 300 premium requests—sufficient for ligh
 
 The math is straightforward per independent estimates: a developer performing 5-10 agent tasks daily will exhaust a Pro plan's monthly quota in one to two weeks.
 
-Enterprise plans at $39 per user per month include org-wide controls, comprehensive audit logs, and IP indemnity—features critical for legal compliance in regulated industries [8]. However, these features do not increase request quotas; Enterprise actually provides fewer requests per user than Pro+ (1,000 versus 1,500). A ten-developer team on Pro hits limits within a week of productive Agent Mode usage.
+Enterprise plans at $39 per user per month include org-wide controls, comprehensive audit logs, and IP indemnity—features critical for legal [compliance](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/) in regulated industries [8]. However, these features do not increase request quotas; Enterprise actually provides fewer requests per user than Pro+ (1,000 versus 1,500). A ten-developer team on Pro hits limits within a week of productive Agent Mode usage.
 
 > [!WARNING]
 > According to third-party analysis, GitHub announced a transition from premium requests to AI Credits (token-based billing) effective June 1, 2026 while keeping plan prices unchanged [4]; budget for Pro+ now.

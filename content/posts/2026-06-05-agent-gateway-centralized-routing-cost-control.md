@@ -30,11 +30,11 @@ faq:
 
 **TL;DR**
 
-- Gartner predicts 75% of API gateway vendors will integrate MCP by end 2026; at least 50% of GenAI projects will overrun budgets through 2028 [1] [2].
+- Gartner predicts 75% of API gateway vendors will integrate [MCP](/posts/2026-03-04-mcp-model-context-protocol/) by end 2026; at least 50% of GenAI projects will overrun budgets through 2028 [1] [2].
 - Agent gateways add three capabilities LLM gateways lack: tool call validation, multi-step budget tracking, and autonomy-level enforcement [3] [4].
 - The unified gateway pattern (LLM routing, MCP tool governance, and cost control in one layer) is becoming the production standard [5].
 
-A single user request to a production agent can cascade into dozens of LLM calls as the system plans, retrieves, validates, and retries. LLM gateways enforce per-request token limits. They cannot see that a request just triggered a 14-step tool chain consuming orders of magnitude more budget than expected. That blindness isn't a missing feature. It's a category mismatch. The agent gateway pattern fills this gap by extending the proxy layer with tool call validation, per-session budget tracking, and autonomy-level enforcement: the infrastructure that separates production-ready [agent systems](/posts/2026-03-03-ai-agent-observability-production/) from expensive experiments. This article maps the full architecture, compares the platforms, and gives you a migration path from simple LLM proxy to full agent gateway.
+A single user request to a production agent can cascade into dozens of LLM calls as the system plans, retrieves, validates, and retries. LLM gateways enforce per-request token limits. They cannot see that a request just triggered a 14-step tool chain consuming orders of magnitude more budget than expected. That blindness isn't a missing feature. It's a category mismatch. The agent gateway pattern fills this gap by extending the proxy layer with tool call validation, per-session budget tracking, and autonomy-level enforcement: the infrastructure that separates production-ready agent systems from expensive experiments. This article maps the full architecture, compares the platforms, and gives you a migration path from simple LLM proxy to full agent gateway.
 
 ## The Problem: Why LLM Gateways Are Blind to Agent Behavior
 
@@ -96,7 +96,7 @@ Tool call validation most sharply distinguishes agent gateways from LLM gateways
 
 The permission model moves from server-level to method-level. Instead of "access to customer database," the gateway enforces: allow customer.fetch, deny customer.delete. Pomerium implements this with session-aware policies where each tool method has distinct allow-deny rules [4].
 
-AWS Bedrock AgentCore layers Cedar policy with Lambda interceptors. Cedar evaluates agent identity, tool method, and request context against deterministic access rules; Lambda interceptors execute custom logic for context-dependent decisions like data residency checks [11]. Response sanitization closes the loop: the gateway validates tool outputs for [prompt injection](/posts/2026-04-03-owasp-top-10-agentic-apps-security-guardrails/) payloads and PII before returning them to the agent. Portkey captures full traces across agent runs including MCP calls, with 40+ metrics out of the box [12].
+AWS Bedrock AgentCore layers Cedar policy with Lambda interceptors. Cedar evaluates agent identity, tool method, and request context against deterministic access rules; Lambda interceptors execute custom logic for context-dependent decisions like data residency checks [11]. Response sanitization closes the loop: the gateway validates tool outputs for prompt injection payloads and PII before returning them to the agent. Portkey captures full traces across agent runs including MCP calls, with 40+ metrics out of the box [12].
 
 ## Multi-Step Budget and Autonomy Enforcement
 
@@ -194,7 +194,7 @@ LiteLLM controls LLM spend. It cannot see or control tool actions. If your agent
 
 ### What is the latency cost of routing through an agent gateway?
 
-Bifrost claims 11 microseconds per request at 5,000 RPS [9]. Set against LLM inference times of 500ms to 30s, that overhead is noise. Even with full policy evaluation and validation, a well-implemented gateway adds single-digit milliseconds. For regulated workloads where audit trails are mandatory, the latency trade-off isn't a trade-off; it's the cost of compliance.
+Bifrost claims 11 microseconds per request at 5,000 RPS [9]. Set against LLM inference times of 500ms to 30s, that overhead is noise. Even with full policy evaluation and validation, a well-implemented gateway adds single-digit milliseconds. For regulated workloads where audit trails are mandatory, the latency trade-off isn't a trade-off; it's the cost of [compliance](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/).
 
 ### Should I self-host or use a managed agent gateway?
 

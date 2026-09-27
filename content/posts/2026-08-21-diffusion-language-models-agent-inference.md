@@ -77,7 +77,7 @@ Treat the 10x figure as a ceiling, not a promise. It comes from Inception Labs' 
 | Mercury Coder Mini | 1,109 tok/s (H100) | 250 ms p50 vs GPT-4o Mini about 4x faster | [1] |
 | Mercury Coder Small | 737 tok/s (H100) | up to 10x vs AR on average | [1] |
 | Mercury 2 | 1,009+ tok/s (Blackwell) | sub-300 ms TTFT under concurrency | [4] |
-| Fast-dLLM (LLaDA/Dream) | 27.6x vs vanilla LLaDA | 2–3.6x from [KV cache](/posts/2026-04-02-kv-cache-quantization-production-agents/) alone | [5] |
+| Fast-dLLM (LLaDA/Dream) | 27.6x vs vanilla LLaDA | 2–3.6x from KV cache alone | [5] |
 
 {{< figure src="/images/posts/2026-08-21-diffusion-language-models-agent-inference/image-1.jpg" alt="Parallel token unmasking in diffusion LLMs visualized as a grid of grey tokens simultaneously brightening into colored words" caption="Simultaneous token unmasking" >}}
 
@@ -89,7 +89,7 @@ Dream 7B shows the cheaper route. It initializes from Qwen2.5-7B weights and tra
 
 Block Diffusion threads the needle between the two families. It diffuses within blocks but generates blocks autoregressively, recovering variable-length output and per-block KV caching; it earns state-of-the-art results among diffusion models on language benchmarks [7]. That directly attacks the fixed-length problem.
 
-The Ant Group and Renmin University team then scaled the idea to 100 billion parameters with LLaDA2.0, converting a pretrained autoregressive MoE model through three-phase progressive training and aligning 16B and 100B variants with SFT and DPO [8]; LLaDA2.1 followed with Token-to-Token editing for a configurable Speedy Mode and Quality Mode [9].
+The Ant Group and Renmin University team then scaled the idea to 100 billion parameters with LLaDA2.0, converting a pretrained autoregressive [MoE](/posts/2026-03-17-mixture-of-experts-production-expert-parallelism/) model through three-phase progressive training and aligning 16B and 100B variants with SFT and DPO [8]; LLaDA2.1 followed with Token-to-Token editing for a configurable Speedy Mode and Quality Mode [9].
 
 ## Convert Your Existing AR Models Instead of Starting Over
 

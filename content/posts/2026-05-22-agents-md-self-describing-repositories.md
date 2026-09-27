@@ -30,7 +30,7 @@ faq:
 
 **TL;DR**
 
-- AGENTS.md has been adopted by over 60,000 GitHub repositories as of March 2026; it's the closest thing to an agent configuration standard we have [8].
+- AGENTS.md has been adopted by over 60,000 GitHub repositories as of March 2026; it's the closest thing to an [agent configuration](/posts/2026-03-05-skills-vs-mcp-declarative-agent-configuration/) standard we have [8].
 - Vercel's internal evals showed AGENTS.md with a compressed docs index hit 100% pass rate on framework tasks versus 79% for skills. Passive context beats active retrieval [3].
 - AGENTS.md is instructions, not documentation. GitHub Well-Architected recommends CODEOWNERS and branch rulesets to protect it [5].
 
@@ -108,7 +108,7 @@ SKILL.md occupies a different design point: where AGENTS.md is always-on, SKILL.
 | User preferences | Custom instructions | Personal workflow | Editor preferences, personal shortcuts |
 | Repository context | AGENTS.md (root) | Repository-wide | Global conventions, cross-cutting rules |
 
-The five configuration layers for AI agents in 2026, as catalogued by Agensi, are: Custom instructions (always-on context), SKILL.md skills (on-demand expertise), MCP servers (external tool access), Cursor rules (editor-specific), and AGENTS.md (repository context) [1]. Each layer addresses a different scope. Together they form a stack, but the interaction between layers is underspecified, and no tool currently validates that layer N doesn't contradict layer N-1.
+The five configuration layers for AI agents in 2026, as catalogued by Agensi, are: Custom instructions (always-on context), SKILL.md skills (on-demand expertise), [MCP](/posts/2026-03-04-mcp-model-context-protocol/) servers (external tool access), Cursor rules (editor-specific), and AGENTS.md (repository context) [1]. Each layer addresses a different scope. Together they form a stack, but the interaction between layers is underspecified, and no tool currently validates that layer N doesn't contradict layer N-1.
 
 ## Security: When Your Repo's Instructions Become an Attack Surface
 
@@ -182,7 +182,7 @@ Cursor natively supports AGENTS.md, so you can migrate your .cursorrules content
 
 ### Does AGENTS.md work with GitHub Copilot?
 
-Yes. GitHub Copilot reads AGENTS.md and has published its own guidance on writing effective files based on analysis of over 2,500 repositories. That guidance recommends covering six core areas: commands, testing, project structure, code style, git workflow, and boundaries [4]. Note that GitHub's guidance is specifically about Copilot's agents.md persona system (files stored in .github/agents/) which is distinct from the root-level AGENTS.md standard. The six areas are broadly applicable to any agent that reads AGENTS.md, but the deployment mechanism differs.
+Yes. [GitHub Copilot](/posts/2026-05-15-github-copilot-agent-mode-production/) reads AGENTS.md and has published its own guidance on writing effective files based on analysis of over 2,500 repositories. That guidance recommends covering six core areas: commands, testing, project structure, code style, git workflow, and boundaries [4]. Note that GitHub's guidance is specifically about Copilot's agents.md persona system (files stored in .github/agents/) which is distinct from the root-level AGENTS.md standard. The six areas are broadly applicable to any agent that reads AGENTS.md, but the deployment mechanism differs.
 
 ---
 

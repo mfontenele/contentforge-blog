@@ -34,13 +34,13 @@ faq:
 - A seven-layer coordination stack let seven agents finish a relay 8/8 in-order with zero duplicates when one member went absent.
 - The BYOA daemon runs from `npx cumora` and keeps provider keys on your machine, so the server never sees them.
 
-In five weeks, an open-source project pulled in 3,883 GitHub stars and 508 forks [1]. The signal is less the number than what developers are voting for: a team chat where [AI agents](/posts/2026-07-24-rotunda-agent-native-browser/) sit in the same roster as people, not inside a sidebar plugin. Cumora answers a question most [collaboration tools](/posts/2026-07-04-workspace-agent-architecture/) avoid: what if an agent were not a tool you invoke, but a teammate you hand work to? This article argues Cumora matters because it treats [agent identity](/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/), security, and coordination as first-class engineering problems; its benchmarked answers point to how agent-native teams will actually operate.
+In five weeks, an open-source project pulled in 3,883 GitHub stars and 508 forks [1]. The signal is less the number than what developers are voting for: a team chat where AI agents sit in the same roster as people, not inside a sidebar plugin. Cumora answers a question most collaboration tools avoid: what if an agent were not a tool you invoke, but a teammate you hand work to? This article argues Cumora matters because it treats [agent identity](/posts/2026-08-28-agent-identities-first-class-principals-nhi-governance/), security, and coordination as first-class engineering problems; its benchmarked answers point to how agent-native teams will actually operate.
 
 ## What Cumora Is: One Chat App for Humans and Agents
 
 Cumora is a cross-platform team chat application where AI agents join the same roster, direct messages, group conversations, Kanban boards, and calendar as humans [2]. The frontend ships as React 18 with Vite, TypeScript, and Tailwind, wrapped in Electron, Capacitor iOS/Android, and PWA shells over shared components [2]. Public release v0.9.0 landed on 2026-08-29 with Gemini CLI hardening, Pi process fixes, and a redesigned Computers tab [3].
 
-Under the hood, agents take one of two brain paths. Cumora Cloud runs managed agents in Kubernetes pods through the OpenAI Responses API; BYOA pairs local machines with your own [coding agents](/posts/2026-09-04-frugal-tokens-cost-regression-detection-coding-agents/) [2]. The backend is a stateless Express and WebSocket server. Postgres holds the source of truth through a Drizzle schema, while Redis handles pub/sub fan-out and presence [2]. There is also a transactional outbox pattern that keeps real-time updates consistent across the two [2].
+Under the hood, agents take one of two brain paths. Cumora Cloud runs managed agents in Kubernetes pods through the OpenAI Responses API; BYOA pairs local machines with your own coding agents [2]. The backend is a stateless Express and WebSocket server. Postgres holds the source of truth through a Drizzle schema, while Redis handles pub/sub fan-out and presence [2]. There is also a transactional outbox pattern that keeps real-time updates consistent across the two [2].
 
 | Layer | Technology | Role |
 | --- | --- | --- |
@@ -63,7 +63,7 @@ The distinction sounds subtle; the consequences are not. When an agent owns a th
 
 ## Bring Your Own Agent and Keep Your Keys
 
-BYOA (Bring Your Own Agent) supports ten local engines: [Claude Code](/posts/2026-07-17-ai-agent-ides-multi-agent-workspace-rebuild/), Codex CLI, Grok Build, Cursor Agent, OpenCode, pi, Gemini CLI, Qwen Code, Antigravity, and ZCode [4]. Claude Code and Codex are secure-default engines with fail-closed filesystem, command-network, and subprocess-credential boundaries; the other engines require an explicit unsandboxed opt-in [4].
+BYOA (Bring Your Own Agent) supports ten local engines: Claude Code, Codex CLI, Grok Build, Cursor Agent, OpenCode, pi, Gemini CLI, Qwen Code, Antigravity, and ZCode [4]. Claude Code and Codex are secure-default engines with fail-closed filesystem, command-network, and subprocess-credential boundaries; the other engines require an explicit unsandboxed opt-in [4].
 
 The security model is the headline. Provider credentials never leave your local machine. The daemon holds the JWT and POSTs to `/runtime/cli`, so the server never sees your API keys [4]. The daemon itself ships as `npx cumora`: a single ~330KB ESM file (zero runtime dependencies) that pairs a machine to the workspace [4]. It installs as a supervised service on launchd, systemd, or Task Scheduler.
 

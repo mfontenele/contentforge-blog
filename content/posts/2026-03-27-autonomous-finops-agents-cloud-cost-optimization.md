@@ -51,7 +51,7 @@ GPU infrastructure and token-based billing create cost signals that do not fit l
 
 ## FinOps Agents: Coordinated Forecasting, Policy, and Execution
 
-Effective FinOps architectures in 2026 separate three distinct functions into specialized agents that collaborate rather than operate in isolation [3]. Forecasting agents predict spend spikes using token throughput data, queue depth, and training schedule signals. Policy enforcement agents apply budget guardrails, circuit breakers, and compliance rules before any action executes. Execution agents rightsize instances, move workloads, and reclaim idle resources automatically.
+Effective FinOps architectures in 2026 separate three distinct functions into specialized agents that collaborate rather than operate in isolation [3]. Forecasting agents predict spend spikes using token throughput data, queue depth, and training schedule signals. Policy enforcement agents apply budget guardrails, circuit breakers, and [compliance](/posts/2026-06-26-cryptographic-audit-trails-verifiable-action-logs-ai-agents/) rules before any action executes. Execution agents rightsize instances, move workloads, and reclaim idle resources automatically.
 
 The coordination layer is what makes this architecture deliver. Agents share context continuously: a forecasting agent's prediction triggers the policy agent to pre-position reserved capacity, which the execution agent uses when the spike arrives [3]. This closed loop eliminates the latency between detection and remediation that makes manual approaches structurally ineffective. Engineers define the policies; agents carry them out.
 
@@ -104,7 +104,7 @@ AI analysis surfaces an average of 18% in optimization opportunity across total 
 
 ## Autonomous Rightsizing: Why CPU/RAM Metrics Give Agents the Wrong Signal
 
-Traditional rightsizing watches CPU and RAM utilization. For AI workloads, the correct metrics are token throughput, queue depth, and inference latency percentiles [2]. An embedding service running at 15% CPU might be correctly sized—or it might be idle because the upstream pipeline is blocked. Standard autoscalers can't distinguish these cases (they weren't built for token-based workloads); agents purpose-built for AI cost optimization can.
+Traditional rightsizing watches CPU and RAM utilization. For AI workloads, the correct metrics are token throughput, queue depth, and inference latency percentiles [2]. An embedding service running at 15% CPU might be correctly sized—or it might be idle because the upstream pipeline is blocked. Standard autoscalers can't distinguish these cases (they weren't built for token-based workloads); agents purpose-built for AI [cost optimization](/posts/2026-05-01-visual-gui-agents-production-computer-vision/) can.
 
 Adaptive instance selection across spot, reserved, and on-demand capacity is where execution agents generate sustained savings. Spot instances offer significant compute cost savings compared to on-demand pricing—but only if your workload placement logic handles interruptions gracefully without breaking production SLAs. Execution agents manage this continuously: shifting batch workloads to spot when available, falling back to on-demand for latency-sensitive inference, and purchasing reserved capacity when forecasting agents predict sustained load [3].
 

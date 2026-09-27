@@ -28,11 +28,11 @@ faq:
 
 **TL;DR**
 
-- [Claude Code](/posts/2026-07-17-ai-agent-ides-multi-agent-workspace-rebuild/) sends 4.7x more tokens than OpenCode before it even reads your prompt, so tool choice is a real cost lever.
+- Claude Code sends 4.7x more tokens than OpenCode before it even reads your prompt, so tool choice is a real cost lever.
 - Wattage's prefix_churn detector cut spend 44.7% on real traces just by enabling [prompt caching](/posts/2026-03-05-cutting-llm-agent-costs-by-50-a-production-engineers-playbook/).
 - Pair local profiling, CI regression gates, and runtime kill switches to prevent surprise bills rather than react to them.
 
-A single afternoon of agent-assisted coding can quietly burn more money than a month of your CI bill, and you would never know from your provider's dashboard. Claude Code transmits 33,000 tokens before it reads a single prompt, compared to OpenCode's 7,000 [1]. That 4.7x difference is not a bug; it is the default behavior of a tool that never asked whether you cared. Cost regression detection for [coding agents](/posts/2026-07-10-persistent-state-attacks-coding-agents/) flips this: instead of discovering overspending on an invoice, you catch it the moment a commit makes your agent more expensive. The real value here is not monitoring. It is treating token spend like a test that CI can fail — and a test you wrote, not one a vendor shipped.
+A single afternoon of agent-assisted coding can quietly burn more money than a month of your CI bill, and you would never know from your provider's dashboard. Claude Code transmits 33,000 tokens before it reads a single prompt, compared to OpenCode's 7,000 [1]. That 4.7x difference is not a bug; it is the default behavior of a tool that never asked whether you cared. Cost regression detection for coding agents flips this: instead of discovering overspending on an invoice, you catch it the moment a commit makes your agent more expensive. The real value here is not monitoring. It is treating token spend like a test that CI can fail — and a test you wrote, not one a vendor shipped.
 
 ## The Hidden Token Tax: Why Coding Agents Cost More Than You Think
 
@@ -98,7 +98,7 @@ graph TD
 
 ## Kill Switches at Runtime: Enforcing Hard Budget Limits
 
-CI gates protect the code you merge. They do nothing for an agent that runs wild at runtime and burns a budget on a runaway loop. What stops that? Runtime enforcement. AgentBudget frames itself as `ulimit` for [AI agents](/posts/2026-07-24-rotunda-agent-native-browser/): drop-in SDK integration for Python, Go, and TypeScript that imposes a hard dollar cap and stops the session when it is hit [6].
+CI gates protect the code you merge. They do nothing for an agent that runs wild at runtime and burns a budget on a runaway loop. What stops that? Runtime enforcement. AgentBudget frames itself as `ulimit` for AI agents: drop-in SDK integration for Python, Go, and TypeScript that imposes a hard dollar cap and stops the session when it is hit [6].
 
 The value is a clean stop. Instead of discovering on the invoice that an agent spent three times what you planned, the session simply ends at the number you set. AgentBudget ships with 108 GitHub stars and a small API surface, which matters because a budget gate you cannot integrate in five minutes is one you will skip [6].
 
