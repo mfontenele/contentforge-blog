@@ -5,9 +5,16 @@ theme = "PaperMod"
 enableRobotsTXT = true
 enableGitInfo = true
 
+# FEAT-107: no tag/category list or term pages (or their RSS) — they absorbed
+# crawl budget while noindexed. /archives/ (FEAT-113) is the crawl path for
+# older posts. Front-matter tags still feed .Related, keywords meta, JSON-LD.
+disableKinds = ["taxonomy", "term"]
+
 [frontmatter]
   lastmod = [":git", "lastmod", "date"]
 
+# Defense-in-depth: dead while disableKinds covers taxonomy/term; keeps tag
+# pages noindex if disableKinds is ever removed alone (FEAT-107).
 [[cascade]]
   [cascade.params]
     robotsNoIndex = true
