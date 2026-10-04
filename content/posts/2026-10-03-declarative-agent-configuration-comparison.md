@@ -6,7 +6,7 @@ categories: ["AI Agent Operations"]
 tags: ["openai-codex", "declarative-agent-configuration", "custom-agents", "agent-manifest", "skill-md", "agent-orchestration"]
 keywords: ["OpenAI Codex custom agents", "OpenAI Codex", "declarative agent configuration", "custom agents", "agent manifest", "SKILL.md", "agent TOML"]
 description: "How OpenAI Codex custom agents (TOML) compare with SKILL.md, Microsoft Conductor YAML and A2A, and which declarative agent configuration fits your stack."
-summary: "Four competing ways to declare an agent's behavior now coexist, and the choice between enforceability, readability, and interoperability decides your architecture."
+summary: "OpenAI Codex declares custom agents in TOML, SKILL.md and AGENTS.md use Markdown, Conductor uses YAML, and A2A skips manifests entirely. The right choice depends on whether you need enforceability, readability, or interoperability."
 cover:
   image: "/images/covers/2026-10-03-declarative-agent-configuration-comparison/cover.jpg"
   alt: "Declarative agent configuration models compared: TOML, Markdown, YAML, A2A protocol"
