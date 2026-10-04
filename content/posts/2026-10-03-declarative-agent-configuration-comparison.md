@@ -34,11 +34,11 @@ faq:
 - Codex resolves a setting as explicit spawn, then the [agents] default, then the parent session, and an agent file changes only the fields it sets.
 - Pick by the property you cannot lose: enforceability for structured files, iteration speed for Markdown, interoperability for protocol discovery.
 
-Picture this as an illustration, not a survey: two teams building the same agent can end up with three different configuration files. One writes TOML into a .codex/agents/ directory. Another drops instructions into a SKILL.md file (plain Markdown, nothing to compile) and trusts the runtime to honor them. A third declares the whole workflow in YAML and never lets the model decide what runs next. This fragmentation is not a passing phase; it is the field deciding how much structure an agent deserves. Declarative agent configuration has split into four competing models, and none has won. We argue the split forces one question before you write a single line: which property can you not afford to lose? Most teams answer it wrong — they pick the format they recognize instead of the one their workload actually needs.
+Picture this as an illustration, not a survey: two teams building the same agent can end up with three different configuration files. One writes TOML into a .codex/agents/ directory. Another drops instructions into a SKILL.md file (plain Markdown, nothing to compile) and trusts the runtime to honor them. A third declares the whole workflow in YAML and never lets the model decide what runs next. This fragmentation is not a passing phase. It is the field deciding how much structure an agent deserves. Declarative agent configuration has split into four competing models, and none has won. We argue the split forces one question before you write a single line: which property can you not afford to lose? Many teams answer it the other way around: they pick the format they recognize instead of the one their workload actually needs.
 
 ## How Declarative Agent Configuration Split Into Four Models
 
-Each model claims a different slice of the problem. Structured manifests such as Codex TOML or Conductor YAML buy enforceability: the parser rejects a file the moment a key is wrong. Markdown instructions trade that validation for writability. Protocol discovery refuses to define behavior at all, and a code-first approach argues the extra abstraction is rarely worth it.
+Each model claims a different slice of the problem. Structured manifests such as Codex TOML or Conductor YAML buy enforceability: the parser rejects a file the moment a key is wrong. Markdown instructions trade that validation for writability. Protocol discovery refuses to define behavior at all, and a code-first approach warns that abstraction layers often obscure prompts.
 
 The split is recent and still accelerating: OpenAI's Codex defines custom agents in standalone TOML files [1][2]. Microsoft shipped Conductor in May 2026 for deterministic YAML orchestration [3]; Anthropic has argued for code over heavier frameworks since December 2024 [4]. Google's A2A protocol connects all of these without standardizing any single configuration format [5].
 
@@ -50,7 +50,7 @@ Put another way, the ecosystems disagree on what configuration even means: Codex
 
 Codex custom agents live in standalone TOML files, under .codex/agents/ for project-scoped agents or ~/.codex/agents/ for personal ones [1][2]. Every file defines name, description, and developer_instructions — everything else is an override [1]. You can add model, sandbox_mode, mcp_servers, and skills.config to change runtime behavior or attach tooling [1].
 
-The real design choice is how Codex resolves conflicts. Each file is not a complete self-contained manifest — it is a layer. Codex resolves a setting from an explicit spawn value, then the matching [agents] default in config.toml, then the parent session, and only then the custom agent file [1]. An agent file that sets only model leaves the previously resolved reasoning effort untouched [2].
+The real design choice is how Codex resolves conflicts. Each file is not a complete self-contained manifest — it is a layer. Codex resolves a setting from an explicit spawn value, then the matching [agents] default in config.toml, then the parent session [1]. An agent file that sets only model leaves the previously resolved reasoning effort untouched [1].
 
 ```toml
 # .codex/agents/reviewer.toml
@@ -65,7 +65,6 @@ Because only the fields a file sets actually change, everything else falls throu
 flowchart LR
   A[Explicit Spawn] --> B[Agents Default]
   B --> C[Parent Session]
-  C --> D[Custom Agent File]
 ```
 
 > [!TIP]
@@ -112,11 +111,11 @@ A2A complements a manifest. It never substitutes for one. It negotiates who can 
 
 Anthropic draws a line the manifest debate often ignores: workflows versus agents. Workflows keep LLMs and tools orchestrated through predefined code paths; agents let the LLM direct their own process and tool usage [4]. That distinction exists before you choose any configuration format, and it decides what you end up configuring at all.
 
-The practical advice is blunt: Anthropic warns that frameworks often add abstraction layers that obscure the underlying prompts and responses and make them harder to debug, and suggests starting with LLM APIs directly [4]. Many of the same patterns, prompt chaining, routing, parallelization, orchestrator-workers, fit in a few lines of code [4]. Building Effective Agents was first published in December 2024 and updated in August 2026 [4].
+The practical advice is blunt: Anthropic warns that frameworks often add abstraction layers that obscure the underlying prompts and responses and make them harder to debug, and suggests starting with LLM APIs directly [4]. Many of the same patterns, prompt chaining, routing, parallelization, orchestrator-workers, fit in a few lines of code [4]. Building Effective Agents was first published in December 2024 [4].
 
 A code-defined approach keeps every orchestration decision visible in the same place you would debug it. The guardrails, however, are yours to build; code gives you control but provides no schema and no inheritance for free.
 
-## How the Four Models Fit a Decision Table
+## How to Choose Declarative Agent Configuration: A Decision Table
 
 No single model wins on every axis, and none claims to. The choice comes down to one thing: the axis that breaks your workflow first if you get it wrong. The table below maps each approach to its primitive and primary strength.
 
