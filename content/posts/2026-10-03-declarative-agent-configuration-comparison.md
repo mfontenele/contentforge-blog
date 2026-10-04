@@ -1,11 +1,11 @@
 ---
-title: "Declarative Agent Configuration: TOML, Markdown, or YAML?"
+title: "OpenAI Codex Custom Agents: TOML vs Markdown vs YAML"
 date: 2026-10-03T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]
-tags: ["declarative-agent-configuration", "custom-agents", "agent-manifest", "skill-md", "agent-orchestration"]
-keywords: ["declarative agent configuration", "custom agents", "agent manifest", "SKILL.md", "agent TOML"]
-description: "Declarative agent configuration has split across TOML, Markdown, YAML, and A2A protocol discovery. Here is how to pick the model that fits your stack."
+tags: ["openai-codex", "declarative-agent-configuration", "custom-agents", "agent-manifest", "skill-md", "agent-orchestration"]
+keywords: ["OpenAI Codex custom agents", "OpenAI Codex", "declarative agent configuration", "custom agents", "agent manifest", "SKILL.md", "agent TOML"]
+description: "How OpenAI Codex custom agents (TOML) compare with SKILL.md, Microsoft Conductor YAML and A2A, and which declarative agent configuration fits your stack."
 summary: "Four competing ways to declare an agent's behavior now coexist, and the choice between enforceability, readability, and interoperability decides your architecture."
 cover:
   image: "/images/covers/2026-10-03-declarative-agent-configuration-comparison/cover.jpg"
