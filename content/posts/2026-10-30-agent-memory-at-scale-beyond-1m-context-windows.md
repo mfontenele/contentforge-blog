@@ -9,7 +9,7 @@ description: "Why 1M+ token context windows still fail for agent memory, and the
 summary: "Context windows behave like RAM, not storage. Treating them otherwise is why production agents forget instructions mid-session."
 cover:
   image: "/images/covers/2026-10-30-agent-memory-at-scale-beyond-1m-context-windows/cover.jpg"
-  alt: "Conceptual illustration of layered agent memory architecture"
+  alt: "Dim hall with a huge wall of identical white filing drawers lit by a single shaft of light from above"
   caption: "Image generated with gpt-5.4-image-2 (Agents' Codex AI illustration)"
   relative: false
   hidden: false
@@ -80,7 +80,7 @@ Task State (TTL)           <- session boundaries, expires
 Persistent Memory (disk)   <- preferences, hard constraints, identity
 ```
 
-{{< figure src="/images/posts/2026-10-30-agent-memory-at-scale-beyond-1m-context-windows/image-1.jpg" alt="Diagram of a layered agent memory hierarchy" caption="Agent memory hierarchy with retrieval constraints" >}}
+{{< figure src="/images/posts/2026-10-30-agent-memory-at-scale-beyond-1m-context-windows/image-1.jpg" alt="3D render of a stack: black drive bays with teal lights at the bottom, frosted cubes holding hourglasses, metal plates topped by a gold chip with copper wires arcing over" caption="Agent memory hierarchy with retrieval constraints" >}}
 
 ## Four Production Failure Modes to Watch For
 
@@ -109,7 +109,7 @@ Do the cheap thing first.
 
 The ROI is measurable, not theoretical. In Mem0's 2026 evaluation, hierarchical extraction reaches 91.6% accuracy using under 7,000 tokens, against a 72.9% baseline for a full-context approach consuming 26,000+ tokens [1]. That is an 18.7-point accuracy gain on roughly a quarter of the tokens.
 
-The latency story is steeper: 1.44 seconds at p95 versus 17.12 seconds for the full-context baseline, a 91% reduction [1]. Episodic memory shows the same direction in long-horizon tasks: 88.9% success versus 33.3% on about 9 long-history tasks, and 97.5% recall versus 85% on a 40-task evaluation, per a single-author README [4].
+The latency story is steeper: 1.44 seconds at p95 versus 17.12 seconds for the full-context baseline, a 91% reduction [1]. [Episodic memory](/posts/2026-03-10-agent-memory-architectures-hybrid-episodic-semantic/) shows the same direction in long-horizon tasks: 88.9% success versus 33.3% on about 9 long-history tasks, and 97.5% recall versus 85% on a 40-task evaluation, per a single-author README [4].
 
 | Approach | Accuracy | Tokens | p95 latency |
 | --- | --- | --- | --- |
