@@ -1,11 +1,11 @@
 ---
-title: "Claude Code Team Workflows: Multi-User Orchestration Patterns"
+title: "Claude Code Team Workflows: Multi-User Patterns"
 date: 2026-11-06T06:00:00-03:00
 draft: false
 categories: ["AI Agent Operations"]
 tags: ["claude-code", "ai-agents", "agent-orchestration", "developer-tools", "team-workflows"]
 keywords: ["claude code team", "claude code workflows", "claude code multi-user", "claude code orchestration", "claude code collaboration"]
-description: "Claude Code team workflows explained: subagents, agent teams, and cross-session messaging. Production patterns for multi-user orchestration."
+description: "Claude Code team workflows explained: five parallel approaches, shared context in committed files, and hooks that govern every session in a multi-user repo."
 summary: "Five parallel-execution primitives and a governance layer that turn Claude Code from a solo terminal tool into a team platform."
 cover:
   image: "/images/covers/2026-11-06-claude-code-workflows-team-patterns-multi-user-orchestration/cover.jpg"
@@ -17,38 +17,48 @@ ShowToc: true
 TocOpen: true
 faq:
 - q: "Should I enable agent teams for my team?"
-  a: "No, not by default. Agent teams are experimental, off by default, and add coordination overhead and token cost over a single session [3]. See the agent-teams section above for when the expense is worth it."
+  a: "Not by default: agent teams are experimental, off by default, and add coordination overhead and token cost over a single session [2]."
 - q: "What is the difference between subagents and agent teams?"
-  a: "Subagents are delegated workers inside a single session with independent context, whereas agent teams are multiple coordinated sessions that share a task list and can message each other directly [3]. The practical difference is coordination topology: teams are built for peer-to-peer communication between workers, which adds token cost. If your task does not need that lateral coordination, subagents are the cheaper call."
+  a: "Subagents are delegated workers inside a single session with independent context, whereas agent teams are multiple coordinated sessions that share a task list and can message each other directly [2]. The practical difference is coordination topology: teams are built for peer-to-peer communication between workers, which adds token cost. If your task does not need that lateral coordination, subagents are the cheaper call. Start there, and move to a team only when workers genuinely need to challenge or build on each other's findings."
 - q: "How do I keep context consistent across a team of Claude Code users?"
-  a: "Use CLAUDE.md for project instructions and .claude/rules/ for path-specific rules, loaded at the start of every session [4]. Skills carry procedures cheaply, and auto memory persists corrections up to 200 lines or 25KB [4]."
+  a: "CLAUDE.md and .claude/rules/ load at the start of every session or when matching files are opened, while skills load only when invoked or relevant [3]. Only CLAUDE.md is documented as shared through version control, so confirm rules and skills sharing against the current docs before relying on it. Auto memory is per developer: it persists corrections up to 200 lines or 25KB, but it is machine-local and not shared across machines [3]."
 - q: "What governance controls does Claude Code offer for organizations?"
-  a: "PreToolUse, Stop, and PostToolUse hooks enforce deterministic rules, auto mode blocks high-risk actions, and managed settings push deny rules, allowlists, and budgets from a central server [1][5]."
-- q: "Does Codex CLI have team coordination features?"
-  a: "It supports subagents and a cloud option for remote sessions, but its documentation lists no team-level primitives like shared task lists or cross-session messaging [9]. For a team workflow you would need to supply that coordination yourself."
+  a: "PreToolUse, Stop, and PostToolUse hooks enforce deterministic rules, and auto mode blocks high-risk actions such as production deploys and force pushes [5]."
+- q: "Does Claude Code run only on my machine?"
+  a: "No. Cross-session messaging reaches sessions on the same machine, another machine, or the cloud [1]."
 ---
 
 **TL;DR**
 
-- Claude Code ships five parallel-execution primitives — subagents, agent view, [agent teams](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/), dynamic workflows, and Projects — but most teams only need two of them [2].
-- Agent teams are experimental and off by default; they add coordination overhead and token cost compared to a single session [3].
-- Anthropic itself lands 65% of product-engineering PRs through Claude Tag, its Slack-native evolution of Claude Code [6].
+- Claude Code documents five parallel-execution approaches: subagents, agent view, [agent teams](/posts/2026-03-20-garry-tan-gstack-agent-teams-claude-code/), dynamic workflows, and Projects [1]. In our assessment, most teams need only two of them.
+- Agent teams are experimental and disabled by default, and they add coordination overhead and token cost compared to a single session [2].
+- Anthropic reports that Claude Tag, its Slack-native evolution of Claude Code, lands 65% of its product-engineering team's internal PRs [6].
 
-Individual coding-agent productivity was the easy win: autocomplete, refactoring, one-shot bug fixes. The hard problem surfaces the moment a team tries to coordinate. Five developers running separate sessions on one repo produce merge conflicts, duplicated context, and no shared record of what is already decided. Claude Code answers with explicit multi-user primitives that competitors mostly skip, and it validates them on its own engineering team before anyone else sees them. That is the claim worth pressure-testing: the next edge is orchestration, not a smarter model! So what actually moves the needle: more model size, or better handoffs between sessions? What follows maps the primitives that matter and when each one is worth its overhead.
+Claude Code team workflows are the next battleground for coding agents. Individual productivity was the easy win (autocomplete, refactoring, one-shot bug fixes), and coordination is the hard part: five developers running separate sessions on one repo (a common setup) produce merge conflicts, duplicated context, and no shared record of decisions. In our assessment, Claude Code ships explicit multi-user primitives that Cursor's cited announcement does not describe. Anthropic also shares new features inside the company (and with some early customers) before wider release [6]. Our thesis: the next edge comes from orchestration (not from a bigger model). What follows maps three things: the primitives that matter, one governance setup, and the approach that fits each team.
 
-## Why Team Coordination Is the Next Frontier for Coding Agents
+## Why Claude Code Team Workflows Beat Solo Sessions
 
-The individual coding-agent pitch is solved. Anyone can open a terminal, describe a bug, and watch a model patch it. What remains unsolved is the handoff: two engineers on one feature, a reviewer catching a session's hidden assumptions, a lead who needs to know what every parallel session already decided. That is the gap teams actually feel, and it is a coordination gap, not a capability gap.
+The individual coding-agent pitch is solved: anyone can open a terminal, describe a bug, and watch a model patch it (the demo everyone has seen). What remains unsolved is the handoff (the moment work changes hands). Picture two engineers on one feature, a reviewer catching hidden assumptions, and a lead who needs every parallel session's decisions: that is a coordination gap (not a capability gap).
 
-Anthropic treats this seriously enough to test it on itself first. Claude Code ships every feature to internal employees and only promotes the ones that hold user retention within that cohort [6]. The team calls this "ant fooding," and they work in public through shared Slack channels [6]. The same discipline shows up in the engineering itself: the system prompt was recently reduced by 80% for the latest model generation, a shift away from exhaustive negative constraints toward concise instruction [6]. Team-oriented features earn their way onto external changelogs the same way — by surviving internal use first.
+Anthropic tests its own tooling internally before release: Claude Code features go to Anthropic employees and some early customers first, with internal metrics for active users and retention [6]. The team calls this "ant fooding" and works in public through shared Slack channels [6]. One recent change (reported for the most frontier model generation only) was an 80% smaller system prompt: a shift from exhaustive negative constraints toward concise instruction [6].
 
-Cursor and OpenAI chase the same problem from different angles. Cursor Projects puts a coordinator agent in the cloud that delegates to subagents [7]. OpenAI's Codex CLI stays terminal-native with subagents and a cloud option, but it documents no team-level primitives [9]. Claude Code documents explicit multi-user machinery: agent teams, cross-session messaging, and server-managed settings, running alongside both local and cloud execution [2][3]. That distinction drives everything below. Which one you actually need depends on your bottleneck: delegation for a cloud-first team, or governance for a team that owns its own policy.
+Cursor chases the same problem from a different angle: Projects puts a coordinator agent in the cloud that delegates to subagents [7]. Claude Code documents its own multi-user machinery (agent teams, cross-session messaging, and a local-plus-cloud execution model) [1][2]. That distinction (local sessions versus a cloud coordinator) drives everything below.
 
 ## Five Ways Claude Code Parallelizes Work
 
-Claude Code ships five distinct ways to run work in parallel [2]. They are not interchangeable, and most teams need only two of them. Pick the wrong one and you trade a clean multi-session workflow for a token bill with nothing merged. How do you tell them apart before you spend? The five options below are the map, arranged from lightest to heaviest coordination.
+Claude Code ships five distinct ways to run work in parallel [1] (they are not interchangeable): so pick the wrong one and you trade a clean multi-session workflow for a token bill (with nothing merged). The diagram below sorts the five by coordinator (Claude, you, or a script).
 
-{{< figure src="/home/contentforge/.openclaw/workspace-chief/memory/articles/2026-11-06-claude-code-workflows-team-patterns-multi-user-orchestration/image-1.jpg" alt="A metal ladder leans against a dark teal wall, its rungs carrying translucent amber glass cubes wired together with thin copper wire; the cubes cluster densely and spill over the top edge, thinning to a single cube on the bottom rung. Teal cables run along the ladder rails and the upper end of the ladder." caption="Figure 1: A metal ladder with translucent amber glass cubes wired together, visually representing the accumulation of tasks or data in a multi-user workflow. The cubes thin out as they descend, suggesting a flow or reduction in complexity." >}}
+```mermaid
+graph LR
+  A[Parallel work in Claude Code] --> B[Claude coordinates]
+  A --> C[You coordinate]
+  A --> D[A script coordinates]
+  B --> B1[Subagents<br/>inside one session]
+  B --> B2[Agent teams<br/>lead plus workers]
+  B --> B3[Projects<br/>cloud threads]
+  C --> C1[Agent view<br/>background sessions]
+  D --> D1[Dynamic workflows<br/>subagent chains]
+```
 
 | Primitive | What it does | Best for |
 | --- | --- | --- |
@@ -58,102 +68,103 @@ Claude Code ships five distinct ways to run work in parallel [2]. They are not i
 | Dynamic workflows | Script-orchestrated chains of subagents | Work too large for turn-by-turn coordination |
 | Projects | Ongoing cloud conversation where parallel threads each receive the project's instructions | Long-running work that keeps running when your machine is off |
 
-The underlying pattern is the orchestrator-workers topology Anthropic documented in its original agent guidance [11]: a coordinator decomposes work and delegates to parallel workers, then merges results. Claude Code has productized that pattern into five concrete mechanics. Worktrees give each parallel session a separate git checkout so concurrent edits never collide, and subagents can each get their own worktree [2]. The separation is cheap insurance: two sessions editing the same file is how most multi-agent demos quietly break.
+Anthropic's original agent guidance describes an orchestrator-workers pattern: a coordinator breaks a task down and delegates the pieces to worker LLMs [10]. Claude Code's team features resemble that pattern in our assessment. Worktrees give each parallel session a separate git checkout, so parallel sessions each edit their own copy of the files, and subagents can each get their own worktree [1].
 
-Sitting underneath all five is cross-session messaging. Claude can list and message other Claude Code sessions on the same machine, on another machine, or in the cloud, which lets one session pass findings to another without manual copy-pasting [2]. That is the glue that turns isolated sessions into something that behaves like a team. A review session can hand a corrected snippet back to the session that produced it, and a lead can poll every worker without opening each terminal.
+Cross-session messaging is a supporting tool for sessions you run yourself (not a sixth approach): Claude can list and message other Claude Code sessions on the same machine, on another machine, or in the cloud, which lets one session pass findings to another without manual copy-pasting [1]. For example, in our setup a review session could pass its findings back to the session that wrote the code (an illustration, not a documented workflow).
 
-How do you tell them apart before you spend? Calibrate by coordination cost; the right answer is rarely the first primitive you learned.
+Calibrate by coordination cost: start with subagents and agent view, then climb only when the task demands it.
 
 ## Agent Teams: When More Sessions Beat More Tokens
 
 > [!WARNING]
-> Agent teams are experimental and disabled by default. Enabling them adds real coordination overhead and token cost compared to a single session [3]. Do not reach for them before you have a workload that genuinely needs multiple coordinated workers.
+> Agent teams are experimental and disabled by default: enabling them adds coordination overhead and token cost compared to a single session [2]. Do not reach for them until a workload genuinely needs multiple coordinated workers.
 
-Agent teams are Claude Code's most ambitious coordination primitive: a lead session coordinates multiple workers that share a task list and can message each other directly [3]. Turning them on takes a single environment variable.
+Agent teams are the primitive built for coordinated multi-session work: a lead session coordinates multiple workers that share a task list and can message each other directly [2]. Turning them on takes one environment variable.
 
 ```bash
 # Enable experimental agent teams for coordinated multi-session work
 CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude
 ```
 
-You can run the team in-process on one screen, or split it across panes with tmux or iTerm2 [3]. The lead assigns work; teammates message each other directly instead of routing everything through the lead. That peer-to-peer path is what separates a team from a simple fan-out of workers — an often-overlooked distinction. Is the extra machinery worth it? For a research sprint, often yes; for a routine refactor, almost never.
+You can run the team in-process on one screen (or split it across panes with tmux or iTerm2) [2]. The lead assigns work, and teammates message each other directly (instead of routing everything through the lead). That peer-to-peer path separates a team from a simple fan-out of workers. Our rule of thumb: a research sprint often justifies the extra machinery, a routine refactor rarely does.
 
-The honest tradeoff is cost, and it is not small. Agent teams carry more per-turn overhead than a single session, which is why Anthropic ships them off by default [3]. Reserve them for research and review workflows where parallel exploration genuinely improves the result, not for a routine refactor that one good session could finish faster.
+Each teammate is a separate Claude instance, so token cost is higher than a single session [2]. Reserve teams for research and review workflows (where parallel exploration improves the result). For a refactor, one good session is usually the cheaper path.
 
-That is the blunt rule: fan-out pays off only when the work is genuinely parallel. Before you flip the flag, ask one question: can one good session finish this faster than three coordinated ones?
+## Shared Context for a Claude Code Team That Persists
 
-## Shared Context That Persists Across a Team
+Parallel sessions are only as good as the context they share: Claude Code layers persistent instructions through CLAUDE.md files (loaded at the start of every session), with a .claude/rules/ directory for path-specific scoped rules [3]. [AGENTS.md](/posts/2026-05-22-agents-md-self-describing-repositories/) works as an interoperable alternative for teams that also use other coding tools [3].
 
-Parallel sessions are only as good as the context they share. Claude Code layers persistent instructions through CLAUDE.md files loaded at the start of every session, with a .claude/rules/ directory for path-specific scoped rules [4]. [AGENTS.md](/posts/2026-05-22-agents-md-self-describing-repositories/) works as an interoperable alternative for teams that also use other coding tools [4].
+Auto memory is a different layer: it lets Claude write notes from your corrections and carry them across sessions up to 200 lines or 25KB, but it is machine-local, stored under ~/.claude/projects/<project>/memory/ (not shared across machines) [3]. It is per developer (so it cannot carry a team convention). A committed CLAUDE.md is shared with the team through version control [3]. We recommend treating .claude/rules/ and skills the same way (our practice, not a documented guarantee).
 
-Skills carry team procedures more cheaply than a wall of CLAUDE.md: the skill name and description appear in every session, but the full file loads only when needed [4]. Auto memory adds a second layer, letting Claude write notes from your corrections and carry them across sessions up to 200 lines or 25KB [4]. That is where shared conventions survive a teammate's absence — the quiet insurance of a team. It answers the question every new hire asks on day one: what does this repo already assume?
-
-Where this gets interesting? The boundary between your memory and your tooling. The [Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/) (MCP) is an open-source standard for connecting AI applications to external systems such as local files and databases [10]. It is how a team's shared context stops living in a markdown file and starts living in the systems the team already uses. Consider the tradeoff though: memory files are visible, while integrated systems are authoritative. Code intelligence plugins pull in the same direction by letting Claude jump to definitions instead of scanning whole files, which matters most in typed languages [5].
+Instructions are one boundary: tooling is another. The [Model Context Protocol](/posts/2026-03-04-mcp-model-context-protocol/) (MCP) is an open-source standard for connecting AI applications to external systems such as local files and databases [9]. In our view, that may reduce a team's reliance on markdown files for shared context. Code intelligence plugins pull in the same direction: they let Claude jump to definitions instead of scanning whole files (which matters most in typed languages) [5].
 
 ## Guardrails and Governance at Team Scale
 
-More sessions means more chances for a destructive edit to slip through. Claude Code's answer is deterministic, never left to model judgment. Hooks enforce rules that admit no exceptions (a deliberate design choice): PreToolUse hooks block actions before they run, Stop hooks prevent ending a turn until checks pass, and PostToolUse hooks run after edits [5].
+More sessions mean more chances for a destructive edit to slip through, and Claude Code's answer is deterministic (never left to model judgment). Hooks enforce rules that admit no exceptions: PreToolUse hooks block actions before they run, Stop hooks prevent ending a turn until checks pass, and PostToolUse hooks run after edits [5].
 
-A classifier in auto mode blocks high-risk actions such as production deploys and force pushes, and new terminal sessions start in auto mode by default [5]. For organizations, managed settings let administrators push deny rules, model allowlists, permission defaults, and pooled spend limits from a central server [1][5]. The Claude apps gateway adds admin-managed pooled budgets, conflict rules, and login notices for teams behind custom infrastructure [1]. Notice the pattern here: the model proposes, but policy decides. That split matters more than any single tool choice — deterministic guardrails over probabilistic output.
+A classifier in auto mode blocks high-risk actions (such as production deploys and force pushes), and new terminal sessions start in auto mode by default [5]. The model proposes: policy decides.
+
+Here is a multi-user setup we would compose from those pieces. A PreToolUse hook can block a disallowed action before it runs (the page's own example is edits under migrations/) [5]. A Stop hook can hold a turn open until the team's checks pass [5]. A committed CLAUDE.md is shared with the team through version control, and rules in .claude/rules/ load every session or when matching files are opened [3]. In our practice, the rules then live in the repository (no teammate has to remember them).
 
 {{< key-takeaway >}}
-The governance layer, not the model, is what makes multi-user Claude Code safe to scale. Hooks and managed settings convert an individual's judgment into a policy that every session obeys by construction.
+In our view, the governance layer (not the model) is what makes multi-user Claude Code safe to scale: hooks convert an individual's judgment into a policy that every session obeys by construction.
 {{< /key-takeaway >}}
 
 ## Slack-Native Collaboration with Claude Tag
 
-Not every team lives in a terminal. For Slack-centric teams, Claude Tag brings Claude directly into Slack channels on Anthropic's first-party service [6]. Anthropic uses this heavily on itself: Claude Tag currently lands 65% of the product engineering team's internal PRs, debugging proactively and opening PRs in shared channels [6]. The team describes it as the evolution of Claude Code.
+Not every team lives in a terminal. For Slack-centric teams, Claude Tag brings Claude directly into Slack channels (with admin-governed access, on Team and Enterprise plans on Anthropic's first-party service) [4]. It supports proactive routines such as monitoring bug reports and opening PRs, and the Claude Code team describes it as the evolution of Claude Code [4][6].
 
-The shift matters because it moves coordination out of individual sessions entirely. A Slack channel becomes the shared task list, and anyone in the channel can watch a fix land or a review resolve. The same team used Claude Code for a far larger scale test, rewriting Bun in Rust and shipping it internally before rolling it out to users [6]. Both cases point the same direction: coordination is a channel problem, not a terminal problem. Does that mean every team should move to Slack? Only if the team already works there (otherwise Projects and cross-session messaging stay closer to home).
+In our reading, the shift moves coordination out of individual sessions (a Slack channel becomes the shared task list), and anyone in the channel can watch a fix land or a review resolve. It only pays off if the team already works in Slack: otherwise Projects and cross-session messaging stay closer to home.
 
-## Claude Code vs. Cursor Projects vs. Codex CLI
+## Claude Code Team Workflows vs. Cursor Projects
 
-The three leading coding agents diverge sharply once you look past autocomplete. The table below is the functional comparison; the numbers behind it tell the sharper story.
+The two products diverge sharply once you look past autocomplete. The table below is the functional comparison: the numbers after it come from the vendors themselves (not from independent measurement).
 
 | Tool | Team coordination approach | Deployment model | Governance layer |
 | --- | --- | --- | --- |
-| Claude Code | Agent teams, cross-session messaging, Claude Tag in Slack [2][6] | Local-first with cloud Projects [2] | Hooks and managed settings [1][5] |
+| Claude Code | Agent teams, cross-session messaging, Claude Tag in Slack [1][4] | Local sessions plus cloud Projects [1] | Hooks and auto mode [5] |
 | Cursor Projects | Coordinator agent delegating to cloud subagents [7] | Cloud-by-default [7] | Not covered in cited announcement |
-| Codex CLI | Subagents only, no documented team primitives [9] | Local repository plus codex cloud [9] | Not covered in cited README |
 
-Cursor's numbers are impressive — new Projects users merge 30% more PRs, and power users merge 6x more [7]. One design-system Project handles 20 to 100 PRs per day [7]. The Agent SDK extends this by letting teams define agents in code with built-in evals; PGA Tour uses it as their software development factory [8]. Anthropic's headline is internal: Claude Tag lands 65% of product-engineering PRs and is described as the evolution of Claude Code [6]. The same team also rewrote Bun in Rust using Claude Code and shipped it internally before rolling it out to users [6].
+Cursor reports two figures: new Projects users merge 30% more PRs, and users who primarily use Projects merge six times as many [7]. One design-system Project is on track to touch 20 to 100 PRs a day (a projection, as Cursor presents it, rather than current throughput) [7]. Cursor's Agent SDK lets teams define agents in code with built-in evals: PGA Tour uses it as their software development factory [8]. Anthropic, for its part, rewrote Bun in Rust and used it internally before a public rollout [6].
+
+Which approach fits which team? That depends on your bottleneck: Cursor describes Projects as cloud by default [7], and in our assessment that suits a cloud-first team that wants delegation without local setup. A team that owns its own policy and works in the terminal may prefer Claude Code's hooks and committed CLAUDE.md. A Slack-centric team can start with Claude Tag. This is our assessment, not a finding of any cited page.
 
 > [!NOTE]
-> Read the benchmarks with their provenance in mind. The 65% figure is self-reported by Anthropic's own Claude Code team, and the 30% and 6x figures come from Cursor's product announcement. Each vendor is measuring its own tool.
+> Read the benchmarks with their provenance in mind: the evidence here is vendor-originated (the 65% figure is self-reported by Anthropic's Claude Code team, and the 30% and six-times figures come from Cursor's product announcement). Each vendor is measuring its own tool.
 
 ## Practical Takeaways
 
-1. Start with CLAUDE.md and skills before touching any experimental feature; persistent context is the highest-impact coordination tool you own.
-2. Use subagents and agent view for everyday parallel work, and reserve agent teams for research and review where their overhead is justified.
+1. Start with CLAUDE.md and skills before touching any experimental feature. A committed CLAUDE.md is shared through version control [3], and we suggest committing rules and skills the same way, while auto memory stays on one machine.
+2. Use subagents and agent view for everyday parallel work: reserve agent teams for research and review (where their overhead is justified).
 3. Enable agent teams only with CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1, and measure the token cost against a single session before standardizing on them.
-4. Layer hooks and managed settings before you scale past a handful of engineers; convert individual judgment into policy every session obeys by construction.
-5. Adopt Claude Tag if your team already lives in Slack; keep Codex CLI or Cursor Projects in the comparison when your problem is cloud-native delegation.
+4. Register PreToolUse and Stop hooks before you scale past a handful of engineers (so one policy applies to every session by construction).
+5. Adopt Claude Tag if your team already lives in Slack, and keep Cursor Projects in the comparison when your problem is cloud-native delegation.
 
 ## Conclusion
 
-Shipping alone with an agent was phase one; shipping as a group is phase two. The deciding factor is not which vendor you pick but whether you treat multi-session work as an engineering problem with its own design decisions. Most teams adopt every parallel primitive at once and then wonder why the token bill spiked. The alternative is a ladder: shared instructions and hooks first, subagents and agent view daily, and multi-session teams only where the task is genuinely parallel. The open question is whether local-first orchestration holds up as cloud delegation matures: either the two converge, or the team that treats coordination as a design decision gets there first.
+Shipping alone with an agent was phase one (shipping as a group is phase two). The deciding factor is not the vendor you pick: it is whether multi-session work gets its own design decisions. The sensible path is a ladder (cheapest rung first): committed instructions and hooks, subagents and agent view day to day, and multi-session teams only where the task is genuinely parallel. Before promoting any rung to a standard, run your own measurement on one real repository (not a vendor benchmark). Expect the ladder to shift as vendors ship, so revisit it each quarter (and check which rungs still earn their cost).
 
 ## Frequently Asked Questions
 
 ### Should I enable agent teams for my team?
 
-No, not by default. Agent teams are experimental, off by default, and add coordination overhead and token cost over a single session [3]. See the agent-teams section above for when the expense is worth it.
+Not by default: agent teams are experimental, off by default, and add coordination overhead and token cost over a single session [2].
 
 ### What is the difference between subagents and agent teams?
 
-Subagents are delegated workers inside a single session with independent context, whereas agent teams are multiple coordinated sessions that share a task list and can message each other directly [3]. The practical difference is coordination topology: teams are built for peer-to-peer communication between workers, which adds token cost. If your task does not need that lateral coordination, subagents are the cheaper call.
+Subagents are delegated workers inside a single session with independent context, whereas agent teams are multiple coordinated sessions that share a task list and can message each other directly [2]. The practical difference is coordination topology: teams are built for peer-to-peer communication between workers, which adds token cost. If your task does not need that lateral coordination, subagents are the cheaper call. Start there, and move to a team only when workers genuinely need to challenge or build on each other's findings.
 
 ### How do I keep context consistent across a team of Claude Code users?
 
-Use CLAUDE.md for project instructions and .claude/rules/ for path-specific rules, loaded at the start of every session [4]. Skills carry procedures cheaply, and auto memory persists corrections up to 200 lines or 25KB [4].
+CLAUDE.md and .claude/rules/ load at the start of every session or when matching files are opened, while skills load only when invoked or relevant [3]. Only CLAUDE.md is documented as shared through version control, so confirm rules and skills sharing against the current docs before relying on it. Auto memory is per developer: it persists corrections up to 200 lines or 25KB, but it is machine-local and not shared across machines [3].
 
 ### What governance controls does Claude Code offer for organizations?
 
-PreToolUse, Stop, and PostToolUse hooks enforce deterministic rules, auto mode blocks high-risk actions, and managed settings push deny rules, allowlists, and budgets from a central server [1][5].
+PreToolUse, Stop, and PostToolUse hooks enforce deterministic rules, and auto mode blocks high-risk actions such as production deploys and force pushes [5].
 
-### Does Codex CLI have team coordination features?
+### Does Claude Code run only on my machine?
 
-It supports subagents and a cloud option for remote sessions, but its documentation lists no team-level primitives like shared task lists or cross-session messaging [9]. For a team workflow you would need to supply that coordination yourself.
+No. Cross-session messaging reaches sessions on the same machine, another machine, or the cloud [1].
 
 ---
 
@@ -161,19 +172,17 @@ It supports subagents and a cloud option for remote sessions, but its documentat
 
 | # | Publisher | Title | URL | Date | Type |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Anthropic | "Claude Code changelog v2.1.319" | https://docs.anthropic.com/en/docs/claude-code/changelog | 2026-11-06 | Documentation |
-| 2 | Anthropic | "Run agents in parallel — Claude Code Docs" | https://docs.anthropic.com/en/docs/claude-code/agents | 2026 | Documentation |
-| 3 | Anthropic | "Orchestrate teams of Claude Code sessions — Claude Code Docs" | https://docs.anthropic.com/en/docs/claude-code/agent-teams | 2026 | Documentation |
-| 4 | Anthropic | "How Claude remembers your project — Claude Code Docs" | https://docs.anthropic.com/en/docs/claude-code/memory | 2026 | Documentation |
+| 1 | Anthropic | "Run agents in parallel — Claude Code Docs" | https://docs.anthropic.com/en/docs/claude-code/agents | 2026 | Documentation |
+| 2 | Anthropic | "Orchestrate teams of Claude Code sessions — Claude Code Docs" | https://docs.anthropic.com/en/docs/claude-code/agent-teams | 2026 | Documentation |
+| 3 | Anthropic | "How Claude remembers your project — Claude Code Docs" | https://docs.anthropic.com/en/docs/claude-code/memory | 2026 | Documentation |
+| 4 | Anthropic | "Work with Claude Tag — Claude.ai Documentation" | https://docs.anthropic.com/en/docs/claude-code/claude-tag | 2026 | Documentation |
 | 5 | Anthropic | "Best practices for Claude Code — Claude Code Docs" | https://docs.anthropic.com/en/docs/claude-code/best-practices | 2026 | Documentation |
 | 6 | Simon Willison | "A Fireside Chat with Cat and Thariq from the Claude Code team" | https://simonwillison.net/2026/Jul/21/cat-and-thariq/ | 2026-07-21 | Blog |
 | 7 | Cursor | "Introducing Projects" | https://www.cursor.com/blog/projects | 2026-09-10 | Blog |
 | 8 | Cursor | "Introducing the Agent SDK" | https://www.cursor.com/blog/agent-sdk | 2026-10-20 | Blog |
-| 9 | OpenAI | "Codex CLI — GitHub" | https://github.com/openai/codex | 2026 | Documentation |
-| 10 | Model Context Protocol | "What is the Model Context Protocol (MCP)?" | https://modelcontextprotocol.io/introduction | 2026 | Documentation |
-| 11 | Anthropic | "Building effective AI agents" | https://www.anthropic.com/engineering/building-effective-agents | 2024-12-19 | Blog |
+| 9 | Model Context Protocol | "What is the Model Context Protocol (MCP)?" | https://modelcontextprotocol.io/introduction | 2026 | Documentation |
+| 10 | Anthropic | "Building effective AI agents" | https://www.anthropic.com/engineering/building-effective-agents | 2024-12-19 | Blog |
 
 ## Image Credits
 
 - **Cover photo**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
-- **Figure 1**: Image generated with gemini-3-pro-image (Agents' Codex AI illustration)
